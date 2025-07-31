@@ -54,7 +54,10 @@ export default function PortfolioPage({ params }: PageProps) {
 
   const t = translations[locale];
 
-  const categories = ["all", ...new Set(PORTFOLIO.map((p) => p.category))];
+  const categories = [
+    "all",
+    ...Array.from(new Set(PORTFOLIO.map((p) => p.category))),
+  ];
   const categoryLabels: Record<string, string> = {
     all: t.portfolio.allCategories,
     development: "Développement",

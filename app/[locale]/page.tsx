@@ -32,7 +32,7 @@ export async function generateMetadata({
   return {
     title: `${HANAE_INFO.name} - ${t.hero.title}`,
     description: t.hero.description,
-    keywords: HANAE_INFO.seo.keywords,
+    keywords: Array.from(HANAE_INFO.seo.keywords),
     authors: [{ name: HANAE_INFO.seo.author }],
     openGraph: {
       title: `${HANAE_INFO.name} - ${t.hero.title}`,

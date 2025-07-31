@@ -175,14 +175,16 @@ export default function ServicesPage({ params }: PageProps) {
                                           : category}
                                       </h4>
                                       <div className="flex flex-wrap gap-2">
-                                        {techs.map((tech, techIdx) => (
-                                          <Badge
-                                            key={techIdx}
-                                            variant="secondary"
-                                          >
-                                            {tech}
-                                          </Badge>
-                                        ))}
+                                        {techs.map(
+                                          (tech: string, techIdx: number) => (
+                                            <Badge
+                                              key={techIdx}
+                                              variant="secondary"
+                                            >
+                                              {tech}
+                                            </Badge>
+                                          )
+                                        )}
                                       </div>
                                     </div>
                                   )

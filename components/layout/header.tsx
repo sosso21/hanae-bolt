@@ -2,11 +2,20 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useTheme } from "next-themes";
+
+import { useTheme } from "@/hooks/useTheme";
+
 import { Menu, X, Sun, Moon, Monitor, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { HANAE_INFO } from "@/constants";
 import { translations, Locale, LANGUAGES } from "@/lib/i18n";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { Theme } from "@/lib/theme";
 
 interface HeaderProps {
   locale: Locale;
@@ -102,19 +111,29 @@ export default function Header({ locale }: HeaderProps) {
             </div>
 
             {/* Theme Toggle */}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => {
-                const themes = ["light", "dark", "system"];
-                const currentIndex = themes.indexOf(theme || "system");
-                const nextTheme = themes[(currentIndex + 1) % themes.length];
-                setTheme(nextTheme);
-              }}
-              aria-label="Toggle theme"
-            >
-              <ThemeIcon className="w-4 h-4" />
-            </Button>
+
+            {/* Theme Selector */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm">
+                  <ThemeIcon className="w-4 h-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => setTheme("light")}>
+                  <Sun className="mr-2 w-4 h-4" />
+                  Light
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setTheme("dark")}>
+                  <Moon className="mr-2 w-4 h-4" />
+                  Dark
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setTheme("system")}>
+                  <Monitor className="mr-2 w-4 h-4" />
+                  System
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
 
             {/* Contact Button */}
             <Button asChild>
@@ -179,7 +198,7 @@ export default function Header({ locale }: HeaderProps) {
                     const currentIndex = themes.indexOf(theme || "system");
                     const nextTheme =
                       themes[(currentIndex + 1) % themes.length];
-                    setTheme(nextTheme);
+                    setTheme(nextTheme as Theme);
                   }}
                 >
                   <ThemeIcon className="w-4 h-4" />

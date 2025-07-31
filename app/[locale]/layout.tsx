@@ -1,11 +1,8 @@
-import { Inter } from 'next/font/google';
-import { ThemeProvider } from 'next-themes';
-import { Toaster } from '@/components/ui/sonner';
-import { locales, Locale } from '@/lib/i18n';
-import { notFound } from 'next/navigation';
-import '@/app/globals.css';
-
-const inter = Inter({ subsets: ['latin'] });
+import { ThemeProvider } from "next-themes";
+import { Toaster } from "@/components/ui/sonner";
+import { locales, Locale } from "@/lib/i18n";
+import { notFound } from "next/navigation";
+import "@/app/globals.css";
 
 interface RootLayoutProps {
   children: React.ReactNode;
@@ -24,8 +21,12 @@ export default function RootLayout({ children, params }: RootLayoutProps) {
   }
 
   return (
-    <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'} suppressHydrationWarning>
-      <body className={inter.className}>
+    <html
+      lang={locale}
+      dir={locale === "ar" ? "rtl" : "ltr"}
+      suppressHydrationWarning
+    >
+      <body style={{ fontFamily: "system-ui, sans-serif" }}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
