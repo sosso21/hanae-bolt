@@ -1,0 +1,93 @@
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
+import Header from "@/components/layout/header";
+import Footer from "@/components/layout/footer";
+import { locales, Locale } from "@/lib/i18n";
+import { HANAE_INFO } from "@/constants";
+
+interface PageProps {
+  params: { locale: Locale };
+}
+
+export async function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
+
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { locale } = params;
+
+  if (!locales.includes(locale)) {
+    notFound();
+  }
+
+  return {
+    title: `Mentions légales - ${HANAE_INFO.name}`,
+    description: "Mentions légales et informations juridiques de HANAE.",
+    robots: "noindex",
+    alternates: {
+      canonical: `/${locale}/legal`,
+    },
+  };
+}
+
+export default function LegalPage({ params }: PageProps) {
+  const { locale } = params;
+
+  if (!locales.includes(locale)) {
+    notFound();
+  }
+
+  return (
+    <div className="flex flex-col min-h-screen">
+      <Header locale={locale} />
+
+      <main className="flex-1">
+        <section className="py-20">
+          <div className="mx-auto px-4 container">
+            <div className="mx-auto max-w-4xl">
+              <h1 className="mb-8 font-bold text-foreground text-4xl md:text-5xl">
+                Mentions légales
+              </h1>
+
+              <div className="max-w-none prose prose-lg">
+                <div className="bg-muted/30 p-8 rounded-lg">
+                  <h2 className="mb-4 font-semibold text-2xl">
+                    Informations légales
+                  </h2>
+                  <p className="mb-4 text-muted-foreground">
+                    Cette page sera enrichie avec les mentions légales complètes
+                    conformément à la réglementation en vigueur.
+                  </p>
+
+                  <div className="space-y-4 text-sm">
+                    <div>
+                      <strong>Raison sociale :</strong>{" "}
+                      {HANAE_INFO.legal.companyName}
+                    </div>
+                    <div>
+                      <strong>SIRET :</strong> {HANAE_INFO.legal.siret}
+                    </div>
+                    <div>
+                      <strong>TVA :</strong> {HANAE_INFO.legal.tva}
+                    </div>
+                    <div>
+                      <strong>Directeur de publication :</strong>{" "}
+                      {HANAE_INFO.legal.director}
+                    </div>
+                    <div>
+                      <strong>Hébergement :</strong> {HANAE_INFO.legal.host}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <Footer locale={locale} />
+    </div>
+  );
+}
