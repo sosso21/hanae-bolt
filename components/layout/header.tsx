@@ -55,7 +55,7 @@ export default function Header({ locale }: HeaderProps) {
           >
             <div className="flex justify-center items-center bg-primary rounded-lg w-8 h-8">
               <span className="font-bold text-primary-foreground text-lg">
-                W
+                H
               </span>
             </div>
             <span className="font-bold text-foreground text-xl">
