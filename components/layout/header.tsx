@@ -55,12 +55,12 @@ export default function Header({ locale }: HeaderProps) {
           >
             <div className="flex justify-center items-center bg-primary rounded-lg w-8 h-8">
               <span className="font-bold text-primary-foreground text-lg">
-                H
+                {HANAE_INFO.name[0].toUpperCase()}
               </span>
             </div>
-            <span className="font-bold text-foreground text-xl">
+            <h1 className="font-bold text-foreground text-xl">
               {HANAE_INFO.name}
-            </span>
+            </h1>
           </Link>
 
           {/* Desktop Navigation */}
