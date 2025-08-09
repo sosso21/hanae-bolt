@@ -63,7 +63,7 @@ export default function Header({ locale }: HeaderProps) {
             </h1>
           </Link>
 
-          {/*- Desktop Navigation */}
+          {/*  Desktop Navigation */}
           <nav
             className="hidden md:flex items-center space-x-6"
             role="navigation"
