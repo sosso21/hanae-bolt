@@ -7,12 +7,12 @@ export const HANAE_INFO = {
   // Contact Information
   contact: {
     email: "contact@HANAE.com",
-    phone: "+33 1 23 45 67 89",
+    phone: "+213 559 205 748",
     address: {
       street: "123 Avenue des Champs-Élysées",
       city: "Paris",
-      postalCode: "75008",
-      country: "France",
+      postalCode: "06000",
+      country: "Dz",
     },
   },
 
