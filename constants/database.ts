@@ -1,5 +1,29 @@
 export const SERVICES = [
   {
+    id: "administration",
+    title: "Démarches & Gestion Administrative",
+    description:
+      "Prise en charge complète de vos démarches et formalités administratives, pour particuliers et professionnels. Comptabilité incluse pour un service clé en main.",
+    icon: "files",
+    features: [
+      "Gestion complète des démarches administratives",
+      "Obtention et renouvellement de documents officiels",
+      "Dépôt et suivi de dossiers",
+      "Support création d'entreprise",
+      "Externalisation des tâches",
+      "Gestion comptable simplifiée",
+    ],
+    services: [
+      "Demandes et renouvellements de documents",
+      "Dépôt de dossiers administratifs",
+      "Tenue de comptabilité",
+      "Déclarations fiscales",
+      "Suivi de trésorerie",
+      "Business plan",
+    ],
+  },
+
+  {
     id: "development",
     title: "Développement & Programmation",
     description:
@@ -85,29 +109,6 @@ export const SERVICES = [
       { name: "Google Ads", logo: "/images/platforms/google-ads.svg" },
     ],
   },
-  {
-    id: "accounting",
-    title: "Comptabilité & Gestion",
-    description:
-      "Services comptables et administratifs pour micro-entreprises et PME. Support complet à la création et gestion d'entreprise.",
-    icon: "calculator",
-    features: [
-      "Gestion comptable complète",
-      "Support création d'entreprise",
-      "Gestion administrative",
-      "Externalisation des tâches",
-      "Conseils en gestion",
-      "Optimisation fiscale",
-    ],
-    services: [
-      "Tenue de comptabilité",
-      "Déclarations fiscales",
-      "Bulletins de paie",
-      "Conseils juridiques",
-      "Business plan",
-      "Suivi de trésorerie",
-    ],
-  },
 ];
 
 export const PORTFOLIO = [
@@ -117,10 +118,10 @@ export const PORTFOLIO = [
     title: "Branding & e-commerce pour marque locale",
     description:
       "Identité visuelle complète, design de boutique en ligne et tunnel de conversion optimisé pour une marque de mode locale.",
-    image: "/images/portfolio/branding-ecommerce.jpg",
+    image: "/images/portfolio/branding-ecommerce.webp",
     category: "design",
     tags: ["Branding", "E-commerce", "UI/UX"],
-    link: "https://www.behance.net/HANAE",
+    link: "",
     year: "2024",
   },
   {
@@ -129,10 +130,10 @@ export const PORTFOLIO = [
     title: "CRM pour gestion immobilière",
     description:
       "Application web complète développée avec Next.js, PostgreSQL et Prisma pour la gestion de biens immobiliers.",
-    image: "/images/portfolio/crm-immobilier.jpg",
+    image: "/images/portfolio/crm-immobilier.webp",
     category: "development",
     tags: ["Next.js", "PostgreSQL", "CRM"],
-    link: "https://github.com/HANAE/crm-immo",
+    link: "",
     year: "2024",
   },
   {
@@ -141,10 +142,10 @@ export const PORTFOLIO = [
     title: "Campagne virale réseaux sociaux",
     description:
       "Stratégie marketing complète ayant généré +500K vues et +15% d'engagement pour un restaurant parisien.",
-    image: "/images/portfolio/campagne-sociale.jpg",
+    image: "/images/portfolio/campagne-sociale.webp",
     category: "marketing",
     tags: ["Social Media", "Viral Marketing", "Content Creation"],
-    link: "https://instagram.com/HANAE",
+    link: "",
     year: "2023",
   },
   {
@@ -153,10 +154,10 @@ export const PORTFOLIO = [
     title: "Application mobile fitness",
     description:
       "App mobile complète avec suivi d'entraînements, nutrition et communauté. Plus de 10K téléchargements.",
-    image: "/images/portfolio/app-fitness.jpg",
+    image: "/images/portfolio/app-fitness.webp",
     category: "development",
     tags: ["React Native", "Firebase", "Mobile"],
-    link: "https://apps.apple.com/app/HANAE-fitness",
+    link: "",
     year: "2023",
   },
   {
@@ -165,8 +166,8 @@ export const PORTFOLIO = [
     title: "Gestion comptable startup tech",
     description:
       "Mise en place complète de la comptabilité et des processus administratifs pour une startup en forte croissance.",
-    image: "/images/portfolio/comptabilite-startup.jpg",
-    category: "accounting",
+    image: "/images/portfolio/comptabilite-startup.webp",
+    category: "administration",
     tags: ["Comptabilité", "Startup", "Gestion"],
     link: "#",
     year: "2024",
@@ -177,10 +178,10 @@ export const PORTFOLIO = [
     title: "Vidéo corporate institutionnelle",
     description:
       "Production vidéo complète de 3 minutes présentant les valeurs et l'équipe d'une entreprise de 200 salariés.",
-    image: "/images/portfolio/video-corporate.jpg",
+    image: "/images/portfolio/video-corporate.webp",
     category: "design",
     tags: ["Vidéo", "Motion Design", "Corporate"],
-    link: "https://youtube.com/watch?v=HANAE",
+    link: "",
     year: "2023",
   },
 ];

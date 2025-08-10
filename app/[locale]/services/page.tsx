@@ -61,7 +61,7 @@ export default function ServicesPage({ params }: PageProps) {
     development: Code,
     design: Palette,
     marketing: Megaphone,
-    accounting: Calculator,
+    administration: Calculator,
   };
 
   return (

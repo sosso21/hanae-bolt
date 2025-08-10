@@ -132,10 +132,10 @@ export default function Footer({ locale }: FooterProps) {
               </li>
               <li>
                 <Link
-                  href={`/${locale}/services#accounting`}
+                  href={`/${locale}/services#administration`}
                   className="text-muted-foreground hover:text-foreground text-sm transition-colors"
                 >
-                  {t.services.accounting.title}
+                  {t.services.administration.title}
                 </Link>
               </li>
             </ul>
