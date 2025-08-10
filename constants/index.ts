@@ -6,7 +6,7 @@ export const HANAE_INFO = {
 
   // Contact Information
   contact: {
-    email: "contact@HANAE.com",
+    email: "contact@hanae.com",
     phone: "+213 559 205 748",
     address: {
       street: "123 Avenue des Champs-Élysées",
