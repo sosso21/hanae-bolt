@@ -1,3 +1,5 @@
+import { HANAE_INFO } from ".";
+
 export const SERVICES = [
   {
     id: "administration",
@@ -219,7 +221,7 @@ export const TESTIMONIALS = [
   },
 ];
 
-export const CONTACT_FORM_URL = "https://forms.google.com/HANAE-contact";
+export const CONTACT_FORM_URL = HANAE_INFO.google_form;
 
 export const BLOG_POSTS = [
   {

@@ -137,7 +137,7 @@ export default function Header({ locale }: HeaderProps) {
 
             {/* Contact Button */}
             <Button asChild>
-              <Link href={`/${locale}/contact`}>{t.nav.contact}</Link>
+              <Link href={HANAE_INFO.google_form}>{t.nav.contact}</Link>
             </Button>
           </div>
 
