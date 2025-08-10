@@ -10,7 +10,7 @@ export const HANAE_INFO = {
     phone: "+213 559 205 748",
     address: {
       street: "123 Avenue des Champs-Élysées",
-      city: "Paris",
+      city: "Blida",
       postalCode: "06000",
       country: "Dz",
     },
