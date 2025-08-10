@@ -3,6 +3,8 @@ export const HANAE_INFO = {
   tagline: "Votre partenaire digital multi-services",
   description:
     "Agence web spécialisée en développement, design, marketing digital et gestion d'entreprise. Nous transformons vos idées en solutions digitales performantes.",
+  google_form:
+    "https://docs.google.com/forms/d/e/1FAIpQLSeT_g2zYAJbZJYfmTSTa97lb-KIz0Zte0IP8kCdc_6R7jQgwA/viewform?usp=header",
 
   // Contact Information
   contact: {
