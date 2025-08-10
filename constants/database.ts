@@ -1,5 +1,28 @@
 export const SERVICES = [
   {
+    id: "accounting",
+    title: "Comptabilité & Gestion",
+    description:
+      "Services comptables et administratifs pour micro-entreprises et PME. Support complet à la création et gestion d'entreprise.",
+    icon: "calculator",
+    features: [
+      "Gestion comptable complète",
+      "Support création d'entreprise",
+      "Gestion administrative",
+      "Externalisation des tâches",
+      "Conseils en gestion",
+      "Optimisation fiscale",
+    ],
+    services: [
+      "Tenue de comptabilité",
+      "Déclarations fiscales",
+      "Bulletins de paie",
+      "Conseils juridiques",
+      "Business plan",
+      "Suivi de trésorerie",
+    ],
+  },
+  {
     id: "development",
     title: "Développement & Programmation",
     description:
@@ -83,29 +106,6 @@ export const SERVICES = [
       { name: "TikTok", logo: "/images/platforms/tiktok.svg" },
       { name: "YouTube", logo: "/images/platforms/youtube.svg" },
       { name: "Google Ads", logo: "/images/platforms/google-ads.svg" },
-    ],
-  },
-  {
-    id: "accounting",
-    title: "Comptabilité & Gestion",
-    description:
-      "Services comptables et administratifs pour micro-entreprises et PME. Support complet à la création et gestion d'entreprise.",
-    icon: "calculator",
-    features: [
-      "Gestion comptable complète",
-      "Support création d'entreprise",
-      "Gestion administrative",
-      "Externalisation des tâches",
-      "Conseils en gestion",
-      "Optimisation fiscale",
-    ],
-    services: [
-      "Tenue de comptabilité",
-      "Déclarations fiscales",
-      "Bulletins de paie",
-      "Conseils juridiques",
-      "Business plan",
-      "Suivi de trésorerie",
     ],
   },
 ];
