@@ -21,7 +21,7 @@ export const translations = {
       title: "Votre partenaire multi-services complet",
       subtitle: "Développement, Design, Marketing & Gestion d'entreprise",
       description:
-        "Nous transformons vos idées en solutions performantes (digitales et physiques) avec notre expertise dans 4 domaines clés et notre accompagnement complet dans tous les services administratifs.",
+        "Nous concrétisons vos idées en solutions performantes, avec expertise dans 4 domaines clés et un accompagnement administratif complet.",
       cta: "Découvrir nos services",
       contact: "Nous contacter",
     },
@@ -41,9 +41,10 @@ export const translations = {
         title: "Marketing & Communication",
         description: "Stratégies digitales et gestion des réseaux sociaux",
       },
-      accounting: {
-        title: "Comptabilité & Gestion",
-        description: "Services comptables et administratifs pour entreprises",
+      administration: {
+        title: "Démarches & Gestion Administrative",
+        description:
+          "Démarches, gestion documentaire et optimisation des procédures.",
       },
     },
     portfolio: {
@@ -78,7 +79,7 @@ export const translations = {
       title: "Your complete multi-service partner",
       subtitle: "Development, Design, Marketing & Business Management",
       description:
-        "We transform your ideas into high-performance solutions (digital and physical) with our expertise in 4 key areas and our comprehensive support in all administrative services.",
+        "We turn your ideas into high-performance solutions, with expertise in 4 key areas and complete administrative support.",
       cta: "Discover our services",
       contact: "Contact us",
     },
@@ -98,9 +99,10 @@ export const translations = {
         title: "Marketing & Communication",
         description: "Digital strategies and social media management",
       },
-      accounting: {
-        title: "Accounting & Management",
-        description: "Accounting and administrative services for businesses",
+      administration: {
+        title: "Procedures & Administrative Management",
+        description:
+          "Procedures, document management and process optimization.",
       },
     },
     portfolio: {
@@ -112,32 +114,32 @@ export const translations = {
     contact: {
       title: "Contact us",
       subtitle: "Let's talk about your project",
-      cta: "Send a message",
+      cta: "Send message",
     },
     footer: {
       description:
-        "Multi-service web agency specialized in development, design, digital marketing and business management.",
-      quickLinks: "Quick Links",
+        "Multi-service web agency specializing in development, design, digital marketing and business management.",
+      quickLinks: "Quick links",
       services: "Services",
-      legal: "Legal Notice",
-      terms: "Terms & Conditions",
+      legal: "Legal notice",
+      terms: "Terms and conditions",
     },
   },
   ar: {
     nav: {
       home: "الرئيسية",
       services: "خدماتنا",
-      portfolio: "معرض الأعمال",
+      portfolio: "أعمالنا",
       about: "من نحن",
       contact: "اتصل بنا",
     },
     hero: {
-      title: "شريكك متعدد الخدمات الشامل",
-      subtitle: "التطوير، التصميم، التسويق وإدارة الأعمال",
+      title: "شريكك المتعدد الخدمات الشامل",
+      subtitle: "تطوير، تصميم، تسويق وإدارة الأعمال",
       description:
-        "نحول أفكارك إلى حلول عالية الأداء (رقمية وفيزيائية) بخبرتنا في 4 مجالات رئيسية ودعمنا الشامل في جميع الخدمات الإدارية.",
+        "نحول أفكارك إلى حلول عالية الأداء، مع خبرة في 4 مجالات رئيسية ودعم إداري شامل.",
       cta: "اكتشف خدماتنا",
-      contact: "تواصل معنا",
+      contact: "اتصل بنا",
     },
     services: {
       title: "خدماتنا",
@@ -148,27 +150,27 @@ export const translations = {
       },
       design: {
         title: "التصميم والوسائط المتعددة",
-        description: "الهوية البصرية، تحرير الفيديو والرسوم المتحركة الإبداعية",
+        description: "الهوية البصرية وتحرير الفيديو والرسوم المتحركة الإبداعية",
       },
       marketing: {
-        title: "التسويق والاتصال",
+        title: "التسويق والتواصل",
         description: "الاستراتيجيات الرقمية وإدارة وسائل التواصل الاجتماعي",
       },
-      accounting: {
-        title: "المحاسبة والإدارة",
-        description: "الخدمات المحاسبية والإدارية للشركات",
+      administration: {
+        title: "الإجراءات والإدارة الإدارية",
+        description: "الإجراءات وإدارة المستندات وتحسين العمليات.",
       },
     },
     portfolio: {
-      title: "معرض أعمالنا",
+      title: "أعمالنا",
       subtitle: "اكتشف أحدث إنجازاتنا",
       viewProject: "عرض المشروع",
       allCategories: "الكل",
     },
     contact: {
-      title: "تواصل معنا",
+      title: "اتصل بنا",
       subtitle: "دعنا نتحدث عن مشروعك",
-      cta: "أرسل رسالة",
+      cta: "إرسال رسالة",
     },
     footer: {
       description:

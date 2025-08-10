@@ -1,27 +1,28 @@
 export const SERVICES = [
   {
-    id: "accounting",
-    title: "Comptabilité & Gestion",
+    id: "administration",
+    title: "Démarches & Gestion Administrative",
     description:
-      "Services comptables et administratifs pour micro-entreprises et PME. Support complet à la création et gestion d'entreprise.",
-    icon: "calculator",
+      "Prise en charge complète de vos démarches et formalités administratives, pour particuliers et professionnels. Comptabilité incluse pour un service clé en main.",
+    icon: "files",
     features: [
-      "Gestion comptable complète",
+      "Gestion complète des démarches administratives",
+      "Obtention et renouvellement de documents officiels",
+      "Dépôt et suivi de dossiers",
       "Support création d'entreprise",
-      "Gestion administrative",
       "Externalisation des tâches",
-      "Conseils en gestion",
-      "Optimisation fiscale",
+      "Gestion comptable simplifiée",
     ],
     services: [
+      "Demandes et renouvellements de documents",
+      "Dépôt de dossiers administratifs",
       "Tenue de comptabilité",
       "Déclarations fiscales",
-      "Bulletins de paie",
-      "Conseils juridiques",
-      "Business plan",
       "Suivi de trésorerie",
+      "Business plan",
     ],
   },
+
   {
     id: "development",
     title: "Développement & Programmation",
@@ -166,7 +167,7 @@ export const PORTFOLIO = [
     description:
       "Mise en place complète de la comptabilité et des processus administratifs pour une startup en forte croissance.",
     image: "/images/portfolio/comptabilite-startup.jpg",
-    category: "accounting",
+    category: "administration",
     tags: ["Comptabilité", "Startup", "Gestion"],
     link: "#",
     year: "2024",

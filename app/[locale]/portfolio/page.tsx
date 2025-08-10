@@ -63,7 +63,7 @@ export default function PortfolioPage({ params }: PageProps) {
     development: "Développement",
     design: "Design",
     marketing: "Marketing",
-    accounting: "Comptabilité",
+    administration: "Administration",
   };
 
   return (
