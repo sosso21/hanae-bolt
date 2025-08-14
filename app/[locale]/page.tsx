@@ -44,7 +44,6 @@ export async function generateMetadata({
       images: [
         {
           url: "/hanae-horizontal.png",
-
           alt: "HANAE Logo Horizontal",
         },
       ],
