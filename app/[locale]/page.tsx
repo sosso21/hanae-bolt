@@ -30,22 +30,32 @@ export async function generateMetadata({
   const t = translations[locale];
 
   return {
-    title: `${HANAE_INFO.name} - ${t.hero.title}`,
-    description: t.hero.description,
-    keywords: Array.from(HANAE_INFO.seo.keywords),
+    title: `${HANAE_INFO.name} - ${t.metadata.title}`,
+    description: t.metadata.description,
+
+    icons: { icon: "/hanae-vertical.png" },
+    keywords: Array.from(HANAE_INFO.metadata.keywords),
     authors: [{ name: HANAE_INFO.seo.author }],
     openGraph: {
-      title: `${HANAE_INFO.name} - ${t.hero.title}`,
-      description: t.hero.description,
+      title: `${HANAE_INFO.name} - ${t.metadata.title}`,
+      description: t.metadata.description,
       type: "website",
       locale: locale,
       siteName: HANAE_INFO.name,
+      images: [
+        {
+          url: "/hanae-horizontal.png",
+          width: 1200,
+          height: 630,
+          alt: "HANAE Logo Horizontal",
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title: `${HANAE_INFO.name} - ${t.metadata.title}`,
       description: t.metadata.description,
-      images: "/hanae-vertical.png",
+      images: "/hanae-horizontal.png",
     },
     alternates: {
       canonical: `/${locale}`,
