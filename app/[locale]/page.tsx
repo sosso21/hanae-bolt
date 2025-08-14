@@ -34,7 +34,7 @@ export async function generateMetadata({
     description: t.metadata.description,
 
     icons: { icon: "/hanae-vertical.png" },
-    keywords: Array.from(HANAE_INFO.metadata.keywords),
+    keywords: Array.from(HANAE_INFO.seo.keywords),
     authors: [{ name: HANAE_INFO.seo.author }],
     openGraph: {
       title: `${HANAE_INFO.name} - ${t.metadata.title}`,
