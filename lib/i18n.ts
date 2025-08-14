@@ -11,7 +11,7 @@ export const LANGUAGES = {
 export const translations = {
   fr: {
     metadata: {
-      title: "HANAE – Assistance administrative et développement commercial",
+      title: "Assistance administrative et développement commercial",
       description:
         "HANAE, agence basée à Alger, simplifie vos démarches administratives (formalités, comptabilité) et booste votre activité grâce à la création de sites web, au marketing digital et au community management.",
     },
