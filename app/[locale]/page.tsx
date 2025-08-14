@@ -43,8 +43,9 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: `${HANAE_INFO.name} - ${t.hero.title}`,
-      description: t.hero.description,
+      title: `${HANAE_INFO.name} - ${t.metadata.title}`,
+      description: t.metadata.description,
+      images: "/hanae-vertical.png",
     },
     alternates: {
       canonical: `/${locale}`,

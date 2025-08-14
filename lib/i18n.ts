@@ -10,6 +10,11 @@ export const LANGUAGES = {
 
 export const translations = {
   fr: {
+    metadata: {
+      title: "HANAE – Assistance administrative et développement commercial",
+      description:
+        "HANAE, agence basée à Alger, simplifie vos démarches administratives (formalités, comptabilité) et booste votre activité grâce à la création de sites web, au marketing digital et au community management.",
+    },
     nav: {
       home: "Accueil",
       services: "Nos Services",
@@ -68,6 +73,11 @@ export const translations = {
     },
   },
   en: {
+    metadata: {
+      title: "HANAE – Administrative Assistance and Business Development",
+      description:
+        "HANAE, an agency based in Algiers, streamlines your administrative procedures (formalities, accounting) and boosts your business through website creation, digital marketing, and community management.",
+    },
     nav: {
       home: "Home",
       services: "Our Services",
@@ -126,6 +136,11 @@ export const translations = {
     },
   },
   ar: {
+    metadata: {
+      title: "هنائي – المساعدة الإدارية وتطوير الأعمال",
+      description:
+        "هاناء، وكالة مقرها الجزائر، تبسط إجراءاتك الإدارية (الإجراءات الرسمية، المحاسبة) وتعمل على تنمية نشاطك من خلال إنشاء المواقع الإلكترونية، التسويق الرقمي، وإدارة المجتمعات.",
+    },
     nav: {
       home: "الرئيسية",
       services: "خدماتنا",
