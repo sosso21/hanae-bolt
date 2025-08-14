@@ -76,9 +76,9 @@ export default function Hero({ locale }: HeroProps) {
                   <div className="bg-primary/10 group-hover:bg-primary/20 p-3 rounded-lg transition-colors">
                     <service.icon className="w-6 h-6 text-primary" />
                   </div>
-                  <p className="font-medium text-sm text-center leading-snug">
+                  <strong className="font-medium text-sm text-center leading-snug">
                     {service.name}
-                  </p>
+                  </strong>
                 </div>
               </div>
             ))}
