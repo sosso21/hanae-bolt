@@ -32,7 +32,6 @@ export async function generateMetadata({
   return {
     title: `${HANAE_INFO.name} - ${t.metadata.title}`,
     description: t.metadata.description,
-
     icons: { icon: "/hanae-horizontal.png" },
     keywords: Array.from(HANAE_INFO.seo.keywords),
     authors: [{ name: HANAE_INFO.seo.author }],
