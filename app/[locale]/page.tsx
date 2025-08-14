@@ -32,7 +32,7 @@ export async function generateMetadata({
   return {
     title: `${HANAE_INFO.name} - ${t.metadata.title}`,
     description: t.metadata.description,
-    icons: { icon: "/hanae-horizontal.png" },
+    icons: { icon: "/hanae-vertical.png" },
     keywords: Array.from(HANAE_INFO.seo.keywords),
     authors: [{ name: HANAE_INFO.seo.author }],
     openGraph: {
@@ -43,7 +43,7 @@ export async function generateMetadata({
       siteName: HANAE_INFO.name,
       images: [
         {
-          url: "/hanae-vertical.png",
+          url: "/hanae-horizontal.png",
 
           alt: "HANAE Logo Horizontal",
         },
@@ -53,7 +53,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: `${HANAE_INFO.name} - ${t.metadata.title}`,
       description: t.metadata.description,
-      images: "/hanae-vertical.png",
+      images: "/hanae-horizontal.png",
     },
     alternates: {
       canonical: `/${locale}`,
