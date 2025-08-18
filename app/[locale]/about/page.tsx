@@ -48,6 +48,13 @@ export default async function AboutPage({ params }: PageProps) {
 
   const t = translations[locale];
 
+  const title = "À propos de nous";
+  const placeholderLead =
+    "Cette page sera prochainement enrichie avec le contenu détaillé sur l'histoire, les valeurs et l'équipe de HANAE.";
+  const waitingHeading = "En attendant...";
+  const aboutParagraph =
+    "HANAE est une agence web multi-services passionnée par l'innovation digitale. Nous accompagnons nos clients dans leurs projets de développement, design, marketing digital et gestion d'entreprise.";
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header locale={locale} />
@@ -57,25 +64,19 @@ export default async function AboutPage({ params }: PageProps) {
           <div className="mx-auto px-4 container">
             <div className="mx-auto max-w-4xl">
               <h1 className="mb-8 font-bold text-foreground text-4xl md:text-5xl">
-                À propos de nous
+                {title}
               </h1>
 
               <div className="max-w-none prose prose-lg">
                 <p className="mb-8 text-muted-foreground text-xl leading-relaxed">
-                  Cette page sera prochainement enrichie avec le contenu
-                  détaillé sur l'histoire, les valeurs et l'équipe de HANAE.
+                  {placeholderLead}
                 </p>
 
                 <div className="bg-muted/30 p-8 rounded-lg">
                   <h2 className="mb-4 font-semibold text-2xl">
-                    En attendant...
+                    {waitingHeading}
                   </h2>
-                  <p className="text-muted-foreground">
-                    HANAE est une agence web multi-services passionnée par
-                    l'innovation digitale. Nous accompagnons nos clients dans
-                    leurs projets de développement, design, marketing digital et
-                    gestion d'entreprise.
-                  </p>
+                  <p className="text-muted-foreground">{aboutParagraph}</p>
                 </div>
               </div>
             </div>

@@ -64,6 +64,23 @@ export default async function ServicesPage({ params }: PageProps) {
     administration: Calculator,
   };
 
+  const technologiesAndTools = "Technologies & Outils";
+  const technologiesWeMaster = "Les technologies que nous maîtrisons";
+  const platformsTitle = "Plateformes publicitaires";
+  const includedServicesTitle = "Services inclus";
+  const ourFeaturesTitle = "Nos prestations :";
+  const technologyCategoryLabels: Record<string, string> = {
+    frontend: "Frontend",
+    backend: "Backend",
+    databases: "Bases de données",
+    cms: "CMS",
+    mobile: "Mobile",
+    design: "Design",
+    video: "Vidéo",
+    animation: "Animation",
+    prototyping: "Prototypage",
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header locale={locale} />
@@ -121,7 +138,7 @@ export default async function ServicesPage({ params }: PageProps) {
 
                         <div>
                           <h3 className="mb-4 font-semibold text-xl">
-                            Nos prestations :
+                            {ourFeaturesTitle}
                           </h3>
                           <div className="gap-3 grid grid-cols-1 sm:grid-cols-2">
                             {service.features.map((feature, idx) => (
@@ -142,9 +159,9 @@ export default async function ServicesPage({ params }: PageProps) {
                       <div className={!isEven ? "lg:order-1" : ""}>
                         <Card className="border-2 border-primary/10">
                           <CardHeader>
-                            <CardTitle>Technologies & Outils</CardTitle>
+                            <CardTitle>{technologiesAndTools}</CardTitle>
                             <CardDescription>
-                              Les technologies que nous maîtrisons
+                              {technologiesWeMaster}
                             </CardDescription>
                           </CardHeader>
                           <CardContent>
@@ -154,25 +171,8 @@ export default async function ServicesPage({ params }: PageProps) {
                                   ([category, techs]) => (
                                     <div key={category}>
                                       <h4 className="mb-2 font-medium capitalize">
-                                        {category === "frontend"
-                                          ? "Frontend"
-                                          : category === "backend"
-                                          ? "Backend"
-                                          : category === "databases"
-                                          ? "Bases de données"
-                                          : category === "cms"
-                                          ? "CMS"
-                                          : category === "mobile"
-                                          ? "Mobile"
-                                          : category === "design"
-                                          ? "Design"
-                                          : category === "video"
-                                          ? "Vidéo"
-                                          : category === "animation"
-                                          ? "Animation"
-                                          : category === "prototyping"
-                                          ? "Prototypage"
-                                          : category}
+                                        {technologyCategoryLabels[category] ||
+                                          category}
                                       </h4>
                                       <div className="flex flex-wrap gap-2">
                                         {techs.map(
@@ -195,7 +195,7 @@ export default async function ServicesPage({ params }: PageProps) {
                             {service.platforms && (
                               <div className="space-y-4">
                                 <h4 className="font-medium">
-                                  Plateformes publicitaires
+                                  {platformsTitle}
                                 </h4>
                                 <div className="gap-3 grid grid-cols-2">
                                   {service.platforms.map((platform, idx) => (
@@ -215,7 +215,9 @@ export default async function ServicesPage({ params }: PageProps) {
 
                             {service.services && (
                               <div className="space-y-4">
-                                <h4 className="font-medium">Services inclus</h4>
+                                <h4 className="font-medium">
+                                  {includedServicesTitle}
+                                </h4>
                                 <div className="space-y-2">
                                   {service.services.map((serviceItem, idx) => (
                                     <div

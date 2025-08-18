@@ -39,6 +39,16 @@ export default async function LegalPage({ params }: PageProps) {
     notFound();
   }
 
+  const pageTitle = "Mentions légales";
+  const legalInfoHeading = "Informations légales";
+  const legalInfoPlaceholder =
+    "Cette page sera enrichie avec les mentions légales complètes conformément à la réglementation en vigueur.";
+  const labelCompany = "Raison sociale :";
+  const labelSiret = "SIRET :";
+  const labelTva = "TVA :";
+  const labelDirector = "Directeur de publication :";
+  const labelHost = "Hébergement :";
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header locale={locale} />
@@ -48,36 +58,35 @@ export default async function LegalPage({ params }: PageProps) {
           <div className="mx-auto px-4 container">
             <div className="mx-auto max-w-4xl">
               <h1 className="mb-8 font-bold text-foreground text-4xl md:text-5xl">
-                Mentions légales
+                {pageTitle}
               </h1>
 
               <div className="max-w-none prose prose-lg">
                 <div className="bg-muted/30 p-8 rounded-lg">
                   <h2 className="mb-4 font-semibold text-2xl">
-                    Informations légales
+                    {legalInfoHeading}
                   </h2>
                   <p className="mb-4 text-muted-foreground">
-                    Cette page sera enrichie avec les mentions légales complètes
-                    conformément à la réglementation en vigueur.
+                    {legalInfoPlaceholder}
                   </p>
 
                   <div className="space-y-4 text-sm">
                     <div>
-                      <strong>Raison sociale :</strong>{" "}
+                      <strong>{labelCompany}</strong>{" "}
                       {HANAE_INFO.legal.companyName}
                     </div>
                     <div>
-                      <strong>SIRET :</strong> {HANAE_INFO.legal.siret}
+                      <strong>{labelSiret}</strong> {HANAE_INFO.legal.siret}
                     </div>
                     <div>
-                      <strong>TVA :</strong> {HANAE_INFO.legal.tva}
+                      <strong>{labelTva}</strong> {HANAE_INFO.legal.tva}
                     </div>
                     <div>
-                      <strong>Directeur de publication :</strong>{" "}
+                      <strong>{labelDirector}</strong>{" "}
                       {HANAE_INFO.legal.director}
                     </div>
                     <div>
-                      <strong>Hébergement :</strong> {HANAE_INFO.legal.host}
+                      <strong>{labelHost}</strong> {HANAE_INFO.legal.host}
                     </div>
                   </div>
                 </div>

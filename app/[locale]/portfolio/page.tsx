@@ -65,6 +65,7 @@ export default async function PortfolioPage({ params }: PageProps) {
     marketing: "Marketing",
     administration: "Administration",
   };
+  const loadMoreLabel = "Charger plus de projets";
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -170,7 +171,7 @@ export default async function PortfolioPage({ params }: PageProps) {
             {/* Load More Button */}
             <div className="mt-12 text-center">
               <Button variant="outline" size="lg">
-                Charger plus de projets
+                {loadMoreLabel}
               </Button>
             </div>
           </div>

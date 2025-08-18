@@ -59,22 +59,32 @@ export default async function ContactPage({ params }: PageProps) {
 
   const t = translations[locale];
 
+  const additionalCtaTitle = "Prêt à démarrer votre projet ?";
+  const additionalCtaDescription =
+    "Parlons de vos besoins et découvrons comment nous pouvons vous aider";
+  const additionalCtaButton = "Obtenir un devis gratuit";
+  const labelEmail = "Email";
+  const labelPhone = "Téléphone";
+  const labelAddress = "Adresse";
+  const labelHours = "Horaires";
+  const weekendLabel = "Weekend:";
+
   const contactInfo = [
     {
       icon: Mail,
-      label: "Email",
+      label: labelEmail,
       value: HANAE_INFO.contact.email,
       href: `mailto:${HANAE_INFO.contact.email}`,
     },
     {
       icon: Phone,
-      label: "Téléphone",
+      label: labelPhone,
       value: HANAE_INFO.contact.phone,
       href: `tel:${HANAE_INFO.contact.phone}`,
     },
     {
       icon: MapPin,
-      label: "Adresse",
+      label: labelAddress,
       value: `${HANAE_INFO.contact.address.street}, ${HANAE_INFO.contact.address.postalCode} ${HANAE_INFO.contact.address.city}`,
       href: `https://maps.google.com/?q=${encodeURIComponent(
         HANAE_INFO.contact.address.street +
@@ -84,8 +94,8 @@ export default async function ContactPage({ params }: PageProps) {
     },
     {
       icon: Clock,
-      label: "Horaires",
-      value: `${HANAE_INFO.hours.weekdays} • Weekend: ${HANAE_INFO.hours.weekend}`,
+      label: labelHours,
+      value: `${HANAE_INFO.hours.weekdays} • ${weekendLabel} ${HANAE_INFO.hours.weekend}`,
       href: null,
     },
   ];
@@ -167,11 +177,10 @@ export default async function ContactPage({ params }: PageProps) {
                 <Card className="bg-gradient-to-r from-primary/5 to-secondary/5 border-primary/20">
                   <CardHeader>
                     <CardTitle className="text-2xl">
-                      Prêt à démarrer votre projet ?
+                      {additionalCtaTitle}
                     </CardTitle>
                     <CardDescription className="text-lg">
-                      Parlons de vos besoins et découvrons comment nous pouvons
-                      vous aider
+                      {additionalCtaDescription}
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -181,7 +190,7 @@ export default async function ContactPage({ params }: PageProps) {
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        Obtenir un devis gratuit
+                        {additionalCtaButton}
                       </Link>
                     </Button>
                   </CardContent>

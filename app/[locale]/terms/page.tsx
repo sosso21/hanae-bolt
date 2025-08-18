@@ -39,6 +39,11 @@ export default async function TermsPage({ params }: PageProps) {
     notFound();
   }
 
+  const pageTitle = "Conditions générales";
+  const sectionTitle = "Conditions générales et mentions légales";
+  const placeholderText =
+    "Cette page sera prochainement enrichie avec les conditions générales d'utilisation et de vente détaillées.";
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header locale={locale} />
@@ -48,18 +53,15 @@ export default async function TermsPage({ params }: PageProps) {
           <div className="mx-auto px-4 container">
             <div className="mx-auto max-w-4xl">
               <h1 className="mb-8 font-bold text-foreground text-4xl md:text-5xl">
-                Conditions générales
+                {pageTitle}
               </h1>
 
               <div className="max-w-none prose prose-lg">
                 <div className="bg-muted/30 p-8 rounded-lg">
                   <h2 className="mb-4 font-semibold text-2xl">
-                    Conditions générales et mentions légales
+                    {sectionTitle}
                   </h2>
-                  <p className="text-muted-foreground">
-                    Cette page sera prochainement enrichie avec les conditions
-                    générales d'utilisation et de vente détaillées.
-                  </p>
+                  <p className="text-muted-foreground">{placeholderText}</p>
                 </div>
               </div>
             </div>
