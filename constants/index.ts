@@ -1,5 +1,5 @@
 export const HANAE_INFO = {
-  name: "HANAE",
+  name: "HANAE-AGENCY",
   tagline: "Votre partenaire digital multi-services",
   description:
     "Agence web spécialisée en développement, design, marketing digital et gestion d'entreprise. Nous transformons vos idées en solutions digitales performantes.",
