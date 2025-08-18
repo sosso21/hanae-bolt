@@ -11,7 +11,7 @@ import { locales, Locale, translations } from "@/lib/i18n";
 import { HANAE_INFO } from "@/constants";
 
 interface PageProps {
-  params: { locale: Locale };
+  params: Promise<{ locale: Locale }>;
 }
 
 export async function generateStaticParams() {
@@ -21,7 +21,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
-  const { locale } = params;
+  const { locale } = await params;
 
   if (!locales.includes(locale)) {
     notFound();
@@ -65,8 +65,8 @@ export async function generateMetadata({
   };
 }
 
-export default function HomePage({ params }: PageProps) {
-  const { locale } = params;
+export default async function HomePage({ params }: PageProps) {
+  const { locale } = await params;
 
   if (!locales.includes(locale)) {
     notFound();

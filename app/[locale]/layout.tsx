@@ -6,15 +6,18 @@ import "@/app/globals.css";
 
 interface RootLayoutProps {
   children: React.ReactNode;
-  params: { locale: Locale };
+  params: Promise<{ locale: Locale }>;
 }
 
 export async function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
-export default function RootLayout({ children, params }: RootLayoutProps) {
-  const { locale } = params;
+export default async function RootLayout({
+  children,
+  params,
+}: RootLayoutProps) {
+  const { locale } = await params;
 
   if (!locales.includes(locale)) {
     notFound();

@@ -17,7 +17,7 @@ import { HANAE_INFO } from "@/constants";
 import { CONTACT_FORM_URL } from "@/constants/database";
 
 interface PageProps {
-  params: { locale: Locale };
+  params: Promise<{ locale: Locale }>;
 }
 
 export async function generateStaticParams() {
@@ -27,7 +27,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
-  const { locale } = params;
+  const { locale } = await params;
 
   if (!locales.includes(locale)) {
     notFound();
@@ -50,8 +50,8 @@ export async function generateMetadata({
   };
 }
 
-export default function ContactPage({ params }: PageProps) {
-  const { locale } = params;
+export default async function ContactPage({ params }: PageProps) {
+  const { locale } = await params;
 
   if (!locales.includes(locale)) {
     notFound();

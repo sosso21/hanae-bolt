@@ -13,7 +13,7 @@ import { PORTFOLIO } from "@/constants/database";
 import { HANAE_INFO } from "@/constants";
 
 interface PageProps {
-  params: { locale: Locale };
+  params: Promise<{ locale: Locale }>;
 }
 
 export async function generateStaticParams() {
@@ -23,7 +23,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
-  const { locale } = params;
+  const { locale } = await params;
 
   if (!locales.includes(locale)) {
     notFound();
@@ -45,8 +45,8 @@ export async function generateMetadata({
   };
 }
 
-export default function PortfolioPage({ params }: PageProps) {
-  const { locale } = params;
+export default async function PortfolioPage({ params }: PageProps) {
+  const { locale } = await params;
 
   if (!locales.includes(locale)) {
     notFound();
