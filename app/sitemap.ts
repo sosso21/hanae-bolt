@@ -13,7 +13,7 @@ const staticPaths = [
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = (
-    process.env.NEXT_PUBLIC_SITE_URL || "https://www.hanae-agency.com"
+    process.env.NEXT_PUBLIC_SITE_URL || "https://hanae-agency.com"
   ).replace(/\/$/, "");
 
   const entries: MetadataRoute.Sitemap = [];
