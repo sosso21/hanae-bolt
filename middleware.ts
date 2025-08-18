@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { locales, defaultLocale } from '@/lib/i18n';
+import { NextRequest, NextResponse } from "next/server";
+import { locales, defaultLocale } from "@/lib/i18n";
 
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
@@ -20,6 +20,6 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     // Skip all internal paths (_next)
-    '/((?!_next|api|favicon.ico|images).*)',
+    "/((?!_next|api|favicon.ico|images|robots.txt|sitemap.xml).*)",
   ],
 };
