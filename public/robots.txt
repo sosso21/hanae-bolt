@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://hanae-agency.com/sitemap.xml
