@@ -1,11 +1,12 @@
 {
-  "name": "nextjs",
+  "name": "hanae-agency",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "prestart": "npm run build",
+    "start": "npx --yes serve@latest -l 3000 out",
     "lint": "next lint"
   },
   "dependencies": {
