@@ -21,6 +21,7 @@ export const translations = {
       portfolio: "Portfolio",
       about: "À Propos",
       contact: "Contact",
+      shop: "Boutique",
     },
     hero: {
       title: "Votre partenaire multi-services complet",
@@ -84,6 +85,7 @@ export const translations = {
       portfolio: "Portfolio",
       about: "About",
       contact: "Contact",
+      shop: "Shop",
     },
     hero: {
       title: "Your complete multi-service partner",
@@ -147,6 +149,7 @@ export const translations = {
       portfolio: "أعمالنا",
       about: "من نحن",
       contact: "اتصل بنا",
+      shop: "المتجر",
     },
     hero: {
       title: "شريكك المتعدد الخدمات الشامل",

@@ -93,6 +93,14 @@ export default function Footer({ locale }: FooterProps) {
               </li>
               <li>
                 <Link
+                  href={`/${locale}/shop`}
+                  className="text-muted-foreground hover:text-foreground text-sm transition-colors"
+                >
+                  {t.nav.shop}
+                </Link>
+              </li>
+              <li>
+                <Link
                   href={`/${locale}/contact`}
                   className="text-muted-foreground hover:text-foreground text-sm transition-colors"
                 >
