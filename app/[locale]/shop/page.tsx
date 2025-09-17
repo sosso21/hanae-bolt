@@ -237,7 +237,10 @@ export default async function ShopPage({ params }: PageProps) {
 
             <div className="gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
               {allProducts.map((product) => (
-                <Card className="group hover:shadow-lg transition-all duration-300">
+                <Card
+                  className="group hover:shadow-lg transition-all duration-300"
+                  key={product.id}
+                >
                   <div className="relative aspect-square overflow-hidden">
                     <Image
                       src={product.image}
