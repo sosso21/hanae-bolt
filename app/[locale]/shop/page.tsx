@@ -226,7 +226,7 @@ export default async function ShopPage({ params }: PageProps) {
           </div>
         </section>
 
-        {/* All Products */}
+        {/* - All Products */}
         <section className="bg-muted/30 py-20">
           <div className="mx-auto px-4 container">
             <div className="mb-12 text-center">
@@ -237,75 +237,74 @@ export default async function ShopPage({ params }: PageProps) {
 
             <div className="gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
               {allProducts.map((product) => (
-                <Card
-                  className="group hover:shadow-lg transition-all duration-300"
-                  key={product.id}
-                >
-                  <div className="relative aspect-square overflow-hidden">
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-300"
-                    />
-                    {product.originalPrice && (
-                      <div className="top-2 left-2 absolute">
-                        <Badge variant="destructive" className="text-xs">
-                          -
-                          {Math.round(
-                            ((product.originalPrice - product.price) /
-                              product.originalPrice) *
-                              100
+                <Link href={`/shop/${product.slug}`} key={product.id}>
+                  <Card className="group hover:shadow-lg transition-all duration-300">
+                    <div className="relative aspect-square overflow-hidden">
+                      <Image
+                        src={product.image}
+                        alt={product.name}
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-300"
+                      />
+                      {product.originalPrice && (
+                        <div className="top-2 left-2 absolute">
+                          <Badge variant="destructive" className="text-xs">
+                            -
+                            {Math.round(
+                              ((product.originalPrice - product.price) /
+                                product.originalPrice) *
+                                100
+                            )}
+                            %
+                          </Badge>
+                        </div>
+                      )}
+                    </div>
+
+                    <CardContent className="p-4">
+                      <h3 className="mb-2 font-semibold text-sm line-clamp-2 leading-tight">
+                        {product.name}
+                      </h3>
+
+                      <div className="flex justify-between items-center">
+                        <div className="flex items-center space-x-1">
+                          <span className="font-bold text-primary">
+                            {product.price}€
+                          </span>
+                          {product.originalPrice && (
+                            <span className="text-muted-foreground text-xs line-through">
+                              {product.originalPrice}€
+                            </span>
                           )}
-                          %
+                        </div>
+                        <Badge variant="outline" className="text-xs">
+                          {
+                            productCategories.find(
+                              (cat) => cat.id === product.category
+                            )?.name
+                          }
                         </Badge>
                       </div>
-                    )}
-                  </div>
+                    </CardContent>
 
-                  <CardContent className="p-4">
-                    <h3 className="mb-2 font-semibold text-sm line-clamp-2 leading-tight">
-                      {product.name}
-                    </h3>
-
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center space-x-1">
-                        <span className="font-bold text-primary">
-                          {product.price}€
-                        </span>
-                        {product.originalPrice && (
-                          <span className="text-muted-foreground text-xs line-through">
-                            {product.originalPrice}€
-                          </span>
-                        )}
+                    <CardFooter className="p-4 pt-0">
+                      <div className="flex gap-2 w-full">
+                        <AddToCartButton
+                          product={product}
+                          locale={locale}
+                          size="sm"
+                          className="flex-1"
+                        />
+                        <BuyNowButton
+                          product={product}
+                          locale={locale}
+                          size="sm"
+                          className="flex-1"
+                        />
                       </div>
-                      <Badge variant="outline" className="text-xs">
-                        {
-                          productCategories.find(
-                            (cat) => cat.id === product.category
-                          )?.name
-                        }
-                      </Badge>
-                    </div>
-                  </CardContent>
-
-                  <CardFooter className="p-4 pt-0">
-                    <div className="flex gap-2 w-full">
-                      <AddToCartButton
-                        product={product}
-                        locale={locale}
-                        size="sm"
-                        className="flex-1"
-                      />
-                      <BuyNowButton
-                        product={product}
-                        locale={locale}
-                        size="sm"
-                        className="flex-1"
-                      />
-                    </div>
-                  </CardFooter>
-                </Card>
+                    </CardFooter>
+                  </Card>
+                </Link>
               ))}
             </div>
           </div>
