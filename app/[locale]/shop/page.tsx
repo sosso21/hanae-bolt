@@ -117,7 +117,7 @@ export default async function ShopPage({ params }: PageProps) {
           </div>
         </section>
 
-        {/* Featured Products */}
+        {/* Featured Products -*/}
         <section className="py-20">
           <div className="mx-auto px-4 container">
             <div className="mb-12 text-center">
