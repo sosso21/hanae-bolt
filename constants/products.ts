@@ -1,34 +1,38 @@
+import { Locale } from "@/lib/i18n";
+import { productTranslations, shopTranslations } from "./product-translations";
+
 export interface Product {
   id: number;
   slug: string;
-  name: string;
-  description: string;
   price: number;
   originalPrice?: number;
   image: string;
   images: string[];
   category: string;
-  tags: string[];
   inStock: boolean;
   featured: boolean;
+}
+
+export interface LocalizedProduct extends Product {
+  name: string;
+  description: string;
+  tags: string[];
   specifications?: Record<string, string>;
 }
 
-export const PRODUCT_CATEGORIES = [
-  { id: "all", name: "Tous les produits" },
-  { id: "services", name: "Services" },
-  { id: "formations", name: "Formations" },
-  { id: "templates", name: "Templates" },
-  { id: "consulting", name: "Consulting" },
-] as const;
+export const getProductCategories = (locale: Locale) =>
+  [
+    { id: "all", name: shopTranslations[locale].categories.all },
+    { id: "services", name: shopTranslations[locale].categories.services },
+    { id: "formations", name: shopTranslations[locale].categories.formations },
+    { id: "templates", name: shopTranslations[locale].categories.templates },
+    { id: "consulting", name: shopTranslations[locale].categories.consulting },
+  ] as const;
 
 export const PRODUCTS: Product[] = [
   {
     id: 1,
     slug: "site-web-vitrine",
-    name: "Site Web Vitrine",
-    description:
-      "Site web professionnel responsive avec design moderne, optimisé SEO et prêt pour mobile. Parfait pour présenter votre entreprise.",
     price: 899,
     originalPrice: 1299,
     image: "/images/products/site-vitrine.webp",
@@ -38,22 +42,12 @@ export const PRODUCTS: Product[] = [
       "/images/products/site-vitrine-3.webp",
     ],
     category: "services",
-    tags: ["Site web", "Responsive", "SEO", "Mobile"],
     inStock: true,
     featured: true,
-    specifications: {
-      "Pages incluses": "5-7 pages",
-      "Délai de livraison": "7-10 jours",
-      Révisions: "3 révisions incluses",
-      Support: "3 mois gratuit",
-    },
   },
   {
     id: 2,
     slug: "ecommerce-complet",
-    name: "E-commerce Complet",
-    description:
-      "Boutique en ligne complète avec gestion des produits, paiements sécurisés, tableau de bord admin et intégration logistique.",
     price: 2499,
     originalPrice: 3499,
     image: "/images/products/ecommerce.webp",
@@ -63,22 +57,12 @@ export const PRODUCTS: Product[] = [
       "/images/products/ecommerce-3.webp",
     ],
     category: "services",
-    tags: ["E-commerce", "Paiement", "Admin", "Logistique"],
     inStock: true,
     featured: true,
-    specifications: {
-      Produits: "Illimités",
-      Paiements: "Stripe, PayPal",
-      Délai: "15-20 jours",
-      Formation: "Incluse",
-    },
   },
   {
     id: 3,
     slug: "formation-react-nextjs",
-    name: "Formation React & Next.js",
-    description:
-      "Formation complète pour maîtriser React et Next.js. De débutant à expert avec projets pratiques et certification.",
     price: 599,
     image: "/images/products/formation-react.webp",
     images: [
@@ -86,22 +70,12 @@ export const PRODUCTS: Product[] = [
       "/images/products/formation-react-2.webp",
     ],
     category: "formations",
-    tags: ["React", "Next.js", "JavaScript", "Formation"],
     inStock: true,
     featured: false,
-    specifications: {
-      Durée: "40 heures",
-      Niveau: "Débutant à Expert",
-      Projets: "5 projets pratiques",
-      Certificat: "Inclus",
-    },
   },
   {
     id: 4,
     slug: "template-dashboard-admin",
-    name: "Template Dashboard Admin",
-    description:
-      "Template de tableau de bord administrateur moderne avec composants réutilisables, thème sombre/clair et responsive.",
     price: 149,
     originalPrice: 199,
     image: "/images/products/dashboard-template.webp",
@@ -110,22 +84,12 @@ export const PRODUCTS: Product[] = [
       "/images/products/dashboard-template-2.webp",
     ],
     category: "templates",
-    tags: ["Dashboard", "Admin", "Template", "React"],
     inStock: true,
     featured: false,
-    specifications: {
-      Composants: "50+ composants",
-      Pages: "20+ pages",
-      Thèmes: "Clair/Sombre",
-      Documentation: "Complète",
-    },
   },
   {
     id: 5,
     slug: "audit-seo-complet",
-    name: "Audit SEO Complet",
-    description:
-      "Analyse approfondie de votre site web avec recommandations détaillées pour améliorer votre référencement naturel.",
     price: 299,
     image: "/images/products/audit-seo.webp",
     images: [
@@ -133,22 +97,12 @@ export const PRODUCTS: Product[] = [
       "/images/products/audit-seo-2.webp",
     ],
     category: "consulting",
-    tags: ["SEO", "Audit", "Référencement", "Analyse"],
     inStock: true,
     featured: true,
-    specifications: {
-      "Pages analysées": "Jusqu'à 50",
-      Rapport: "PDF détaillé",
-      Délai: "3-5 jours",
-      Suivi: "1 mois inclus",
-    },
   },
   {
     id: 6,
     slug: "identite-visuelle-complete",
-    name: "Identité Visuelle Complète",
-    description:
-      "Création d'une identité visuelle unique : logo, charte graphique, cartes de visite, et supports de communication.",
     price: 799,
     originalPrice: 999,
     image: "/images/products/identite-visuelle.webp",
@@ -158,23 +112,47 @@ export const PRODUCTS: Product[] = [
       "/images/products/identite-visuelle-3.webp",
     ],
     category: "services",
-    tags: ["Logo", "Branding", "Design", "Identité"],
     inStock: true,
     featured: true,
-    specifications: {
-      Logos: "3 propositions",
-      Formats: "Tous formats",
-      Charte: "Guide complet",
-      Révisions: "Illimitées",
-    },
   },
 ];
 
-export const getFeaturedProducts = () =>
-  PRODUCTS.filter((product) => product.featured);
-export const getProductsByCategory = (category: string) =>
-  category === "all"
-    ? PRODUCTS
-    : PRODUCTS.filter((product) => product.category === category);
-export const getProductBySlug = (slug: string) =>
-  PRODUCTS.find((product) => product.slug === slug);
+// Helper functions to get localized products
+export const getLocalizedProduct = (
+  product: Product,
+  locale: Locale
+): LocalizedProduct => {
+  const translation = productTranslations[locale][product.slug];
+  if (!translation) {
+    throw new Error(
+      `Translation not found for product ${product.slug} in locale ${locale}`
+    );
+  }
+
+  return {
+    ...product,
+    name: translation.name,
+    description: translation.description,
+    tags: translation.tags,
+    specifications: translation.specifications,
+  };
+};
+
+export const getLocalizedProducts = (locale: Locale): LocalizedProduct[] =>
+  PRODUCTS.map((product) => getLocalizedProduct(product, locale));
+
+export const getFeaturedProducts = (locale: Locale) =>
+  getLocalizedProducts(locale).filter((product) => product.featured);
+
+export const getProductsByCategory = (category: string, locale: Locale) => {
+  const products = getLocalizedProducts(locale);
+  return category === "all"
+    ? products
+    : products.filter((product) => product.category === category);
+};
+
+export const getProductBySlug = (slug: string, locale: Locale) => {
+  const product = PRODUCTS.find((product) => product.slug === slug);
+  if (!product) return undefined;
+  return getLocalizedProduct(product, locale);
+};

@@ -18,7 +18,8 @@ import {
   Truck,
 } from "lucide-react";
 import { locales, Locale } from "@/lib/i18n";
-import { PRODUCTS, getProductBySlug } from "@/constants/products";
+import { getProductBySlug, PRODUCTS } from "@/constants/products";
+import { shopTranslations } from "@/constants/product-translations";
 import { HANAE_INFO } from "@/constants";
 
 interface PageProps {
@@ -44,7 +45,7 @@ export async function generateMetadata({
     notFound();
   }
 
-  const product = getProductBySlug(slug);
+  const product = getProductBySlug(slug, locale);
   if (!product) {
     notFound();
   }
@@ -65,23 +66,12 @@ export default async function ProductPage({ params }: PageProps) {
     notFound();
   }
 
-  const product = getProductBySlug(slug);
+  const product = getProductBySlug(slug, locale);
   if (!product) {
     notFound();
   }
 
-  const backToShopLabel = "Retour à la boutique";
-  const addToCartLabel = "Ajouter au panier";
-  const buyNowLabel = "Acheter maintenant";
-  const inStockLabel = "En stock";
-  const outOfStockLabel = "Rupture de stock";
-  const specificationsTitle = "Spécifications";
-  const guaranteeTitle = "Garantie qualité";
-  const guaranteeText = "Satisfait ou remboursé sous 30 jours";
-  const deliveryTitle = "Livraison rapide";
-  const deliveryText = "Livraison sous 24-48h";
-  const supportTitle = "Support inclus";
-  const supportText = "Support technique gratuit";
+  const shopT = shopTranslations[locale];
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -97,7 +87,7 @@ export default async function ProductPage({ params }: PageProps) {
                 className="flex items-center gap-2"
               >
                 <ArrowLeft className="w-4 h-4" />
-                {backToShopLabel}
+                {shopT.backToShopLabel}
               </Link>
             </Button>
           </div>
@@ -185,7 +175,9 @@ export default async function ProductPage({ params }: PageProps) {
                     )}
                   </div>
                   <Badge variant={product.inStock ? "default" : "secondary"}>
-                    {product.inStock ? inStockLabel : outOfStockLabel}
+                    {product.inStock
+                      ? shopT.inStockLabel
+                      : shopT.outOfStockLabel}
                   </Badge>
                 </div>
 
@@ -206,7 +198,7 @@ export default async function ProductPage({ params }: PageProps) {
                   disabled={!product.inStock}
                 >
                   <ShoppingCart className="mr-2 w-5 h-5" />
-                  {addToCartLabel}
+                  {shopT.addToCartLabel}
                 </Button>
                 <Button
                   size="lg"
@@ -214,7 +206,7 @@ export default async function ProductPage({ params }: PageProps) {
                   className="flex-1"
                   disabled={!product.inStock}
                 >
-                  {buyNowLabel}
+                  {shopT.buyNowLabel}
                 </Button>
               </div>
 
@@ -223,27 +215,27 @@ export default async function ProductPage({ params }: PageProps) {
                 <div className="flex items-center space-x-2 text-sm">
                   <Shield className="w-4 h-4 text-green-600" />
                   <div>
-                    <p className="font-medium">{guaranteeTitle}</p>
+                    <p className="font-medium">{shopT.guaranteeTitle}</p>
                     <p className="text-muted-foreground text-xs">
-                      {guaranteeText}
+                      {shopT.guaranteeText}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-2 text-sm">
                   <Truck className="w-4 h-4 text-blue-600" />
                   <div>
-                    <p className="font-medium">{deliveryTitle}</p>
+                    <p className="font-medium">{shopT.deliveryTitle}</p>
                     <p className="text-muted-foreground text-xs">
-                      {deliveryText}
+                      {shopT.deliveryText}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-2 text-sm">
                   <Clock className="w-4 h-4 text-purple-600" />
                   <div>
-                    <p className="font-medium">{supportTitle}</p>
+                    <p className="font-medium">{shopT.supportTitle}</p>
                     <p className="text-muted-foreground text-xs">
-                      {supportText}
+                      {shopT.supportText}
                     </p>
                   </div>
                 </div>
@@ -257,7 +249,7 @@ export default async function ProductPage({ params }: PageProps) {
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Check className="w-5 h-5" />
-                      {specificationsTitle}
+                      {shopT.specificationsTitle}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>

@@ -15,10 +15,11 @@ import { Badge } from "@/components/ui/badge";
 import { ShoppingCart, Star, Filter, Search } from "lucide-react";
 import { locales, Locale, translations } from "@/lib/i18n";
 import {
-  PRODUCTS,
-  PRODUCT_CATEGORIES,
+  getProductCategories,
   getFeaturedProducts,
+  getLocalizedProducts,
 } from "@/constants/products";
+import { shopTranslations } from "@/constants/product-translations";
 import { HANAE_INFO } from "@/constants";
 
 interface PageProps {
@@ -61,18 +62,10 @@ export default async function ShopPage({ params }: PageProps) {
   }
 
   const t = translations[locale];
-  const featuredProducts = getFeaturedProducts();
-
-  const shopTitle = "Notre Boutique";
-  const shopSubtitle =
-    "Services, formations et outils pour développer votre activité";
-  const featuredTitle = "Produits en vedette";
-  const allProductsTitle = "Tous nos produits";
-  const addToCartLabel = "Ajouter au panier";
-  const viewDetailsLabel = "Voir les détails";
-  const inStockLabel = "En stock";
-  const outOfStockLabel = "Rupture de stock";
-  const fromLabel = "À partir de";
+  const shopT = shopTranslations[locale];
+  const featuredProducts = getFeaturedProducts(locale);
+  const allProducts = getLocalizedProducts(locale);
+  const productCategories = getProductCategories(locale);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -84,10 +77,10 @@ export default async function ShopPage({ params }: PageProps) {
           <div className="mx-auto px-4 container">
             <div className="mx-auto max-w-3xl text-center">
               <h1 className="mb-6 font-bold text-foreground text-4xl md:text-5xl">
-                {shopTitle}
+                {shopT.title}
               </h1>
               <p className="mb-8 text-muted-foreground text-xl">
-                {shopSubtitle}
+                {shopT.subtitle}
               </p>
 
               {/* Search and Filter */}
@@ -96,19 +89,19 @@ export default async function ShopPage({ params }: PageProps) {
                   <Search className="top-3 left-3 absolute w-4 h-4 text-muted-foreground" />
                   <input
                     type="text"
-                    placeholder="Rechercher un produit..."
+                    placeholder={shopT.searchPlaceholder}
                     className="bg-background px-10 py-2 border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring w-full text-sm"
                   />
                 </div>
                 <Button variant="outline" className="flex items-center gap-2">
                   <Filter className="w-4 h-4" />
-                  Filtrer
+                  {shopT.filterLabel}
                 </Button>
               </div>
 
               {/* Category Filter */}
               <div className="flex flex-wrap justify-center gap-2">
-                {PRODUCT_CATEGORIES.map((category) => (
+                {productCategories.map((category) => (
                   <Badge
                     key={category.id}
                     variant="outline"
@@ -127,7 +120,7 @@ export default async function ShopPage({ params }: PageProps) {
           <div className="mx-auto px-4 container">
             <div className="mb-12 text-center">
               <h2 className="mb-4 font-bold text-foreground text-3xl">
-                {featuredTitle}
+                {shopT.featuredTitle}
               </h2>
             </div>
 
@@ -161,7 +154,9 @@ export default async function ShopPage({ params }: PageProps) {
                       <Badge
                         variant={product.inStock ? "default" : "secondary"}
                       >
-                        {product.inStock ? inStockLabel : outOfStockLabel}
+                        {product.inStock
+                          ? shopT.inStockLabel
+                          : shopT.outOfStockLabel}
                       </Badge>
                     </div>
                   </div>
@@ -212,11 +207,11 @@ export default async function ShopPage({ params }: PageProps) {
                   <CardFooter className="flex gap-2">
                     <Button className="flex-1" disabled={!product.inStock}>
                       <ShoppingCart className="mr-2 w-4 h-4" />
-                      {addToCartLabel}
+                      {shopT.addToCartLabel}
                     </Button>
                     <Button variant="outline" asChild>
                       <Link href={`/${locale}/shop/${product.slug}`}>
-                        {viewDetailsLabel}
+                        {shopT.viewDetailsLabel}
                       </Link>
                     </Button>
                   </CardFooter>
@@ -231,12 +226,12 @@ export default async function ShopPage({ params }: PageProps) {
           <div className="mx-auto px-4 container">
             <div className="mb-12 text-center">
               <h2 className="mb-4 font-bold text-foreground text-3xl">
-                {allProductsTitle}
+                {shopT.allProductsTitle}
               </h2>
             </div>
 
             <div className="gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-              {PRODUCTS.map((product) => (
+              {allProducts.map((product) => (
                 <Card
                   key={product.id}
                   className="group hover:shadow-lg transition-all duration-300"
@@ -281,7 +276,7 @@ export default async function ShopPage({ params }: PageProps) {
                       </div>
                       <Badge variant="outline" className="text-xs">
                         {
-                          PRODUCT_CATEGORIES.find(
+                          productCategories.find(
                             (cat) => cat.id === product.category
                           )?.name
                         }
@@ -297,7 +292,7 @@ export default async function ShopPage({ params }: PageProps) {
                       asChild
                     >
                       <Link href={`/${locale}/shop/${product.slug}`}>
-                        {viewDetailsLabel}
+                        {shopT.viewDetailsLabel}
                       </Link>
                     </Button>
                   </CardFooter>
