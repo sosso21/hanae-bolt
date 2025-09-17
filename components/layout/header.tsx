@@ -16,6 +16,7 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Theme } from "@/lib/theme";
+import { CartIcon } from "../cart/cart-icon";
 
 interface HeaderProps {
   locale: Locale;
@@ -31,6 +32,7 @@ export default function Header({ locale }: HeaderProps) {
     { name: t.nav.home, href: `/${locale}` },
     { name: t.nav.services, href: `/${locale}/services` },
     { name: t.nav.portfolio, href: `/${locale}/portfolio` },
+    { name: t.nav.shop, href: `/${locale}/shop` },
     { name: t.nav.about, href: `/${locale}/about` },
     { name: t.nav.contact, href: `/${locale}/contact` },
   ];
@@ -134,6 +136,9 @@ export default function Header({ locale }: HeaderProps) {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
+
+            {/* Cart Icon */}
+            <CartIcon />
 
             {/* Contact Button */}
             <Button asChild>

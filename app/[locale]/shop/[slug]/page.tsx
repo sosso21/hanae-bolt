@@ -8,15 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import {
-  ShoppingCart,
-  Star,
-  ArrowLeft,
-  Check,
-  Clock,
-  Shield,
-  Truck,
-} from "lucide-react";
+import { Star, ArrowLeft, Check, Clock, Shield, Truck } from "lucide-react";
+import { AddToCartButton } from "@/components/cart/add-to-cart-button";
 import { locales, Locale } from "@/lib/i18n";
 import { getProductBySlug, PRODUCTS } from "@/constants/products";
 import { shopTranslations } from "@/constants/product-translations";
@@ -192,14 +185,12 @@ export default async function ProductPage({ params }: PageProps) {
 
               {/* Action Buttons */}
               <div className="flex sm:flex-row flex-col gap-4">
-                <Button
+                <AddToCartButton
+                  product={product}
+                  locale={locale}
                   size="lg"
                   className="flex-1"
-                  disabled={!product.inStock}
-                >
-                  <ShoppingCart className="mr-2 w-5 h-5" />
-                  {shopT.addToCartLabel}
-                </Button>
+                />
                 <Button
                   size="lg"
                   variant="outline"

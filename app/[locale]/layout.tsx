@@ -2,6 +2,8 @@ import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/sonner";
 import { locales, Locale } from "@/lib/i18n";
 import { notFound } from "next/navigation";
+import { CartProvider } from "@/contexts/cart-context";
+import { CartDropdown } from "@/components/cart/cart-dropdown";
 import "@/app/globals.css";
 
 interface RootLayoutProps {
@@ -36,8 +38,11 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
-          <Toaster />
+          <CartProvider locale={locale}>
+            {children}
+            <CartDropdown locale={locale} />
+            <Toaster />
+          </CartProvider>
         </ThemeProvider>
       </body>
     </html>

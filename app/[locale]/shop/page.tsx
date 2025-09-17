@@ -12,7 +12,8 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ShoppingCart, Star, Filter, Search } from "lucide-react";
+import { Star, Filter, Search } from "lucide-react";
+import { AddToCartButton } from "@/components/cart/add-to-cart-button";
 import { locales, Locale, translations } from "@/lib/i18n";
 import {
   getProductCategories,
@@ -205,10 +206,11 @@ export default async function ShopPage({ params }: PageProps) {
                   </CardContent>
 
                   <CardFooter className="flex gap-2">
-                    <Button className="flex-1" disabled={!product.inStock}>
-                      <ShoppingCart className="mr-2 w-4 h-4" />
-                      {shopT.addToCartLabel}
-                    </Button>
+                    <AddToCartButton
+                      product={product}
+                      locale={locale}
+                      className="flex-1"
+                    />
                     <Button variant="outline" asChild>
                       <Link href={`/${locale}/shop/${product.slug}`}>
                         {shopT.viewDetailsLabel}
