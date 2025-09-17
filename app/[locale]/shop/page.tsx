@@ -101,7 +101,7 @@ export default async function ShopPage({ params }: PageProps) {
                 </Button>
               </div>
 
-              {/* Category Filter */}
+              {/* Category Filter -*/}
               <div className="flex flex-wrap justify-center gap-2">
                 {productCategories.map((category) => (
                   <Badge
