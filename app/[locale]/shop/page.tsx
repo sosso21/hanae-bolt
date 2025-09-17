@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import Link from "next/link";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
@@ -14,6 +13,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Star, Filter, Search } from "lucide-react";
 import { AddToCartButton } from "@/components/cart/add-to-cart-button";
+import { BuyNowButton } from "@/components/cart/buy-now-button";
 import { locales, Locale, translations } from "@/lib/i18n";
 import {
   getProductCategories,
@@ -22,6 +22,7 @@ import {
 } from "@/constants/products";
 import { shopTranslations } from "@/constants/product-translations";
 import { HANAE_INFO } from "@/constants";
+import Link from "next/link";
 
 interface PageProps {
   params: Promise<{ locale: Locale }>;
@@ -127,97 +128,99 @@ export default async function ShopPage({ params }: PageProps) {
 
             <div className="gap-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-16">
               {featuredProducts.map((product) => (
-                <Card
-                  key={product.id}
-                  className="group hover:shadow-lg overflow-hidden transition-all duration-300"
-                >
-                  <div className="relative aspect-video overflow-hidden">
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-300"
-                    />
-                    {product.originalPrice && (
-                      <div className="top-4 left-4 absolute">
-                        <Badge variant="destructive">
-                          -
-                          {Math.round(
-                            ((product.originalPrice - product.price) /
-                              product.originalPrice) *
-                              100
-                          )}
-                          %
-                        </Badge>
-                      </div>
-                    )}
-                    <div className="top-4 right-4 absolute">
-                      <Badge
-                        variant={product.inStock ? "default" : "secondary"}
-                      >
-                        {product.inStock
-                          ? shopT.inStockLabel
-                          : shopT.outOfStockLabel}
-                      </Badge>
-                    </div>
-                  </div>
-
-                  <CardHeader>
-                    <div className="flex justify-between items-start">
-                      <h3 className="font-semibold text-lg leading-tight">
-                        {product.name}
-                      </h3>
-                      <div className="flex items-center space-x-1">
-                        <Star className="fill-yellow-400 w-4 h-4 text-yellow-400" />
-                        <span className="text-muted-foreground text-sm">
-                          4.8
-                        </span>
-                      </div>
-                    </div>
-                  </CardHeader>
-
-                  <CardContent>
-                    <p className="mb-4 text-muted-foreground text-sm line-clamp-2">
-                      {product.description}
-                    </p>
-
-                    <div className="flex flex-wrap gap-1 mb-4">
-                      {product.tags.slice(0, 3).map((tag, index) => (
-                        <Badge
-                          key={index}
-                          variant="outline"
-                          className="text-xs"
-                        >
-                          {tag}
-                        </Badge>
-                      ))}
-                    </div>
-
-                    <div className="flex items-center space-x-2">
-                      <span className="font-bold text-primary text-2xl">
-                        {product.price}€
-                      </span>
+                <Link href={`/shop/${product.slug}`} key={product.id}>
+                  <Card
+                    key={product.id}
+                    className="group hover:shadow-lg overflow-hidden transition-all duration-300 cursor-pointer"
+                  >
+                    <div className="relative aspect-video overflow-hidden">
+                      <Image
+                        src={product.image}
+                        alt={product.name}
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-300"
+                      />
                       {product.originalPrice && (
-                        <span className="text-muted-foreground text-sm line-through">
-                          {product.originalPrice}€
-                        </span>
+                        <div className="top-4 left-4 absolute">
+                          <Badge variant="destructive">
+                            -
+                            {Math.round(
+                              ((product.originalPrice - product.price) /
+                                product.originalPrice) *
+                                100
+                            )}
+                            %
+                          </Badge>
+                        </div>
                       )}
+                      <div className="top-4 right-4 absolute">
+                        <Badge
+                          variant={product.inStock ? "default" : "secondary"}
+                        >
+                          {product.inStock
+                            ? shopT.inStockLabel
+                            : shopT.outOfStockLabel}
+                        </Badge>
+                      </div>
                     </div>
-                  </CardContent>
 
-                  <CardFooter className="flex gap-2">
-                    <AddToCartButton
-                      product={product}
-                      locale={locale}
-                      className="flex-1"
-                    />
-                    <Button variant="outline" asChild>
-                      <Link href={`/${locale}/shop/${product.slug}`}>
-                        {shopT.viewDetailsLabel}
-                      </Link>
-                    </Button>
-                  </CardFooter>
-                </Card>
+                    <CardHeader>
+                      <div className="flex justify-between items-start">
+                        <h3 className="font-semibold text-lg leading-tight">
+                          {product.name}
+                        </h3>
+                        <div className="flex items-center space-x-1">
+                          <Star className="fill-yellow-400 w-4 h-4 text-yellow-400" />
+                          <span className="text-muted-foreground text-sm">
+                            4.8
+                          </span>
+                        </div>
+                      </div>
+                    </CardHeader>
+
+                    <CardContent>
+                      <p className="mb-4 text-muted-foreground text-sm line-clamp-2">
+                        {product.description}
+                      </p>
+
+                      <div className="flex flex-wrap gap-1 mb-4">
+                        {product.tags.slice(0, 3).map((tag, index) => (
+                          <Badge
+                            key={index}
+                            variant="outline"
+                            className="text-xs"
+                          >
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
+
+                      <div className="flex items-center space-x-2">
+                        <span className="font-bold text-primary text-2xl">
+                          {product.price}€
+                        </span>
+                        {product.originalPrice && (
+                          <span className="text-muted-foreground text-sm line-through">
+                            {product.originalPrice}€
+                          </span>
+                        )}
+                      </div>
+                    </CardContent>
+
+                    <CardFooter className="flex gap-2">
+                      <AddToCartButton
+                        product={product}
+                        locale={locale}
+                        className="flex-1"
+                      />
+                      <BuyNowButton
+                        product={product}
+                        locale={locale}
+                        className="flex-1"
+                      />
+                    </CardFooter>
+                  </Card>{" "}
+                </Link>
               ))}
             </div>
           </div>
@@ -234,10 +237,7 @@ export default async function ShopPage({ params }: PageProps) {
 
             <div className="gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
               {allProducts.map((product) => (
-                <Card
-                  key={product.id}
-                  className="group hover:shadow-lg transition-all duration-300"
-                >
+                <Card className="group hover:shadow-lg transition-all duration-300">
                   <div className="relative aspect-square overflow-hidden">
                     <Image
                       src={product.image}
@@ -287,16 +287,20 @@ export default async function ShopPage({ params }: PageProps) {
                   </CardContent>
 
                   <CardFooter className="p-4 pt-0">
-                    <Button
-                      size="sm"
-                      className="w-full"
-                      disabled={!product.inStock}
-                      asChild
-                    >
-                      <Link href={`/${locale}/shop/${product.slug}`}>
-                        {shopT.viewDetailsLabel}
-                      </Link>
-                    </Button>
+                    <div className="flex gap-2 w-full">
+                      <AddToCartButton
+                        product={product}
+                        locale={locale}
+                        size="sm"
+                        className="flex-1"
+                      />
+                      <BuyNowButton
+                        product={product}
+                        locale={locale}
+                        size="sm"
+                        className="flex-1"
+                      />
+                    </div>
                   </CardFooter>
                 </Card>
               ))}

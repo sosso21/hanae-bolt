@@ -10,11 +10,23 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { ArrowLeft, Trash2, Minus, Plus } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Locale } from "@/lib/i18n";
 import { shopTranslations } from "@/constants/product-translations";
+import { OrderSuccess } from "@/components/cart/order-success";
 
 interface CheckoutPageProps {
   params: Promise<{ locale: Locale }>;
@@ -25,6 +37,7 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
   const { state, removeFromCart, updateQuantity, clearCart, getTotalPrice } =
     useCart();
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isOrderComplete, setIsOrderComplete] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -59,18 +72,16 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
     // Simulate order processing
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
-    // Clear cart and redirect
+    // Clear cart and show success
     clearCart();
-    alert(
-      locale === "fr"
-        ? "Commande envoyée avec succès !"
-        : locale === "en"
-        ? "Order sent successfully!"
-        : "تم إرسال الطلب بنجاح!"
-    );
-
+    setIsOrderComplete(true);
     setIsProcessing(false);
   };
+
+  // Show success page if order is complete
+  if (isOrderComplete) {
+    return <OrderSuccess locale={locale} />;
+  }
 
   if (state.items.length === 0) {
     return (
@@ -125,13 +136,61 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
             <div className="space-y-6">
               <Card>
                 <CardHeader>
-                  <CardTitle>
-                    {locale === "fr"
-                      ? "Résumé de la commande"
-                      : locale === "en"
-                      ? "Order Summary"
-                      : "ملخص الطلب"}
-                  </CardTitle>
+                  <div className="flex justify-between items-center">
+                    <CardTitle>
+                      {locale === "fr"
+                        ? "Résumé de la commande"
+                        : locale === "en"
+                        ? "Order Summary"
+                        : "ملخص الطلب"}
+                    </CardTitle>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button variant="outline" size="sm">
+                          <Trash2 className="mr-2 w-4 h-4" />
+                          {locale === "fr"
+                            ? "Vider"
+                            : locale === "en"
+                            ? "Clear"
+                            : "إفراغ"}
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>
+                            {locale === "fr"
+                              ? "Vider le panier ?"
+                              : locale === "en"
+                              ? "Clear cart?"
+                              : "إفراغ السلة؟"}
+                          </AlertDialogTitle>
+                          <AlertDialogDescription>
+                            {locale === "fr"
+                              ? "Cette action supprimera tous les articles de votre panier. Cette action ne peut pas être annulée."
+                              : locale === "en"
+                              ? "This action will remove all items from your cart. This action cannot be undone."
+                              : "هذا الإجراء سيزيل جميع العناصر من سلة التسوق. لا يمكن التراجع عن هذا الإجراء."}
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>
+                            {locale === "fr"
+                              ? "Annuler"
+                              : locale === "en"
+                              ? "Cancel"
+                              : "إلغاء"}
+                          </AlertDialogCancel>
+                          <AlertDialogAction onClick={clearCart}>
+                            {locale === "fr"
+                              ? "Vider le panier"
+                              : locale === "en"
+                              ? "Clear cart"
+                              : "إفراغ السلة"}
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {state.items.map((item) => (

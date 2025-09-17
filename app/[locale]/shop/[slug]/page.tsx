@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Star, ArrowLeft, Check, Clock, Shield, Truck } from "lucide-react";
 import { AddToCartButton } from "@/components/cart/add-to-cart-button";
+import { BuyNowButton } from "@/components/cart/buy-now-button";
 import { locales, Locale } from "@/lib/i18n";
 import { getProductBySlug, PRODUCTS } from "@/constants/products";
 import { shopTranslations } from "@/constants/product-translations";
@@ -191,14 +192,12 @@ export default async function ProductPage({ params }: PageProps) {
                   size="lg"
                   className="flex-1"
                 />
-                <Button
+                <BuyNowButton
+                  product={product}
+                  locale={locale}
                   size="lg"
-                  variant="outline"
                   className="flex-1"
-                  disabled={!product.inStock}
-                >
-                  {shopT.buyNowLabel}
-                </Button>
+                />
               </div>
 
               {/* Features */}

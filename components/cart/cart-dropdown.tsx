@@ -4,6 +4,17 @@ import { useState } from "react";
 import { useCart } from "@/contexts/cart-context";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Minus, Plus, Trash2, ShoppingCart, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -165,17 +176,51 @@ export const CartDropdown: React.FC<CartDropdownProps> = ({ locale }) => {
               </div>
 
               <div className="flex space-x-2">
-                <Button
-                  variant="outline"
-                  className="flex-1"
-                  onClick={clearCart}
-                >
-                  {locale === "fr"
-                    ? "Vider le panier"
-                    : locale === "en"
-                    ? "Clear cart"
-                    : "إفراغ السلة"}
-                </Button>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button variant="outline" className="flex-1">
+                      {locale === "fr"
+                        ? "Vider le panier"
+                        : locale === "en"
+                        ? "Clear cart"
+                        : "إفراغ السلة"}
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        {locale === "fr"
+                          ? "Vider le panier ?"
+                          : locale === "en"
+                          ? "Clear cart?"
+                          : "إفراغ السلة؟"}
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        {locale === "fr"
+                          ? "Cette action supprimera tous les articles de votre panier. Cette action ne peut pas être annulée."
+                          : locale === "en"
+                          ? "This action will remove all items from your cart. This action cannot be undone."
+                          : "هذا الإجراء سيزيل جميع العناصر من سلة التسوق. لا يمكن التراجع عن هذا الإجراء."}
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>
+                        {locale === "fr"
+                          ? "Annuler"
+                          : locale === "en"
+                          ? "Cancel"
+                          : "إلغاء"}
+                      </AlertDialogCancel>
+                      <AlertDialogAction onClick={clearCart}>
+                        {locale === "fr"
+                          ? "Vider le panier"
+                          : locale === "en"
+                          ? "Clear cart"
+                          : "إفراغ السلة"}
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
                 <Button className="flex-1" asChild>
                   <Link href={`/${locale}/checkout`}>
                     {locale === "fr"
