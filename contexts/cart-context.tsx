@@ -12,6 +12,8 @@ export interface CartItem {
 interface CartState {
   items: CartItem[];
   isOpen: boolean;
+  buyNowMode: boolean;
+  buyNowProduct?: LocalizedProduct;
 }
 
 type CartAction =
@@ -27,7 +29,11 @@ type CartAction =
   | { type: "CLEAR_CART" }
   | { type: "TOGGLE_CART" }
   | { type: "CLOSE_CART" }
-  | { type: "LOAD_CART"; payload: { items: CartItem[] } };
+  | { type: "LOAD_CART"; payload: { items: CartItem[] } }
+  | {
+      type: "SET_BUY_NOW_MODE";
+      payload: { enabled: boolean; product?: LocalizedProduct };
+    };
 
 const CartContext = createContext<{
   state: CartState;
@@ -40,6 +46,8 @@ const CartContext = createContext<{
   closeCart: () => void;
   getTotalItems: () => number;
   getTotalPrice: () => number;
+  setBuyNowMode: (enabled: boolean, product?: LocalizedProduct) => void;
+  exitBuyNowMode: () => void;
 } | null>(null);
 
 const cartReducer = (state: CartState, action: CartAction): CartState => {
@@ -117,6 +125,13 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
         items: action.payload.items,
       };
 
+    case "SET_BUY_NOW_MODE":
+      return {
+        ...state,
+        buyNowMode: action.payload.enabled,
+        buyNowProduct: action.payload.product,
+      };
+
     default:
       return state;
   }
@@ -129,6 +144,8 @@ export const CartProvider: React.FC<{
   const [state, dispatch] = useReducer(cartReducer, {
     items: [],
     isOpen: false,
+    buyNowMode: false,
+    buyNowProduct: undefined,
   });
 
   // Load cart from localStorage on mount
@@ -183,6 +200,14 @@ export const CartProvider: React.FC<{
     }, 0);
   };
 
+  const exitBuyNowMode = () => {
+    dispatch({ type: "SET_BUY_NOW_MODE", payload: { enabled: false } });
+  };
+
+  const setBuyNowMode = (enabled: boolean, product?: LocalizedProduct) => {
+    dispatch({ type: "SET_BUY_NOW_MODE", payload: { enabled, product } });
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -196,6 +221,8 @@ export const CartProvider: React.FC<{
         closeCart,
         getTotalItems,
         getTotalPrice,
+        setBuyNowMode,
+        exitBuyNowMode,
       }}
     >
       {children}

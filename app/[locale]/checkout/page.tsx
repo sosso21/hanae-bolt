@@ -34,8 +34,14 @@ interface CheckoutPageProps {
 
 export default function CheckoutPage({ params }: CheckoutPageProps) {
   const { locale } = params;
-  const { state, removeFromCart, updateQuantity, clearCart, getTotalPrice } =
-    useCart();
+  const {
+    state,
+    removeFromCart,
+    updateQuantity,
+    clearCart,
+    getTotalPrice,
+    exitBuyNowMode,
+  } = useCart();
   const [isProcessing, setIsProcessing] = useState(false);
   const [isOrderComplete, setIsOrderComplete] = useState(false);
   const [formData, setFormData] = useState({
@@ -74,16 +80,27 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
 
     // Clear cart and show success
     clearCart();
+    exitBuyNowMode();
     setIsOrderComplete(true);
     setIsProcessing(false);
   };
+
+  // Get items to display (either cart items or buy now product)
+  const getDisplayItems = () => {
+    if (state.buyNowMode && state.buyNowProduct) {
+      return [{ product: state.buyNowProduct, quantity: 1 }];
+    }
+    return state.items;
+  };
+
+  const displayItems = getDisplayItems();
 
   // Show success page if order is complete
   if (isOrderComplete) {
     return <OrderSuccess locale={locale} />;
   }
 
-  if (state.items.length === 0) {
+  if (displayItems.length === 0) {
     return (
       <div className="flex flex-col min-h-screen">
         <Header locale={locale} />
@@ -137,63 +154,82 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
               <Card>
                 <CardHeader>
                   <div className="flex justify-between items-center">
-                    <CardTitle>
-                      {locale === "fr"
-                        ? "Résumé de la commande"
-                        : locale === "en"
-                        ? "Order Summary"
-                        : "ملخص الطلب"}
-                    </CardTitle>
-                    <AlertDialog>
-                      <AlertDialogTrigger asChild>
-                        <Button variant="outline" size="sm">
-                          <Trash2 className="mr-2 w-4 h-4" />
-                          {locale === "fr"
-                            ? "Vider"
+                    <div>
+                      <CardTitle>
+                        {state.buyNowMode
+                          ? locale === "fr"
+                            ? "Achat direct"
                             : locale === "en"
-                            ? "Clear"
-                            : "إفراغ"}
-                        </Button>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>
+                            ? "Direct Purchase"
+                            : "شراء مباشر"
+                          : locale === "fr"
+                          ? "Résumé de la commande"
+                          : locale === "en"
+                          ? "Order Summary"
+                          : "ملخص الطلب"}
+                      </CardTitle>
+                      {state.buyNowMode && (
+                        <p className="mt-1 text-muted-foreground text-sm">
+                          {locale === "fr"
+                            ? "Vous achetez directement ce produit"
+                            : locale === "en"
+                            ? "You are purchasing this product directly"
+                            : "أنت تشتري هذا المنتج مباشرة"}
+                        </p>
+                      )}
+                    </div>
+                    {!state.buyNowMode && (
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button variant="outline" size="sm">
+                            <Trash2 className="mr-2 w-4 h-4" />
                             {locale === "fr"
-                              ? "Vider le panier ?"
+                              ? "Vider"
                               : locale === "en"
-                              ? "Clear cart?"
-                              : "إفراغ السلة؟"}
-                          </AlertDialogTitle>
-                          <AlertDialogDescription>
-                            {locale === "fr"
-                              ? "Cette action supprimera tous les articles de votre panier. Cette action ne peut pas être annulée."
-                              : locale === "en"
-                              ? "This action will remove all items from your cart. This action cannot be undone."
-                              : "هذا الإجراء سيزيل جميع العناصر من سلة التسوق. لا يمكن التراجع عن هذا الإجراء."}
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>
-                            {locale === "fr"
-                              ? "Annuler"
-                              : locale === "en"
-                              ? "Cancel"
-                              : "إلغاء"}
-                          </AlertDialogCancel>
-                          <AlertDialogAction onClick={clearCart}>
-                            {locale === "fr"
-                              ? "Vider le panier"
-                              : locale === "en"
-                              ? "Clear cart"
-                              : "إفراغ السلة"}
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
+                              ? "Clear"
+                              : "إفراغ"}
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>
+                              {locale === "fr"
+                                ? "Vider le panier ?"
+                                : locale === "en"
+                                ? "Clear cart?"
+                                : "إفراغ السلة؟"}
+                            </AlertDialogTitle>
+                            <AlertDialogDescription>
+                              {locale === "fr"
+                                ? "Cette action supprimera tous les articles de votre panier. Cette action ne peut pas être annulée."
+                                : locale === "en"
+                                ? "This action will remove all items from your cart. This action cannot be undone."
+                                : "هذا الإجراء سيزيل جميع العناصر من سلة التسوق. لا يمكن التراجع عن هذا الإجراء."}
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>
+                              {locale === "fr"
+                                ? "Annuler"
+                                : locale === "en"
+                                ? "Cancel"
+                                : "إلغاء"}
+                            </AlertDialogCancel>
+                            <AlertDialogAction onClick={clearCart}>
+                              {locale === "fr"
+                                ? "Vider le panier"
+                                : locale === "en"
+                                ? "Clear cart"
+                                : "إفراغ السلة"}
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    )}
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {state.items.map((item) => (
+                  {displayItems.map((item) => (
                     <div
                       key={item.product.id}
                       className="flex items-center space-x-4"
@@ -227,6 +263,7 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
                                   item.quantity - 1
                                 )
                               }
+                              disabled={state.buyNowMode}
                             >
                               <Minus className="w-3 h-3" />
                             </Button>
@@ -243,6 +280,7 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
                                   item.quantity + 1
                                 )
                               }
+                              disabled={state.buyNowMode}
                             >
                               <Plus className="w-3 h-3" />
                             </Button>
@@ -253,6 +291,7 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
                             size="icon"
                             className="w-6 h-6 text-destructive hover:text-destructive"
                             onClick={() => removeFromCart(item.product.id)}
+                            disabled={state.buyNowMode}
                           >
                             <Trash2 className="w-3 h-3" />
                           </Button>
