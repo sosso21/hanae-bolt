@@ -5,8 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ShoppingCart, Check } from "lucide-react";
 import { useCart } from "@/contexts/cart-context";
 import { LocalizedProduct } from "@/constants/products";
-import { Locale } from "@/lib/i18n";
-import { shopTranslations } from "@/constants/product-translations";
+import { Locale, translations } from "@/lib/i18n";
 
 interface AddToCartButtonProps {
   product: LocalizedProduct;
@@ -33,7 +32,7 @@ export const AddToCartButton: React.FC<AddToCartButtonProps> = ({
 }) => {
   const { addToCart, state } = useCart();
   const [isAdded, setIsAdded] = useState(false);
-  const shopT = shopTranslations[locale];
+  const t = translations[locale];
 
   const isInCart = state.items.some((item) => item.product.id === product.id);
 
@@ -57,22 +56,12 @@ export const AddToCartButton: React.FC<AddToCartButtonProps> = ({
       {isAdded ? (
         <>
           <Check className="mr-2 w-4 h-4" />
-          {locale === "fr"
-            ? "Ajouté !"
-            : locale === "en"
-            ? "Added!"
-            : "تم الإضافة!"}
+          {t.shop.added}
         </>
       ) : (
         <>
           <ShoppingCart className="mr-2 w-4 h-4" />
-          {isInCart
-            ? locale === "fr"
-              ? "Ajouter encore"
-              : locale === "en"
-              ? "Add more"
-              : "إضافة المزيد"
-            : shopT.addToCartLabel}
+          {isInCart ? t.shop.addMore : t.shop.addToCartLabel}
         </>
       )}
     </Button>

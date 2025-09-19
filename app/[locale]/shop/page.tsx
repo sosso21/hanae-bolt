@@ -20,7 +20,6 @@ import {
   getFeaturedProducts,
   getLocalizedProducts,
 } from "@/constants/products";
-import { shopTranslations } from "@/constants/product-translations";
 import { HANAE_INFO } from "@/constants";
 import Link from "next/link";
 
@@ -41,10 +40,11 @@ export async function generateMetadata({
     notFound();
   }
 
+  const t = translations[locale];
+
   return {
-    title: `Boutique - ${HANAE_INFO.name}`,
-    description:
-      "Découvrez nos services, formations et templates pour booster votre présence digitale.",
+    title: `${t.shop.title} - ${HANAE_INFO.name}`,
+    description: t.shop.subtitle,
     alternates: {
       canonical: `/${locale}/shop`,
       languages: {
@@ -64,7 +64,6 @@ export default async function ShopPage({ params }: PageProps) {
   }
 
   const t = translations[locale];
-  const shopT = shopTranslations[locale];
   const featuredProducts = getFeaturedProducts(locale);
   const allProducts = getLocalizedProducts(locale);
   const productCategories = getProductCategories(locale);
@@ -79,10 +78,10 @@ export default async function ShopPage({ params }: PageProps) {
           <div className="mx-auto px-4 container">
             <div className="mx-auto max-w-3xl text-center">
               <h1 className="mb-6 font-bold text-foreground text-4xl md:text-5xl">
-                {shopT.title}
+                {t.shop.title}
               </h1>
               <p className="mb-8 text-muted-foreground text-xl">
-                {shopT.subtitle}
+                {t.shop.subtitle}
               </p>
 
               {/* Search and Filter */}
@@ -91,13 +90,13 @@ export default async function ShopPage({ params }: PageProps) {
                   <Search className="top-3 left-3 absolute w-4 h-4 text-muted-foreground" />
                   <input
                     type="text"
-                    placeholder={shopT.searchPlaceholder}
+                    placeholder={t.shop.searchPlaceholder}
                     className="bg-background px-10 py-2 border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring w-full text-sm"
                   />
                 </div>
                 <Button variant="outline" className="flex items-center gap-2">
                   <Filter className="w-4 h-4" />
-                  {shopT.filterLabel}
+                  {t.shop.filterLabel}
                 </Button>
               </div>
 
@@ -122,7 +121,7 @@ export default async function ShopPage({ params }: PageProps) {
           <div className="mx-auto px-4 container">
             <div className="mb-12 text-center">
               <h2 className="mb-4 font-bold text-foreground text-3xl">
-                {shopT.featuredTitle}
+                {t.shop.featuredTitle}
               </h2>
             </div>
 
@@ -158,8 +157,8 @@ export default async function ShopPage({ params }: PageProps) {
                           variant={product.inStock ? "default" : "secondary"}
                         >
                           {product.inStock
-                            ? shopT.inStockLabel
-                            : shopT.outOfStockLabel}
+                            ? t.shop.inStockLabel
+                            : t.shop.outOfStockLabel}
                         </Badge>
                       </div>
                     </div>
@@ -231,7 +230,7 @@ export default async function ShopPage({ params }: PageProps) {
           <div className="mx-auto px-4 container">
             <div className="mb-12 text-center">
               <h2 className="mb-4 font-bold text-foreground text-3xl">
-                {shopT.allProductsTitle}
+                {t.shop.allProductsTitle}
               </h2>
             </div>
 

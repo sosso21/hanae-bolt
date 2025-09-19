@@ -18,8 +18,7 @@ import {
 import { Minus, Plus, Trash2, ShoppingCart, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { Locale } from "@/lib/i18n";
-import { shopTranslations } from "@/constants/product-translations";
+import { Locale, translations } from "@/lib/i18n";
 
 interface CartDropdownProps {
   locale: Locale;
@@ -35,7 +34,7 @@ export const CartDropdown: React.FC<CartDropdownProps> = ({ locale }) => {
     getTotalPrice,
   } = useCart();
   const [isAnimating, setIsAnimating] = useState(false);
-  const shopT = shopTranslations[locale];
+  const t = translations[locale];
 
   const handleQuantityChange = (productId: number, newQuantity: number) => {
     if (newQuantity <= 0) {
@@ -62,7 +61,7 @@ export const CartDropdown: React.FC<CartDropdownProps> = ({ locale }) => {
         <div className="flex flex-col h-full">
           {/* Header */}
           <div className="flex justify-between items-center p-4 border-b">
-            <h2 className="font-semibold text-lg">{shopT.title}</h2>
+            <h2 className="font-semibold text-lg">{t.shop.cart.title}</h2>
             <Button variant="ghost" size="icon" onClick={closeCart}>
               <X className="w-4 h-4" />
             </Button>
@@ -74,14 +73,10 @@ export const CartDropdown: React.FC<CartDropdownProps> = ({ locale }) => {
               <div className="flex flex-col justify-center items-center py-12 text-center">
                 <ShoppingCart className="mb-4 w-12 h-12 text-muted-foreground" />
                 <p className="mb-4 text-muted-foreground">
-                  {locale === "fr"
-                    ? "Votre panier est vide"
-                    : locale === "en"
-                    ? "Your cart is empty"
-                    : "سلة التسوق فارغة"}
+                  {t.shop.cart.empty}
                 </p>
                 <Button asChild onClick={closeCart}>
-                  <Link href={`/${locale}/shop`}>{shopT.addToCartLabel}</Link>
+                  <Link href={`/${locale}/shop`}>{t.shop.addToCartLabel}</Link>
                 </Button>
               </div>
             ) : (
@@ -164,11 +159,7 @@ export const CartDropdown: React.FC<CartDropdownProps> = ({ locale }) => {
             <div className="space-y-4 p-4 border-t">
               <div className="flex justify-between items-center">
                 <span className="font-semibold text-lg">
-                  {locale === "fr"
-                    ? "Total"
-                    : locale === "en"
-                    ? "Total"
-                    : "المجموع"}
+                  {t.shop.cart.total}
                 </span>
                 <span className="font-bold text-primary text-lg">
                   {getTotalPrice()}€
@@ -179,55 +170,31 @@ export const CartDropdown: React.FC<CartDropdownProps> = ({ locale }) => {
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
                     <Button variant="outline" className="flex-1">
-                      {locale === "fr"
-                        ? "Vider le panier"
-                        : locale === "en"
-                        ? "Clear cart"
-                        : "إفراغ السلة"}
+                      {t.shop.cart.clearCart}
                     </Button>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
                       <AlertDialogTitle>
-                        {locale === "fr"
-                          ? "Vider le panier ?"
-                          : locale === "en"
-                          ? "Clear cart?"
-                          : "إفراغ السلة؟"}
+                        {t.shop.cart.clearCartTitle}
                       </AlertDialogTitle>
                       <AlertDialogDescription>
-                        {locale === "fr"
-                          ? "Cette action supprimera tous les articles de votre panier. Cette action ne peut pas être annulée."
-                          : locale === "en"
-                          ? "This action will remove all items from your cart. This action cannot be undone."
-                          : "هذا الإجراء سيزيل جميع العناصر من سلة التسوق. لا يمكن التراجع عن هذا الإجراء."}
+                        {t.shop.cart.clearCartDescription}
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                       <AlertDialogCancel>
-                        {locale === "fr"
-                          ? "Annuler"
-                          : locale === "en"
-                          ? "Cancel"
-                          : "إلغاء"}
+                        {t.shop.cart.cancel}
                       </AlertDialogCancel>
                       <AlertDialogAction onClick={clearCart}>
-                        {locale === "fr"
-                          ? "Vider le panier"
-                          : locale === "en"
-                          ? "Clear cart"
-                          : "إفراغ السلة"}
+                        {t.shop.cart.clearCart}
                       </AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
                 </AlertDialog>
                 <Button className="flex-1" asChild>
                   <Link href={`/${locale}/checkout`}>
-                    {locale === "fr"
-                      ? "Commander"
-                      : locale === "en"
-                      ? "Checkout"
-                      : "الدفع"}
+                    {t.shop.cart.checkout}
                   </Link>
                 </Button>
               </div>

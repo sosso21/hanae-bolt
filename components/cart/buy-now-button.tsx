@@ -5,8 +5,7 @@ import { Button } from "@/components/ui/button";
 import { CreditCard, Check } from "lucide-react";
 import { useCart } from "@/contexts/cart-context";
 import { LocalizedProduct } from "@/constants/products";
-import { Locale } from "@/lib/i18n";
-import { shopTranslations } from "@/constants/product-translations";
+import { Locale, translations } from "@/lib/i18n";
 import { useRouter } from "next/navigation";
 
 interface BuyNowButtonProps {
@@ -35,7 +34,7 @@ export const BuyNowButton: React.FC<BuyNowButtonProps> = ({
   const { setBuyNowMode } = useCart();
   const [isProcessing, setIsProcessing] = useState(false);
   const router = useRouter();
-  const shopT = shopTranslations[locale];
+  const t = translations[locale];
 
   const handleBuyNow = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -66,16 +65,12 @@ export const BuyNowButton: React.FC<BuyNowButtonProps> = ({
       {isProcessing ? (
         <>
           <Check className="mr-2 w-4 h-4" />
-          {locale === "fr"
-            ? "Redirection..."
-            : locale === "en"
-            ? "Redirecting..."
-            : "جاري التوجيه..."}
+          {t.shop.redirecting}
         </>
       ) : (
         <>
           <CreditCard className="mr-2 w-4 h-4" />
-          {shopT.buyNowLabel}
+          {t.shop.buyNowLabel}
         </>
       )}
     </Button>
