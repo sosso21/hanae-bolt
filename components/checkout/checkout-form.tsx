@@ -41,8 +41,10 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ locale }) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [isOrderComplete, setIsOrderComplete] = useState(false);
   const [formData, setFormData] = useState({
-    name: "",
+    lastname: "",
+    firstname: "",
     email: "",
+    confirmEmail: "",
     phone: "",
     address: "",
     city: "",
@@ -69,6 +71,19 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ locale }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Vérification que les emails correspondent
+    if (formData.email !== formData.confirmEmail) {
+      alert(
+        locale === "fr"
+          ? "Les adresses email ne correspondent pas"
+          : locale === "en"
+          ? "Email addresses do not match"
+          : "عنوان البريد الإلكتروني غير متطابق"
+      );
+      return;
+    }
+
     setIsProcessing(true);
 
     // Simulate order processing
@@ -317,39 +332,74 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ locale }) => {
                   <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="gap-4 grid grid-cols-1 md:grid-cols-2">
                       <div className="space-y-2">
-                        <Label htmlFor="name">
+                        <Label htmlFor="lastname">
                           {locale === "fr"
-                            ? "Nom complet"
+                            ? "Nom"
                             : locale === "en"
-                            ? "Full Name"
-                            : "الاسم الكامل"}
+                            ? "Last Name"
+                            : "اللقب"}
                         </Label>
                         <Input
-                          id="name"
-                          name="name"
-                          value={formData.name}
+                          id="lastname"
+                          name="lastname"
+                          value={formData.lastname}
                           onChange={handleInputChange}
                           required
                         />
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="email">
+                        <Label htmlFor="firstname">
                           {locale === "fr"
-                            ? "Email"
+                            ? "Prénom"
                             : locale === "en"
-                            ? "Email"
-                            : "البريد الإلكتروني"}
+                            ? "First Name"
+                            : "الاسم"}
                         </Label>
                         <Input
-                          id="email"
-                          name="email"
-                          type="email"
-                          value={formData.email}
+                          id="firstname"
+                          name="firstname"
+                          value={formData.firstname}
                           onChange={handleInputChange}
                           required
                         />
                       </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="email">
+                        {locale === "fr"
+                          ? "Email"
+                          : locale === "en"
+                          ? "Email"
+                          : "البريد الإلكتروني"}
+                      </Label>
+                      <Input
+                        id="email"
+                        name="email"
+                        type="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="confirmEmail">
+                        {locale === "fr"
+                          ? "Confirmez votre email"
+                          : locale === "en"
+                          ? "Confirm your email"
+                          : "تأكيد البريد الإلكتروني"}
+                      </Label>
+                      <Input
+                        id="confirmEmail"
+                        name="confirmEmail"
+                        type="email"
+                        value={formData.confirmEmail}
+                        onChange={handleInputChange}
+                        required
+                      />
                     </div>
 
                     <div className="space-y-2">

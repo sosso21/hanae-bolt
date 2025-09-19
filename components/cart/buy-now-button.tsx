@@ -37,7 +37,10 @@ export const BuyNowButton: React.FC<BuyNowButtonProps> = ({
   const router = useRouter();
   const shopT = shopTranslations[locale];
 
-  const handleBuyNow = async () => {
+  const handleBuyNow = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+
     setIsProcessing(true);
 
     // Set buy now mode and redirect to checkout

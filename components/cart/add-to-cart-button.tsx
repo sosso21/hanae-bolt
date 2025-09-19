@@ -37,7 +37,10 @@ export const AddToCartButton: React.FC<AddToCartButtonProps> = ({
 
   const isInCart = state.items.some((item) => item.product.id === product.id);
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+
     addToCart(product, quantity);
     setIsAdded(true);
     setTimeout(() => setIsAdded(false), 2000);
