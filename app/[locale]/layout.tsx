@@ -4,6 +4,7 @@ import { locales, Locale } from "@/lib/i18n";
 import { notFound } from "next/navigation";
 import { CartProvider } from "@/contexts/cart-context";
 import { CartDropdown } from "@/components/cart/cart-dropdown";
+import { NuqsProvider } from "@/components/providers/nuqs-provider";
 import "@/app/globals.css";
 
 interface RootLayoutProps {
@@ -38,11 +39,13 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <CartProvider locale={locale}>
-            {children}
-            <CartDropdown locale={locale} />
-            <Toaster />
-          </CartProvider>
+          <NuqsProvider>
+            <CartProvider locale={locale}>
+              {children}
+              <CartDropdown locale={locale} />
+              <Toaster />
+            </CartProvider>
+          </NuqsProvider>
         </ThemeProvider>
       </body>
     </html>

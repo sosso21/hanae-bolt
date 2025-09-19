@@ -11,9 +11,8 @@ import { Separator } from "@/components/ui/separator";
 import { Star, ArrowLeft, Check, Clock, Shield, Truck } from "lucide-react";
 import { AddToCartButton } from "@/components/cart/add-to-cart-button";
 import { BuyNowButton } from "@/components/cart/buy-now-button";
-import { locales, Locale } from "@/lib/i18n";
+import { locales, Locale, translations } from "@/lib/i18n";
 import { getProductBySlug, PRODUCTS } from "@/constants/products";
-import { shopTranslations } from "@/constants/product-translations";
 import { HANAE_INFO } from "@/constants";
 
 interface PageProps {
@@ -44,8 +43,10 @@ export async function generateMetadata({
     notFound();
   }
 
+  const t = translations[locale];
+
   return {
-    title: `${product.name} - Boutique ${HANAE_INFO.name}`,
+    title: `${product.name} - ${t.shop.title} ${HANAE_INFO.name}`,
     description: product.description,
     alternates: {
       canonical: `/${locale}/shop/${slug}`,
@@ -65,7 +66,7 @@ export default async function ProductPage({ params }: PageProps) {
     notFound();
   }
 
-  const shopT = shopTranslations[locale];
+  const t = translations[locale];
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -81,7 +82,7 @@ export default async function ProductPage({ params }: PageProps) {
                 className="flex items-center gap-2"
               >
                 <ArrowLeft className="w-4 h-4" />
-                {shopT.backToShopLabel}
+                {t.shop.backToShopLabel}
               </Link>
             </Button>
           </div>
@@ -170,8 +171,8 @@ export default async function ProductPage({ params }: PageProps) {
                   </div>
                   <Badge variant={product.inStock ? "default" : "secondary"}>
                     {product.inStock
-                      ? shopT.inStockLabel
-                      : shopT.outOfStockLabel}
+                      ? t.shop.inStockLabel
+                      : t.shop.outOfStockLabel}
                   </Badge>
                 </div>
 
@@ -205,27 +206,27 @@ export default async function ProductPage({ params }: PageProps) {
                 <div className="flex items-center space-x-2 text-sm">
                   <Shield className="w-4 h-4 text-green-600" />
                   <div>
-                    <p className="font-medium">{shopT.guaranteeTitle}</p>
+                    <p className="font-medium">{t.shop.guaranteeTitle}</p>
                     <p className="text-muted-foreground text-xs">
-                      {shopT.guaranteeText}
+                      {t.shop.guaranteeText}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-2 text-sm">
                   <Truck className="w-4 h-4 text-blue-600" />
                   <div>
-                    <p className="font-medium">{shopT.deliveryTitle}</p>
+                    <p className="font-medium">{t.shop.deliveryTitle}</p>
                     <p className="text-muted-foreground text-xs">
-                      {shopT.deliveryText}
+                      {t.shop.deliveryText}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-2 text-sm">
                   <Clock className="w-4 h-4 text-purple-600" />
                   <div>
-                    <p className="font-medium">{shopT.supportTitle}</p>
+                    <p className="font-medium">{t.shop.supportTitle}</p>
                     <p className="text-muted-foreground text-xs">
-                      {shopT.supportText}
+                      {t.shop.supportText}
                     </p>
                   </div>
                 </div>
@@ -239,7 +240,7 @@ export default async function ProductPage({ params }: PageProps) {
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Check className="w-5 h-5" />
-                      {shopT.specificationsTitle}
+                      {t.shop.specificationsTitle}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>

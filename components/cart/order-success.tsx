@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle, ShoppingBag } from "lucide-react";
 import Link from "next/link";
-import { Locale } from "@/lib/i18n";
+import { Locale, translations } from "@/lib/i18n";
 
 interface OrderSuccessProps {
   locale: Locale;
@@ -15,6 +15,7 @@ interface OrderSuccessProps {
 export const OrderSuccess: React.FC<OrderSuccessProps> = ({ locale }) => {
   const { getTotalItems } = useCart();
   const [orderNumber, setOrderNumber] = useState<string>("");
+  const t = translations[locale];
 
   useEffect(() => {
     // Generate a random order number
@@ -32,29 +33,17 @@ export const OrderSuccess: React.FC<OrderSuccessProps> = ({ locale }) => {
                 <CheckCircle className="w-8 h-8 text-green-600" />
               </div>
               <CardTitle className="text-2xl">
-                {locale === "fr"
-                  ? "Commande confirmée !"
-                  : locale === "en"
-                  ? "Order confirmed!"
-                  : "تم تأكيد الطلب!"}
+                {t.shop.orderSuccess.title}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <p className="text-muted-foreground">
-                {locale === "fr"
-                  ? "Merci pour votre commande. Nous vous contacterons bientôt pour confirmer les détails."
-                  : locale === "en"
-                  ? "Thank you for your order. We will contact you soon to confirm the details."
-                  : "شكراً لطلبك. سنتواصل معك قريباً لتأكيد التفاصيل."}
+                {t.shop.orderSuccess.description}
               </p>
 
               <div className="bg-muted/50 p-4 rounded-lg">
                 <p className="mb-1 text-muted-foreground text-sm">
-                  {locale === "fr"
-                    ? "Numéro de commande"
-                    : locale === "en"
-                    ? "Order number"
-                    : "رقم الطلب"}
+                  {t.shop.orderSuccess.orderNumber}
                 </p>
                 <p className="font-mono font-bold text-lg">{orderNumber}</p>
               </div>
@@ -63,20 +52,12 @@ export const OrderSuccess: React.FC<OrderSuccessProps> = ({ locale }) => {
                 <Button asChild className="flex-1">
                   <Link href={`/${locale}/shop`}>
                     <ShoppingBag className="mr-2 w-4 h-4" />
-                    {locale === "fr"
-                      ? "Continuer les achats"
-                      : locale === "en"
-                      ? "Continue shopping"
-                      : "متابعة التسوق"}
+                    {t.shop.orderSuccess.continueShopping}
                   </Link>
                 </Button>
                 <Button variant="outline" asChild className="flex-1">
                   <Link href={`/${locale}`}>
-                    {locale === "fr"
-                      ? "Retour à l'accueil"
-                      : locale === "en"
-                      ? "Back to home"
-                      : "العودة للرئيسية"}
+                    {t.shop.orderSuccess.backToHome}
                   </Link>
                 </Button>
               </div>

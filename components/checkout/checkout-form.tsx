@@ -20,8 +20,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Locale } from "@/lib/i18n";
-import { shopTranslations } from "@/constants/product-translations";
+import { Locale, translations } from "@/lib/i18n";
 import { OrderSuccess } from "@/components/cart/order-success";
 import Image from "next/image";
 
@@ -41,8 +40,10 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ locale }) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [isOrderComplete, setIsOrderComplete] = useState(false);
   const [formData, setFormData] = useState({
-    name: "",
+    lastname: "",
+    firstname: "",
     email: "",
+    confirmEmail: "",
     phone: "",
     address: "",
     city: "",
@@ -50,7 +51,7 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ locale }) => {
     message: "",
   });
 
-  const shopT = shopTranslations[locale];
+  const t = translations[locale];
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -69,6 +70,13 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ locale }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    
+    if (formData.email !== formData.confirmEmail) {
+      alert(t.shop.checkout.emailMismatch);
+      return;
+    }
+
     setIsProcessing(true);
 
     // Simulate order processing
@@ -101,19 +109,9 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ locale }) => {
       <div className="flex flex-col min-h-screen">
         <main className="flex flex-1 justify-center items-center">
           <div className="text-center">
-            <h1 className="mb-4 font-bold text-2xl">
-              {locale === "fr"
-                ? "Votre panier est vide"
-                : locale === "en"
-                ? "Your cart is empty"
-                : "سلتك فارغة"}
-            </h1>
+            <h1 className="mb-4 font-bold text-2xl">{t.shop.checkout.empty}</h1>
             <p className="text-muted-foreground">
-              {locale === "fr"
-                ? "Ajoutez des produits à votre panier pour continuer."
-                : locale === "en"
-                ? "Add products to your cart to continue."
-                : "أضف منتجات إلى سلة التسوق للمتابعة."}
+              {t.shop.checkout.emptyDescription}
             </p>
           </div>
         </main>
@@ -134,24 +132,12 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ locale }) => {
                     <div>
                       <CardTitle>
                         {state.buyNowMode
-                          ? locale === "fr"
-                            ? "Achat direct"
-                            : locale === "en"
-                            ? "Direct Purchase"
-                            : "شراء مباشر"
-                          : locale === "fr"
-                          ? "Résumé de la commande"
-                          : locale === "en"
-                          ? "Order Summary"
-                          : "ملخص الطلب"}
+                          ? t.shop.checkout.directPurchase
+                          : t.shop.checkout.orderSummary}
                       </CardTitle>
                       {state.buyNowMode && (
                         <p className="mt-1 text-muted-foreground text-sm">
-                          {locale === "fr"
-                            ? "Vous achetez directement ce produit"
-                            : locale === "en"
-                            ? "You are purchasing this product directly"
-                            : "أنت تشتري هذا المنتج مباشرة"}
+                          {t.shop.checkout.directPurchaseDescription}
                         </p>
                       )}
                     </div>
@@ -160,44 +146,24 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ locale }) => {
                         <AlertDialogTrigger asChild>
                           <Button variant="outline" size="sm">
                             <Trash2 className="mr-2 w-4 h-4" />
-                            {locale === "fr"
-                              ? "Vider"
-                              : locale === "en"
-                              ? "Clear"
-                              : "إفراغ"}
+                            {t.shop.cart.clear}
                           </Button>
                         </AlertDialogTrigger>
                         <AlertDialogContent>
                           <AlertDialogHeader>
                             <AlertDialogTitle>
-                              {locale === "fr"
-                                ? "Vider le panier ?"
-                                : locale === "en"
-                                ? "Clear cart?"
-                                : "إفراغ السلة؟"}
+                              {t.shop.cart.clearCartTitle}
                             </AlertDialogTitle>
                             <AlertDialogDescription>
-                              {locale === "fr"
-                                ? "Cette action supprimera tous les articles de votre panier. Cette action ne peut pas être annulée."
-                                : locale === "en"
-                                ? "This action will remove all items from your cart. This action cannot be undone."
-                                : "هذا الإجراء سيزيل جميع العناصر من سلة التسوق. لا يمكن التراجع عن هذا الإجراء."}
+                              {t.shop.cart.clearCartDescription}
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>
                             <AlertDialogCancel>
-                              {locale === "fr"
-                                ? "Annuler"
-                                : locale === "en"
-                                ? "Cancel"
-                                : "إلغاء"}
+                              {t.shop.cart.cancel}
                             </AlertDialogCancel>
                             <AlertDialogAction onClick={clearCart}>
-                              {locale === "fr"
-                                ? "Vider le panier"
-                                : locale === "en"
-                                ? "Clear cart"
-                                : "إفراغ السلة"}
+                              {t.shop.cart.clearCart}
                             </AlertDialogAction>
                           </AlertDialogFooter>
                         </AlertDialogContent>
@@ -287,11 +253,7 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ locale }) => {
 
                   <div className="flex justify-between items-center">
                     <span className="font-semibold text-lg">
-                      {locale === "fr"
-                        ? "Total"
-                        : locale === "en"
-                        ? "Total"
-                        : "المجموع"}
+                      {t.shop.checkout.total}
                     </span>
                     <span className="font-bold text-primary text-2xl">
                       {getTotalPrice()}€
@@ -305,47 +267,32 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ locale }) => {
             <div className="space-y-6">
               <Card>
                 <CardHeader>
-                  <CardTitle>
-                    {locale === "fr"
-                      ? "Informations de livraison"
-                      : locale === "en"
-                      ? "Delivery Information"
-                      : "معلومات التسليم"}
-                  </CardTitle>
+                  <CardTitle>{t.shop.checkout.deliveryInfo}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="gap-4 grid grid-cols-1 md:grid-cols-2">
                       <div className="space-y-2">
-                        <Label htmlFor="name">
-                          {locale === "fr"
-                            ? "Nom complet"
-                            : locale === "en"
-                            ? "Full Name"
-                            : "الاسم الكامل"}
+                        <Label htmlFor="lastname">
+                          {t.shop.checkout.lastname}
                         </Label>
                         <Input
-                          id="name"
-                          name="name"
-                          value={formData.name}
+                          id="lastname"
+                          name="lastname"
+                          value={formData.lastname}
                           onChange={handleInputChange}
                           required
                         />
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="email">
-                          {locale === "fr"
-                            ? "Email"
-                            : locale === "en"
-                            ? "Email"
-                            : "البريد الإلكتروني"}
+                        <Label htmlFor="firstname">
+                          {t.shop.checkout.firstname}
                         </Label>
                         <Input
-                          id="email"
-                          name="email"
-                          type="email"
-                          value={formData.email}
+                          id="firstname"
+                          name="firstname"
+                          value={formData.firstname}
                           onChange={handleInputChange}
                           required
                         />
@@ -353,13 +300,33 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ locale }) => {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="phone">
-                        {locale === "fr"
-                          ? "Téléphone"
-                          : locale === "en"
-                          ? "Phone"
-                          : "الهاتف"}
+                      <Label htmlFor="email">{t.shop.checkout.email}</Label>
+                      <Input
+                        id="email"
+                        name="email"
+                        type="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="confirmEmail">
+                        {t.shop.checkout.confirmEmail}
                       </Label>
+                      <Input
+                        id="confirmEmail"
+                        name="confirmEmail"
+                        type="email"
+                        value={formData.confirmEmail}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="phone">{t.shop.checkout.phone}</Label>
                       <Input
                         id="phone"
                         name="phone"
@@ -371,13 +338,7 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ locale }) => {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="address">
-                        {locale === "fr"
-                          ? "Adresse"
-                          : locale === "en"
-                          ? "Address"
-                          : "العنوان"}
-                      </Label>
+                      <Label htmlFor="address">{t.shop.checkout.address}</Label>
                       <Input
                         id="address"
                         name="address"
@@ -389,13 +350,7 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ locale }) => {
 
                     <div className="gap-4 grid grid-cols-1 md:grid-cols-2">
                       <div className="space-y-2">
-                        <Label htmlFor="city">
-                          {locale === "fr"
-                            ? "Ville"
-                            : locale === "en"
-                            ? "City"
-                            : "المدينة"}
-                        </Label>
+                        <Label htmlFor="city">{t.shop.checkout.city}</Label>
                         <Input
                           id="city"
                           name="city"
@@ -407,11 +362,7 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ locale }) => {
 
                       <div className="space-y-2">
                         <Label htmlFor="postalCode">
-                          {locale === "fr"
-                            ? "Code postal"
-                            : locale === "en"
-                            ? "Postal Code"
-                            : "الرمز البريدي"}
+                          {t.shop.checkout.postalCode}
                         </Label>
                         <Input
                           id="postalCode"
@@ -424,13 +375,7 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ locale }) => {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="message">
-                        {locale === "fr"
-                          ? "Message (optionnel)"
-                          : locale === "en"
-                          ? "Message (optional)"
-                          : "رسالة (اختياري)"}
-                      </Label>
+                      <Label htmlFor="message">{t.shop.checkout.message}</Label>
                       <Textarea
                         id="message"
                         name="message"
@@ -449,20 +394,12 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ locale }) => {
                       {isProcessing ? (
                         <>
                           <CheckCircle className="mr-2 w-4 h-4 animate-spin" />
-                          {locale === "fr"
-                            ? "Traitement..."
-                            : locale === "en"
-                            ? "Processing..."
-                            : "جاري المعالجة..."}
+                          {t.shop.checkout.processing}
                         </>
                       ) : (
                         <>
                           <CreditCard className="mr-2 w-4 h-4" />
-                          {locale === "fr"
-                            ? "Confirmer la commande"
-                            : locale === "en"
-                            ? "Confirm Order"
-                            : "تأكيد الطلب"}
+                          {t.shop.checkout.confirmOrder}
                         </>
                       )}
                     </Button>
