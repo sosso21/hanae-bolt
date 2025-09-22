@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
@@ -14,6 +13,7 @@ import { BuyNowButton } from "@/components/cart/buy-now-button";
 import { locales, Locale, translations } from "@/lib/i18n";
 import { getProductBySlug, PRODUCTS } from "@/constants/products";
 import { HANAE_INFO } from "@/constants";
+import ProductImages from "@/components/ProductSheetImages";
 
 interface PageProps {
   params: Promise<{ locale: Locale; slug: string }>;
@@ -89,51 +89,7 @@ export default async function ProductPage({ params }: PageProps) {
 
           <div className="gap-12 grid grid-cols-1 lg:grid-cols-2">
             {/* Product Images */}
-            <div className="space-y-4">
-              <div className="relative rounded-lg aspect-square overflow-hidden">
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  fill
-                  className="object-cover"
-                  priority
-                />
-                {product.originalPrice && (
-                  <div className="top-4 left-4 absolute">
-                    <Badge variant="destructive">
-                      -
-                      {Math.round(
-                        ((product.originalPrice - product.price) /
-                          product.originalPrice) *
-                          100
-                      )}
-                      %
-                    </Badge>
-                  </div>
-                )}
-              </div>
-
-              {/* Thumbnail Images */}
-              {product.images.length > 1 && (
-                <div className="gap-2 grid grid-cols-4">
-                  {product.images.slice(1).map((image, index) => (
-                    <div
-                      key={index}
-                      className="relative rounded-md aspect-square overflow-hidden"
-                    >
-                      <Image
-                        src={image}
-                        alt={`${product.name} ${index + 2}`}
-                        fill
-                        className="object-cover hover:scale-110 transition-transform cursor-pointer"
-                      />
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* Product Info */}
+            <ProductImages product={product} /> {/* Product Info */}
             <div className="space-y-6">
               <div>
                 <div className="flex justify-between items-center mb-2">
