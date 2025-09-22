@@ -34,6 +34,7 @@ export interface ShopTranslation {
     formations: string;
     templates: string;
     consulting: string;
+    merchandising: string;
   };
 }
 
@@ -114,6 +115,80 @@ export const productTranslations: Record<
         Révisions: "Illimitées",
       },
     },
+    // Nouveaux produits HANAE - T-shirts
+    "tshirt-hanae-classic": {
+      name: "T-shirt HANAE Classic",
+      description:
+        "T-shirt premium 100% coton avec logo HANAE brodé. Confortable et durable, parfait pour le quotidien.",
+      tags: ["T-shirt", "Coton", "Broderie", "HANAE"],
+      specifications: {
+        Matière: "100% coton bio",
+        "Tailles disponibles": "XS à XXL",
+        Couleurs: "Noir, Blanc, Gris",
+        Entretien: "Lavage machine 30°",
+      },
+    },
+    "tshirt-hanae-premium": {
+      name: "T-shirt HANAE Premium",
+      description:
+        "T-shirt haut de gamme en coton pima avec impression qualité premium. Design exclusif HANAE.",
+      tags: ["T-shirt", "Premium", "Coton Pima", "HANAE"],
+      specifications: {
+        Matière: "100% coton pima",
+        "Tailles disponibles": "S à XXXL",
+        Couleurs: "Noir, Blanc, Bleu navy",
+        "Technique d'impression": "Sérigraphie premium",
+      },
+    },
+    "tshirt-hanae-limited": {
+      name: "T-shirt HANAE Limited Edition",
+      description:
+        "Édition limitée avec design exclusif et numéroté. Matière ultra-confortable et coupe moderne.",
+      tags: ["T-shirt", "Limited", "Édition spéciale", "HANAE"],
+      specifications: {
+        Matière: "Coton bio et elastane",
+        "Tailles disponibles": "M à XXL",
+        Édition: "Numérotée",
+        Exclusivité: "500 pièces seulement",
+      },
+    },
+    // Nouveaux produits HANAE - Doudounes
+    "doudoune-hanae-urban": {
+      name: "Doudoune HANAE Urban",
+      description:
+        "Doudoune légère et stylée pour un look urbain. Parfaite pour les températures fraîches.",
+      tags: ["Doudoune", "Urban", "Léger", "HANAE"],
+      specifications: {
+        Matière: "Polyester technique",
+        Isolation: "Ouate synthétique",
+        "Tailles disponibles": "XS à XXL",
+        Poids: "450g",
+      },
+    },
+    "doudoune-hanae-tech": {
+      name: "Doudoune HANAE Tech",
+      description:
+        "Doudoune technique avec technologie waterproof et breathable. Idéale pour les activités outdoor.",
+      tags: ["Doudoune", "Technique", "Waterproof", "HANAE"],
+      specifications: {
+        Matière: "Nylon technique",
+        Imperméabilité: "5000mm",
+        Respirabilité: "5000g/m²/24h",
+        Poches: "6 poches multiples",
+      },
+    },
+    "doudoune-hanae-premium": {
+      name: "Doudoune HANAE Premium",
+      description:
+        "Doudoune haut de gamme avec duvet d'oie et coupe ajustée. Excellence qualité et design raffiné.",
+      tags: ["Doudoune", "Premium", "Duvet", "HANAE"],
+      specifications: {
+        Matière: "Nylon ripstop",
+        Isolation: "Duvet d'oie 90/10",
+        "Température confort": "Jusqu'à -15°C",
+        Certification: "Responsible Down Standard",
+      },
+    },
   },
   en: {
     "site-web-vitrine": {
@@ -186,6 +261,80 @@ export const productTranslations: Record<
         Formats: "All formats",
         Charter: "Complete guide",
         Revisions: "Unlimited",
+      },
+    },
+    // New HANAE products - T-shirts
+    "tshirt-hanae-classic": {
+      name: "HANAE Classic T-shirt",
+      description:
+        "Premium 100% cotton t-shirt with embroidered HANAE logo. Comfortable and durable, perfect for everyday wear.",
+      tags: ["T-shirt", "Cotton", "Embroidered", "HANAE"],
+      specifications: {
+        Material: "100% organic cotton",
+        "Available sizes": "XS to XXL",
+        Colors: "Black, White, Gray",
+        Care: "Machine wash 30°",
+      },
+    },
+    "tshirt-hanae-premium": {
+      name: "HANAE Premium T-shirt",
+      description:
+        "High-end pima cotton t-shirt with premium quality print. Exclusive HANAE design.",
+      tags: ["T-shirt", "Premium", "Pima Cotton", "HANAE"],
+      specifications: {
+        Material: "100% pima cotton",
+        "Available sizes": "S to XXXL",
+        Colors: "Black, White, Navy blue",
+        "Printing technique": "Premium screen printing",
+      },
+    },
+    "tshirt-hanae-limited": {
+      name: "HANAE Limited Edition T-shirt",
+      description:
+        "Limited edition with exclusive numbered design. Ultra-comfortable material and modern cut.",
+      tags: ["T-shirt", "Limited", "Special edition", "HANAE"],
+      specifications: {
+        Material: "Organic cotton and elastane",
+        "Available sizes": "M to XXL",
+        Edition: "Numbered",
+        Exclusivity: "Only 500 pieces",
+      },
+    },
+    // New HANAE products - Jackets
+    "doudoune-hanae-urban": {
+      name: "HANAE Urban Jacket",
+      description:
+        "Light and stylish jacket for an urban look. Perfect for cool temperatures.",
+      tags: ["Jacket", "Urban", "Lightweight", "HANAE"],
+      specifications: {
+        Material: "Technical polyester",
+        Insulation: "Synthetic wadding",
+        "Available sizes": "XS to XXL",
+        Weight: "450g",
+      },
+    },
+    "doudoune-hanae-tech": {
+      name: "HANAE Tech Jacket",
+      description:
+        "Technical jacket with waterproof and breathable technology. Ideal for outdoor activities.",
+      tags: ["Jacket", "Technical", "Waterproof", "HANAE"],
+      specifications: {
+        Material: "Technical nylon",
+        Waterproof: "5000mm",
+        Breathability: "5000g/m²/24h",
+        Pockets: "6 multiple pockets",
+      },
+    },
+    "doudoune-hanae-premium": {
+      name: "HANAE Premium Jacket",
+      description:
+        "High-end jacket with goose down and fitted cut. Excellent quality and refined design.",
+      tags: ["Jacket", "Premium", "Down", "HANAE"],
+      specifications: {
+        Material: "Ripstop nylon",
+        Insulation: "90/10 goose down",
+        "Comfort temperature": "Up to -15°C",
+        Certification: "Responsible Down Standard",
       },
     },
   },
@@ -262,6 +411,78 @@ export const productTranslations: Record<
         المراجعات: "غير محدودة",
       },
     },
+    // منتجات HANAE الجديدة - تيشرتات
+    "tshirt-hanae-classic": {
+      name: "تيشرت HANAE كلاسيك",
+      description:
+        "تيشرت مميز 100% قطن مع شعار HANAE مطرز. مريح ومتين، مثالي للارتداء اليومي.",
+      tags: ["تيشرت", "قطن", "تطريز", "HANAE"],
+      specifications: {
+        المادة: "100% قطن عضوي",
+        "المقاسات المتاحة": "XS إلى XXL",
+        الألوان: "أسود, أبيض, رمادي",
+        العناية: "غسيل آلي 30°",
+      },
+    },
+    "tshirt-hanae-premium": {
+      name: "تيشرت HANAE بريميوم",
+      description:
+        "تيشرت فاخر من قطن بيما مع طباعة عالية الجودة. تصميم HANAE الحصري.",
+      tags: ["تيشرت", "بريميوم", "قطن بيما", "HANAE"],
+      specifications: {
+        المادة: "100% قطن بيما",
+        "المقاسات المتاحة": "S إلى XXXL",
+        الألوان: "أسود, أبيض, أزرق بحري",
+        "تقنية الطباعة": "سلك سكرين بريميوم",
+      },
+    },
+    "tshirt-hanae-limited": {
+      name: "تيشرت HANAE إصدار محدود",
+      description: "إصدار محدود بتصميم حصري مرقم. قماش مريح للغاية وقصة عصرية.",
+      tags: ["تيشرت", "محدود", "إصدار خاص", "HANAE"],
+      specifications: {
+        المادة: "قطن عضوي وإيلاستين",
+        "المقاسات المتاحة": "M إلى XXL",
+        الإصدار: "مرقم",
+        الحصرية: "500 قطعة فقط",
+      },
+    },
+    // منتجات HANAE الجديدة - داونجات
+    "doudoune-hanae-urban": {
+      name: "جاكت HANAE حضري",
+      description: "جاكت خفيف وأنيق للمظهر الحضري. مثالي للطقس البارد.",
+      tags: ["جاكت", "حضري", "خفيف", "HANAE"],
+      specifications: {
+        المادة: "بوليستر تقني",
+        العزل: "حشوة صناعية",
+        "المقاسات المتاحة": "XS إلى XXL",
+        الوزن: "450 جرام",
+      },
+    },
+    "doudoune-hanae-tech": {
+      name: "جاكت HANAE تقني",
+      description:
+        "جاكت تقني بتقنية مقاومة للماء وتنفس. مثالي للأنشطة الخارجية.",
+      tags: ["جاكت", "تقني", "مقاوم للماء", "HANAE"],
+      specifications: {
+        المادة: "نايلون تقني",
+        "مقاومة الماء": "5000 ملم",
+        "القدرة على التنفس": "5000 جم/م²/24س",
+        الجيوب: "6 جيوب متعددة",
+      },
+    },
+    "doudoune-hanae-premium": {
+      name: "جاكت HANAE بريميوم",
+      description:
+        "جاكت فاخر مع زغب الإوز وقصة ملائمة. جودة ممتازة وتصميم راق.",
+      tags: ["جاكت", "بريميوم", "زغب", "HANAE"],
+      specifications: {
+        المادة: "نايلون مضاد للتمزق",
+        العزل: "زغب إوز 90/10",
+        "درجة حرارة الراحة": "حتى -15°م",
+        الشهادة: "معيار الزغب المسؤول",
+      },
+    },
   },
 };
 
@@ -293,6 +514,7 @@ export const shopTranslations: Record<Locale, ShopTranslation> = {
       formations: "Formations",
       templates: "Templates",
       consulting: "Consulting",
+      merchandising: "Merchandising",
     },
   },
   en: {
@@ -322,6 +544,7 @@ export const shopTranslations: Record<Locale, ShopTranslation> = {
       formations: "Training",
       templates: "Templates",
       consulting: "Consulting",
+      merchandising: "Merchandising",
     },
   },
   ar: {
@@ -351,6 +574,7 @@ export const shopTranslations: Record<Locale, ShopTranslation> = {
       formations: "التدريب",
       templates: "القوالب",
       consulting: "الاستشارات",
+      merchandising: "المتاجر",
     },
   },
 };
