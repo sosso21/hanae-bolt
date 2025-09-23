@@ -14,6 +14,7 @@
 
 # production
 /build
+/.next/
 
 # misc
 .DS_Store
@@ -30,6 +31,7 @@ yarn-error.log*
 
 # vercel
 .vercel
+
 
 # typescript
 *.tsbuildinfo

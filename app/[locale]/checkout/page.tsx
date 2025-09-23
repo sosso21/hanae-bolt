@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { CheckoutForm } from "@/components/checkout/checkout-form";
 import { locales, Locale, translations } from "@/lib/i18n";
 import { HANAE_INFO } from "@/constants";
+import { CheckoutForm } from "@/components/checkout/checkout-form";
 
 interface CheckoutPageProps {
   params: Promise<{ locale: Locale }>;
@@ -44,9 +44,5 @@ export default async function CheckoutPage({ params }: CheckoutPageProps) {
     notFound();
   }
 
-  return (
-    <div className="flex flex-col min-h-screen">
-      <CheckoutForm locale={locale} />
-    </div>
-  );
+  return <CheckoutForm locale={locale} />;
 }
