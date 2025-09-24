@@ -1,4 +1,9 @@
 import { NextResponse } from "next/server";
+import Stripe from "stripe";
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  //
+});
 
 export async function GET(
   req: Request,
@@ -7,7 +12,7 @@ export async function GET(
   try {
     const { id } = params;
 
-    const res = await fetch(
+    const shopifyRes = await fetch(
       `https://${process.env.NEXT_SHOPIFY_STORE_DOMAIN}/admin/api/2023-10/orders/${id}.json`,
       {
         method: "GET",
@@ -18,17 +23,53 @@ export async function GET(
       }
     );
 
-    if (!res.ok) {
+    if (!shopifyRes.ok) {
       return NextResponse.json(
-        { error: "ERROR FETCHING ORDER" },
-        { status: res.status }
+        { error: "ERROR_ORDER" },
+        { status: shopifyRes.status }
       );
     }
 
-    const data = await res.json();
-    return NextResponse.json(data, { status: 200 });
-  } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
+    const { order } = await shopifyRes.json();
+
+    // 2️⃣ Extraire le total (en centimes pour Stripe)
+    const totalAmount = Math.round(parseFloat(order.current_total_price) * 100);
+
+    if (!totalAmount || totalAmount <= 0) {
+      return NextResponse.json({ error: "Montant invalide" }, { status: 400 });
+    }
+
+    const paymentLink = await stripe.paymentLinks.create({
+      line_items: [
+        {
+          quantity: 1,
+          price_data: {
+            currency: order.currency.toLowerCase() || "eur",
+            unit_amount: totalAmount,
+            product_data: {
+              name: `Commande ID: #${order.id}`,
+              description: `Commende: ${order.name}`,
+            },
+          },
+        },
+      ],
+      after_completion: {
+        type: "redirect",
+        redirect: {
+          url: `${
+            process.env.NEXT_PUBLIC_SUCCESS_URL ||
+            "http://localhost:3000/api/success"
+          }/${order.id}`,
+        },
+      },
+    });
+
+    return NextResponse.redirect(paymentLink.url);
+  } catch (error: any) {
+    console.error("ERROR_ORDER:", error);
+    return NextResponse.json(
+      { error: error.message || "ERROR_SERVER" },
+      { status: 500 }
+    );
   }
 }
