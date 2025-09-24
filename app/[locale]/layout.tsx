@@ -6,6 +6,7 @@ import { CartProvider } from "@/contexts/cart-context";
 import { CartDropdown } from "@/components/cart/cart-dropdown";
 import { NuqsProvider } from "@/components/providers/nuqs-provider";
 import "@/app/globals.css";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 interface RootLayoutProps {
   children: React.ReactNode;
@@ -41,7 +42,7 @@ export default async function RootLayout({
         >
           <NuqsProvider>
             <CartProvider locale={locale}>
-              {children}
+              <NuqsAdapter>{children}</NuqsAdapter>
               <CartDropdown locale={locale} />
               <Toaster />
             </CartProvider>
