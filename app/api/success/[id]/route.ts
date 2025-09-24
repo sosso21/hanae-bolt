@@ -10,6 +10,29 @@ export async function GET(
       return NextResponse.json({ error: "ERROR_MISSING_ID" }, { status: 400 });
     }
 
+    // ✅ Verify with Stripe first
+    const verifyRes = await fetch(
+      `${
+        process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
+      }/api/verify/${id}`
+    );
+
+    if (!verifyRes.ok) {
+      return NextResponse.json(
+        { error: "ERROR_VERIFY_PAYMENT" },
+        { status: verifyRes.status }
+      );
+    }
+
+    const verifyData = await verifyRes.json();
+    if (!verifyData.paid) {
+      return NextResponse.json(
+        { error: "ERROR_PAYMENT_NOT_CONFIRMED" },
+        { status: 400 }
+      );
+    }
+
+    // ✅ Fetch order from Shopify
     const orderRes = await fetch(
       `https://${process.env.NEXT_SHOPIFY_STORE_DOMAIN}/admin/api/2023-10/orders/${id}.json`,
       {
@@ -28,6 +51,7 @@ export async function GET(
 
     const { order } = await orderRes.json();
 
+    // ✅ Fetch existing transactions
     const txnsRes = await fetch(
       `https://${process.env.NEXT_SHOPIFY_STORE_DOMAIN}/admin/api/2023-10/orders/${id}/transactions.json`,
       {
@@ -52,6 +76,7 @@ export async function GET(
       kind = "capture";
     }
 
+    // ✅ Create transaction in Shopify
     const txnRes = await fetch(
       `https://${process.env.NEXT_SHOPIFY_STORE_DOMAIN}/admin/api/2023-10/orders/${id}/transactions.json`,
       {
@@ -80,6 +105,7 @@ export async function GET(
       );
     }
 
+    // ✅ Redirect to store
     const redirectUrl =
       process.env.NEXT_PUBLIC_STORE_URL || "http://localhost:3000";
 

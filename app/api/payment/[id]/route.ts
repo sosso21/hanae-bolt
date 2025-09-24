@@ -1,9 +1,7 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  // -
-});
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function GET(
   req: Request,
@@ -15,7 +13,6 @@ export async function GET(
     const shopifyRes = await fetch(
       `https://${process.env.NEXT_SHOPIFY_STORE_DOMAIN}/admin/api/2023-10/orders/${id}.json`,
       {
-        method: "GET",
         headers: {
           "X-Shopify-Access-Token": process.env.NEXT_SHOPIFY_ACCESS_TOKEN || "",
           "Content-Type": "application/json",
@@ -31,12 +28,13 @@ export async function GET(
     }
 
     const { order } = await shopifyRes.json();
-
-    // 2️⃣ Extraire le total (en centimes pour Stripe)
     const totalAmount = Math.round(parseFloat(order.current_total_price) * 100);
 
     if (!totalAmount || totalAmount <= 0) {
-      return NextResponse.json({ error: "Montant invalide" }, { status: 400 });
+      return NextResponse.json(
+        { error: "ERROR_INVALID_AMOUNT" },
+        { status: 400 }
+      );
     }
 
     const paymentLink = await stripe.paymentLinks.create({
@@ -47,8 +45,8 @@ export async function GET(
             currency: order.currency.toLowerCase() || "eur",
             unit_amount: totalAmount,
             product_data: {
-              name: `Commande ID: #${order.id}`,
-              description: `Commende: ${order.name}`,
+              name: `Order #${order.id}`,
+              description: order.name,
             },
           },
         },
@@ -62,11 +60,14 @@ export async function GET(
           }/${order.id}`,
         },
       },
+      metadata: {
+        shopify_order_id: order.id.toString(),
+      },
     });
 
     return NextResponse.redirect(paymentLink.url);
   } catch (error: any) {
-    console.error("ERROR_ORDER:", error);
+    console.error("ERROR_PAYMENT:", error);
     return NextResponse.json(
       { error: error.message || "ERROR_SERVER" },
       { status: 500 }
