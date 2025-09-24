@@ -5,10 +5,25 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await context.params;
+
+    const sessions = await stripe.checkout.sessions.list({ limit: 50 });
+
+    const existingSession = sessions.data.find(
+      (s) =>
+        s.metadata?.shopify_order_id === id.toString() &&
+        s.payment_status === "paid"
+    );
+
+    if (existingSession) {
+      const redirectUrl =
+        process.env.NEXT_PUBLIC_SUCCESS_URL ||
+        "http://localhost:3000/api/success";
+      return NextResponse.redirect(`${redirectUrl}/${id}`);
+    }
 
     const shopifyRes = await fetch(
       `https://${process.env.NEXT_SHOPIFY_STORE_DOMAIN}/admin/api/2023-10/orders/${id}.json`,
@@ -37,10 +52,10 @@ export async function GET(
       );
     }
 
-    const paymentLink = await stripe.paymentLinks.create({
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
       line_items: [
         {
-          quantity: 1,
           price_data: {
             currency: order.currency.toLowerCase() || "eur",
             unit_amount: totalAmount,
@@ -49,25 +64,25 @@ export async function GET(
               description: order.name,
             },
           },
+          quantity: 1,
         },
       ],
-      after_completion: {
-        type: "redirect",
-        redirect: {
-          url: `${
-            process.env.NEXT_PUBLIC_SUCCESS_URL ||
-            "http://localhost:3000/api/success"
-          }/${order.id}`,
-        },
-      },
+      mode: "payment",
+      success_url: `${
+        process.env.NEXT_PUBLIC_SUCCESS_URL ||
+        "http://localhost:3000/api/success"
+      }/${order.id}`,
+      cancel_url:
+        process.env.NEXT_PUBLIC_CANCEL_URL || "http://localhost:3000/cancel",
       metadata: {
         shopify_order_id: order.id.toString(),
       },
     });
 
-    return NextResponse.redirect(paymentLink.url);
-  } catch (error: any) {
-    console.error("ERROR_PAYMENT:", error);
+    return NextResponse.redirect(session.url!, {
+      headers: { "Referrer-Policy": "no-referrer" },
+    });
+  } catch (error: any) { 
     return NextResponse.json(
       { error: error.message || "ERROR_SERVER" },
       { status: 500 }

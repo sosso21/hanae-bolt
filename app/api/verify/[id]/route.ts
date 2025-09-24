@@ -28,8 +28,7 @@ export async function GET(
     }
 
     return NextResponse.json({ paid: true, session });
-  } catch (error: any) {
-    console.error("ERROR_VERIFY:", error);
+  } catch (error: any) { 
     return NextResponse.json(
       { error: error.message || "ERROR_SERVER" },
       { status: 500 }

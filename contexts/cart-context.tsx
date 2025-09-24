@@ -156,7 +156,7 @@ export const CartProvider: React.FC<{
         const parsedCart = JSON.parse(savedCart);
         dispatch({ type: "LOAD_CART", payload: { items: parsedCart } });
       } catch (error) {
-        console.error("Error loading cart from localStorage:", error);
+        //
       }
     }
   }, [locale]);

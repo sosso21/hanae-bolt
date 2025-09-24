@@ -63,7 +63,7 @@ export async function GET(
 
     if (!txnsRes.ok) {
       const err = await txnsRes.text();
-      console.error("ERROR_FETCH_TRANSACTIONS:", err);
+     
       return NextResponse.json(
         { error: "ERROR_FETCH_TRANSACTIONS" },
         { status: txnsRes.status }
@@ -98,7 +98,7 @@ export async function GET(
 
     if (!txnRes.ok) {
       const err = await txnRes.text();
-      console.error("ERROR_CREATE_TRANSACTION:", err);
+     
       return NextResponse.json(
         { error: "ERROR_CREATE_TRANSACTION", details: err },
         { status: txnRes.status }
@@ -111,7 +111,7 @@ export async function GET(
 
     return NextResponse.redirect(redirectUrl);
   } catch (error: any) {
-    console.error("ERROR_SERVER:", error);
+    
     return NextResponse.json(
       { error: error.message || "ERROR_SERVER" },
       { status: 500 }
