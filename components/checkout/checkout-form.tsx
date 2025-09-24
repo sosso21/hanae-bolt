@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { CreditCard, CheckCircle } from "lucide-react";
 import { Locale, translations } from "@/lib/i18n";
 import { OrderSuccess } from "@/components/cart/order-success";
-import { useQueryStates, parseAsInteger } from "nuqs";
+import { parseAsInteger } from "nuqs";
 import { LocaleOrderSummary } from "./locale-order-summary";
 
 const searchParams = {
@@ -38,7 +38,6 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ locale }) => {
     message: "",
   });
 
-  const [{ order, amount }] = useQueryStates(searchParams);
   const t = translations[locale];
 
   const handleInputChange = (
@@ -78,7 +77,7 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ locale }) => {
     return <OrderSuccess locale={locale} />;
   }
 
-  if (displayItems.length === 0 && order === null) {
+  if (displayItems.length === 0) {
     return (
       <div className="flex flex-col min-h-screen">
         <main className="flex flex-1 justify-center items-center">
@@ -97,24 +96,10 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ locale }) => {
     <div className="flex flex-col min-h-screen">
       <main className="flex-1 py-8">
         <div className="mx-auto px-4 max-w-6xl container">
-          {(order !== null || amount !== null) && (
-            <div className="bg-muted mb-6 p-4 rounded-lg">
-              <h3 className="mb-2 font-semibold">URL Parameters:</h3>
-              <pre className="text-sm">
-                {JSON.stringify({ order, amount }, null, 2)}
-              </pre>
-            </div>
-          )}
-
           <div className="gap-8 grid grid-cols-1 lg:grid-cols-2">
             {/* ✅ locale order summary extrait dans un composant */}
-            {!!order ? (
-              <div className="space-y-6">{/*    not ready  */}</div>
-            ) : (
-              <div className="space-y-6">
-                <LocaleOrderSummary locale={locale} />
-              </div>
-            )}
+
+            <LocaleOrderSummary locale={locale} />
 
             {/* Checkout Form */}
             <div className="space-y-6">
