@@ -15,9 +15,7 @@ export async function GET(
     if (verifyRes.ok) {
       const { paid } = await verifyRes.json();
       if (paid) {
-        const redirectUrl =
-          process.env.NEXT_PUBLIC_PAYPAL_SUCCESS_URL ||
-          "http://localhost:3000/api/paypal/success";
+        const redirectUrl = process.env.NEXT_PUBLIC_PAYPAL_SUCCESS_URL;
         return NextResponse.redirect(`${redirectUrl}/${id}`);
       }
     }

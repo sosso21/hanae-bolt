@@ -14,6 +14,7 @@ export async function GET() {
     NEXT_PUBLIC_CANCEL_URL: process.env.NEXT_PUBLIC_CANCEL_URL,
     PAYPAL_CLIENT_ID: process.env.PAYPAL_CLIENT_ID,
     PAYPAL_SECRET: process.env.PAYPAL_SECRET,
+    NEXT_PUBLIC_PAYPAL_SUCCESS_URL: process.env?.NEXT_PUBLIC_PAYPAL_SUCCESS_URL,
   };
 
   const used = {
@@ -25,7 +26,7 @@ export async function GET() {
     NEXT_PUBLIC_CANCEL_URL: process.env.NEXT_PUBLIC_CANCEL_URL,
     PAYPAL_CLIENT_ID: process.env.PAYPAL_CLIENT_ID,
     PAYPAL_SECRET: process.env.PAYPAL_SECRET,
-    NEXT_PUBLIC_STORE_URL: process.env.NEXT_PUBLIC_STORE_URL,
+    NEXT_PUBLIC_PAYPAL_SUCCESS_URL: process.env?.NEXT_PUBLIC_PAYPAL_SUCCESS_URL,
   };
 
   return NextResponse.json({

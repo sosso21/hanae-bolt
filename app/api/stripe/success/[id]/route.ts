@@ -1,5 +1,5 @@
 //  app/api/stripe/success/[id]/route.ts
-// - 
+// -
 import { NextResponse } from "next/server";
 
 export async function GET(
@@ -14,9 +14,7 @@ export async function GET(
 
     // ✅ Verify with Stripe first
     const verifyRes = await fetch(
-      `${
-        process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
-      }/api/stripe/verify/${id}`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/stripe/verify/${id}`
     );
 
     if (!verifyRes.ok) {
@@ -112,8 +110,7 @@ export async function GET(
     }
 
     // ✅ Redirect to store
-    const redirectUrl =
-      `${process.env.NEXT_PUBLIC_STORE_URL || "http://localhost:3000"}/fr/success`;
+    const redirectUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/fr/success`;
 
     return NextResponse.redirect(redirectUrl);
   } catch (error: any) {

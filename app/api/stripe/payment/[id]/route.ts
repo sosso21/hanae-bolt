@@ -1,4 +1,4 @@
-// app/api/stripe/payment/[id]/route.ts 
+// app/api/stripe/payment/[id]/route.ts
 // -
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
@@ -21,9 +21,7 @@ export async function GET(
     );
 
     if (existingSession) {
-      const redirectUrl =
-        process.env.NEXT_PUBLIC_STRIPE_SUCCESS_URL ||
-        "http://localhost:3000/api/stripe/success";
+      const redirectUrl = process.env.NEXT_PUBLIC_STRIPE_SUCCESS_URL;
       return NextResponse.redirect(`${redirectUrl}/${id}`);
     }
 
@@ -70,12 +68,8 @@ export async function GET(
         },
       ],
       mode: "payment",
-      success_url: `${
-        process.env.NEXT_PUBLIC_STRIPE_SUCCESS_URL ||
-        "http://localhost:3000/api/stripe/success"
-      }/${order.id}`,
-      cancel_url:
-        process.env.NEXT_PUBLIC_CANCEL_URL || "http://localhost:3000/cancel",
+      success_url: `${process.env.NEXT_PUBLIC_STRIPE_SUCCESS_URL}/${order.id}`,
+      cancel_url: process.env.NEXT_PUBLIC_CANCEL_URL,
       metadata: {
         shopify_order_id: order.id.toString(),
       },
