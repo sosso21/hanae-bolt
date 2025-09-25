@@ -29,6 +29,8 @@ export async function GET() {
     NEXT_PUBLIC_PAYPAL_SUCCESS_URL: process.env?.NEXT_PUBLIC_PAYPAL_SUCCESS_URL,
   };
 
+  // show this only on dev environment
+  if (process.env.NODE_ENV !== "development") return NextResponse.json({});
   return NextResponse.json({
     declared,
     used,
