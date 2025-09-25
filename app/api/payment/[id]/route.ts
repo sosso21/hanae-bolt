@@ -84,7 +84,7 @@ export async function GET(
     });
   } catch (error: any) { 
     return NextResponse.json(
-      { error: error.message || "ERROR_SERVER" },
+      { error:  process.env.NODE_ENV === "development" ? error.message  : "ERROR_SERVER" },
       { status: 500 }
     );
   }
