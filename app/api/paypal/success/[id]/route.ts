@@ -1,6 +1,5 @@
-//  app/api/stripe/success/[id]/route.ts
-// - 
 import { NextResponse } from "next/server";
+import { getPayPalAccessToken } from "@/lib/paypal";
 
 export async function GET(
   req: Request,
@@ -8,33 +7,44 @@ export async function GET(
 ) {
   try {
     const { id } = await context.params;
-    if (!id) {
-      return NextResponse.json({ error: "ERROR_MISSING_ID" }, { status: 400 });
-    }
 
-    // ✅ Verify with Stripe first
-    const verifyRes = await fetch(
-      `${
-        process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
-      }/api/stripe/verify/${id}`
-    );
-
-    if (!verifyRes.ok) {
+    const url = new URL(req.url);
+    const paypalOrderId = url.searchParams.get("token");
+    if (!paypalOrderId) {
       return NextResponse.json(
-        { error: "ERROR_VERIFY_PAYMENT" },
-        { status: verifyRes.status }
+        { error: "ERROR_MISSING_TOKEN" },
+        { status: 400 }
       );
     }
 
-    const verifyData = await verifyRes.json();
-    if (!verifyData.paid) {
+    // ✅ Capture le paiement PayPal (obligatoire)
+    const token = await getPayPalAccessToken();
+    const captureRes = await fetch(
+      `https://api-m.paypal.com/v2/checkout/orders/${paypalOrderId}/capture`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!captureRes.ok) {
+      return NextResponse.json(
+        { error: "ERROR_CAPTURE_PAYMENT" },
+        { status: captureRes.status }
+      );
+    }
+
+    const captureData = await captureRes.json();
+    if (captureData.status !== "COMPLETED") {
       return NextResponse.json(
         { error: "ERROR_PAYMENT_NOT_CONFIRMED" },
         { status: 400 }
       );
     }
 
-    // ✅ Fetch order from Shopify
     const orderRes = await fetch(
       `https://${process.env.NEXT_SHOPIFY_STORE_DOMAIN}/admin/api/2023-10/orders/${id}.json`,
       {
@@ -43,17 +53,14 @@ export async function GET(
         },
       }
     );
-
     if (!orderRes.ok) {
       return NextResponse.json(
         { error: "ERROR_FETCH_ORDER" },
         { status: orderRes.status }
       );
     }
-
     const { order } = await orderRes.json();
 
-    // ✅ Fetch existing transactions
     const txnsRes = await fetch(
       `https://${process.env.NEXT_SHOPIFY_STORE_DOMAIN}/admin/api/2023-10/orders/${id}/transactions.json`,
       {
@@ -62,23 +69,11 @@ export async function GET(
         },
       }
     );
-
-    if (!txnsRes.ok) {
-      const err = await txnsRes.text();
-
-      return NextResponse.json(
-        { error: "ERROR_FETCH_TRANSACTIONS" },
-        { status: txnsRes.status }
-      );
-    }
-
     const { transactions } = await txnsRes.json();
-    let kind: "sale" | "capture" = "sale";
-    if (transactions && transactions.length > 0) {
-      kind = "capture";
-    }
+    let kind: "sale" | "capture" =
+      transactions && transactions.length > 0 ? "capture" : "sale";
 
-    // ✅ Create transaction in Shopify
+    // ✅ Crée la transaction Shopify
     const txnRes = await fetch(
       `https://${process.env.NEXT_SHOPIFY_STORE_DOMAIN}/admin/api/2023-10/orders/${id}/transactions.json`,
       {
@@ -92,7 +87,7 @@ export async function GET(
             kind,
             status: "success",
             amount: order.current_total_price.toString(),
-            gateway: "stripe",
+            gateway: "paypal",
           },
         }),
       }
@@ -100,7 +95,6 @@ export async function GET(
 
     if (!txnRes.ok) {
       const err = await txnRes.text();
-
       return NextResponse.json(
         {
           error: "ERROR_CREATE_TRANSACTION",
@@ -111,10 +105,9 @@ export async function GET(
       );
     }
 
-    // ✅ Redirect to store
-    const redirectUrl =
-      `${process.env.NEXT_PUBLIC_STORE_URL || "http://localhost:3000"}/fr/success`;
-
+    const redirectUrl = `${
+      process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
+    }/fr/success`;
     return NextResponse.redirect(redirectUrl);
   } catch (error: any) {
     return NextResponse.json(

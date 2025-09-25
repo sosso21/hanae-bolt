@@ -1,3 +1,5 @@
+// app/api/stripe/payment/[id]/route.ts 
+// -
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
