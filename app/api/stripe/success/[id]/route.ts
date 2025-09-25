@@ -14,7 +14,7 @@ export async function GET(
     const verifyRes = await fetch(
       `${
         process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
-      }/api/verify/${id}`
+      }/api/stripe/verify/${id}`
     );
 
     if (!verifyRes.ok) {
