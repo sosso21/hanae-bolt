@@ -14,7 +14,7 @@ export async function GET(
     const verifyRes = await fetch(
       `${
         process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
-      }/api/verify/${id}`
+      }/api/stripe/verify/${id}`
     );
 
     if (!verifyRes.ok) {
@@ -100,7 +100,11 @@ export async function GET(
       const err = await txnRes.text();
 
       return NextResponse.json(
-        { error: "ERROR_CREATE_TRANSACTION", details: err },
+        {
+          error: "ERROR_CREATE_TRANSACTION",
+          details:
+            process.env.NODE_ENV === "development" ? err : "ERROR_SERVER",
+        },
         { status: txnRes.status }
       );
     }

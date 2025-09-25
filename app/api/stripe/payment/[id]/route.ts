@@ -20,8 +20,8 @@ export async function GET(
 
     if (existingSession) {
       const redirectUrl =
-        process.env.NEXT_PUBLIC_SUCCESS_URL ||
-        "http://localhost:3000/api/success";
+        process.env.NEXT_PUBLIC_STRIPE_SUCCESS_URL ||
+        "http://localhost:3000/api/stripe/success";
       return NextResponse.redirect(`${redirectUrl}/${id}`);
     }
 
@@ -69,8 +69,8 @@ export async function GET(
       ],
       mode: "payment",
       success_url: `${
-        process.env.NEXT_PUBLIC_SUCCESS_URL ||
-        "http://localhost:3000/api/success"
+        process.env.NEXT_PUBLIC_STRIPE_SUCCESS_URL ||
+        "http://localhost:3000/api/stripe/success"
       }/${order.id}`,
       cancel_url:
         process.env.NEXT_PUBLIC_CANCEL_URL || "http://localhost:3000/cancel",
@@ -82,9 +82,14 @@ export async function GET(
     return NextResponse.redirect(session.url!, {
       headers: { "Referrer-Policy": "no-referrer" },
     });
-  } catch (error: any) { 
+  } catch (error: any) {
     return NextResponse.json(
-      { error:  process.env.NODE_ENV === "development" ? error.message  : "ERROR_SERVER" },
+      {
+        error:
+          process.env.NODE_ENV === "development"
+            ? error.message
+            : "ERROR_SERVER",
+      },
       { status: 500 }
     );
   }
