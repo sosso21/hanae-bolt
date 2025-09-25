@@ -111,7 +111,7 @@ export async function GET(
 
     // ✅ Redirect to store
     const redirectUrl =
-      process.env.NEXT_PUBLIC_STORE_URL || "http://localhost:3000";
+      `${process.env.NEXT_PUBLIC_STORE_URL || "http://localhost:3000"}/fr/success`;
 
     return NextResponse.redirect(redirectUrl);
   } catch (error: any) {
