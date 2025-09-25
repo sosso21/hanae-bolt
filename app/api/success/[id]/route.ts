@@ -63,7 +63,7 @@ export async function GET(
 
     if (!txnsRes.ok) {
       const err = await txnsRes.text();
-     
+
       return NextResponse.json(
         { error: "ERROR_FETCH_TRANSACTIONS" },
         { status: txnsRes.status }
@@ -98,7 +98,7 @@ export async function GET(
 
     if (!txnRes.ok) {
       const err = await txnRes.text();
-     
+
       return NextResponse.json(
         { error: "ERROR_CREATE_TRANSACTION", details: err },
         { status: txnRes.status }
@@ -111,9 +111,13 @@ export async function GET(
 
     return NextResponse.redirect(redirectUrl);
   } catch (error: any) {
-    
     return NextResponse.json(
-      { error: error.message || "ERROR_SERVER" },
+      {
+        error:
+          process.env.NODE_ENV === "development"
+            ? error.message
+            : "ERROR_SERVER",
+      },
       { status: 500 }
     );
   }

@@ -28,9 +28,14 @@ export async function GET(
     }
 
     return NextResponse.json({ paid: true, session });
-  } catch (error: any) { 
+  } catch (error: any) {
     return NextResponse.json(
-      { error: error.message || "ERROR_SERVER" },
+      {
+        error:
+          process.env.NODE_ENV === "development"
+            ? error.message
+            : "ERROR_SERVER",
+      },
       { status: 500 }
     );
   }
