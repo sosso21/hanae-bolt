@@ -10,6 +10,17 @@ export const LANGUAGES = {
 
 export const translations = {
   fr: {
+    confirmation: {
+      title: "Confirmation d'achat",
+      description: "Votre achat a été confirmé avec succès.",
+      successTitle: "Votre achat a bien été effectué",
+      thankYouText: "Merci pour votre achat.",
+      helpText:
+        "En cas de question ou de problème, contactez-nous — nous sommes là pour vous aider.",
+      contactSupport: "Contacter le support",
+      viewOrder: "Voir ma commande",
+    },
+
     metadata: {
       title: "Assistance administrative et développement commercial",
       description:
@@ -155,6 +166,17 @@ export const translations = {
     },
   },
   en: {
+    confirmation: {
+      title: "Purchase Confirmation",
+      description: "Your purchase has been successfully confirmed.",
+      successTitle: "Your purchase was successful",
+      thankYouText: "Thank you for your order.",
+      helpText:
+        "If you have any questions or issues, please contact us — we’re here to help.",
+      contactSupport: "Contact Support",
+      viewOrder: "View My Order",
+    },
+
     metadata: {
       title: "HANAE – Administrative Assistance and Business Development",
       description:
@@ -300,6 +322,17 @@ export const translations = {
     },
   },
   ar: {
+    confirmation: {
+      title: "تأكيد الشراء",
+      description: "تم تأكيد عملية الشراء بنجاح.",
+      successTitle: "تمت عملية الشراء بنجاح",
+      thankYouText: "شكرًا لشرائكم.",
+      helpText:
+        "في حال وجود أي سؤال أو مشكلة، يرجى التواصل معنا — نحن هنا لمساعدتكم.",
+      contactSupport: "اتصل بالدعم",
+      viewOrder: "عرض طلبي",
+    },
+
     metadata: {
       title: "هنائي – المساعدة الإدارية وتطوير الأعمال",
       description:
