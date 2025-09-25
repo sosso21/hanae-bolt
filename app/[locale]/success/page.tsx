@@ -1,7 +1,5 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Header from "@/components/layout/header";
-import Footer from "@/components/layout/footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
 import { locales, Locale, translations } from "@/lib/i18n";
@@ -45,8 +43,6 @@ export default async function ConfirmationPage({ params }: PageProps) {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Header locale={locale} />
-
       <main className="flex-1">
         <div className="mx-auto px-4 py-16 max-w-2xl container">
           {/* Back to Shop */}
@@ -71,8 +67,6 @@ export default async function ConfirmationPage({ params }: PageProps) {
           </Card>
         </div>
       </main>
-
-      <Footer locale={locale} />
     </div>
   );
 }
