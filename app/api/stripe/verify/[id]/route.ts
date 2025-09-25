@@ -1,3 +1,6 @@
+// app/api/stripe/verify/[id]/route.ts
+// -
+
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
