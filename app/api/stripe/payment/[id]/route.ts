@@ -51,6 +51,11 @@ export async function GET(
         { status: 400 }
       );
     }
+    if (order.financial_status === "paid") {
+      const redirectUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/fr/success`;
+
+      return NextResponse.redirect(redirectUrl);
+    }
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],

@@ -1,5 +1,31 @@
 import { NextResponse } from "next/server";
-import { getPayPalAccessToken } from "@/lib/paypal";
+
+/**
+ * Fonction utilitaire pour obtenir un access_token PayPal
+ */
+async function getPayPalAccessToken() {
+  const client = process.env.PAYPAL_CLIENT_ID!;
+  const secret = process.env.PAYPAL_SECRET!;
+
+  const auth = Buffer.from(`${client}:${secret}`).toString("base64");
+
+  const paypal_api_url = process.env.NEXT_PAYPAL_API_URL;
+  const res = await fetch(`${paypal_api_url}/v1/oauth2/token`, {
+    method: "POST",
+    headers: {
+      Authorization: `Basic ${auth}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: "grant_type=client_credentials",
+  });
+
+  if (!res.ok) {
+    throw new Error("ERROR_PAYPAL_ACCESS_TOKEN");
+  }
+
+  const data = await res.json();
+  return data.access_token as string;
+}
 
 export async function GET(
   req: Request,
@@ -8,19 +34,6 @@ export async function GET(
   try {
     const { id } = await context.params;
 
-    // ✅ Vérifie si déjà payé
-    const verifyRes = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/paypal/verify/${id}`
-    );
-    if (verifyRes.ok) {
-      const { paid } = await verifyRes.json();
-      if (paid) {
-        const redirectUrl = process.env.NEXT_PUBLIC_PAYPAL_SUCCESS_URL;
-        return NextResponse.redirect(`${redirectUrl}/${id}`);
-      }
-    }
-
-    // ✅ Récupère la commande Shopify
     const shopifyRes = await fetch(
       `https://${process.env.NEXT_SHOPIFY_STORE_DOMAIN}/admin/api/2023-10/orders/${id}.json`,
       {
@@ -30,6 +43,7 @@ export async function GET(
         },
       }
     );
+
     if (!shopifyRes.ok) {
       return NextResponse.json(
         { error: "ERROR_ORDER" },
@@ -38,6 +52,12 @@ export async function GET(
     }
 
     const { order } = await shopifyRes.json();
+
+    if (order.financial_status === "paid") {
+      const redirectUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/fr/success`;
+      return NextResponse.redirect(redirectUrl);
+    }
+
     const totalAmount = parseFloat(order.current_total_price);
     if (!totalAmount || totalAmount <= 0) {
       return NextResponse.json(
@@ -46,58 +66,66 @@ export async function GET(
       );
     }
 
-    // ✅ Crée la commande PayPal
-    const token = await getPayPalAccessToken();
-    const paypalRes = await fetch(
-      `https://api-m.paypal.com/v2/checkout/orders`,
+    const accessToken = await getPayPalAccessToken();
+
+    const createOrderRes = await fetch(
+      `${process.env.NEXT_PAYPAL_API_URL}/v2/checkout/orders`,
       {
         method: "POST",
         headers: {
+          Authorization: `Bearer ${accessToken}`,
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           intent: "CAPTURE",
           purchase_units: [
             {
-              reference_id: id.toString(),
               amount: {
-                currency_code: order.currency,
+                currency_code: order.currency || "EUR",
                 value: totalAmount.toFixed(2),
               },
-              description: order.name,
+              description: `Order #${order.id} - ${order.name}`,
             },
           ],
           application_context: {
-            return_url: `${process.env.NEXT_PUBLIC_PAYPAL_SUCCESS_URL}/${id}`,
+            return_url: `${process.env.NEXT_PUBLIC_PAYPAL_SUCCESS_URL}/${order.id}`,
             cancel_url: process.env.NEXT_PUBLIC_CANCEL_URL,
           },
         }),
       }
     );
 
-    if (!paypalRes.ok) {
-      const err = await paypalRes.text();
+    if (!createOrderRes.ok) {
+      const errorText = await createOrderRes.text();
       return NextResponse.json(
         {
-          error: "ERROR_CREATE_ORDER",
-          details:
-            process.env.NODE_ENV === "development" ? err : "ERROR_SERVER",
+          error:
+            process.env.NODE_ENV === "development"
+              ? errorText
+              : "ERROR_CREATE_PAYPAL_ORDER",
         },
-        { status: paypalRes.status }
+        { status: 500 }
       );
     }
 
-    const orderData = await paypalRes.json();
-    const approveUrl = orderData.links.find(
-      (l: any) => l.rel === "approve"
-    )?.href;
-    if (!approveUrl) throw new Error("No approve link from PayPal");
+    const orderData = await createOrderRes.json();
 
-    return NextResponse.redirect(approveUrl, {
+    const approveLink = orderData.links.find(
+      (link: any) => link.rel === "approve"
+    )?.href;
+
+    if (!approveLink) {
+      return NextResponse.json(
+        { error: "ERROR_NO_APPROVAL_LINK" },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.redirect(approveLink, {
       headers: { "Referrer-Policy": "no-referrer" },
     });
   } catch (error: any) {
+    console.error("PayPal API error:", error);
     return NextResponse.json(
       {
         error:
