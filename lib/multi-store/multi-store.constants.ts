@@ -1,6 +1,6 @@
 type Store = {
   STORE_ID: string;
-  STORE_TITLE: "FAKE" | "REAL";
+  STORE_KIND: "FAKE" | "REAL";
   NEXT_SHOPIFY_ACCESS_TOKEN: string;
   NEXT_SHOPIFY_API_KEY: string;
   NEXT_SHOPIFY_SECRET_KEY: string;
@@ -10,7 +10,7 @@ type Store = {
 export const STORES: Store[] = [
   {
     STORE_ID: "1",
-    STORE_TITLE: "FAKE",
+    STORE_KIND: "FAKE",
     NEXT_SHOPIFY_ACCESS_TOKEN: "",
     NEXT_SHOPIFY_API_KEY: "",
     NEXT_SHOPIFY_SECRET_KEY: "",
@@ -18,7 +18,7 @@ export const STORES: Store[] = [
   },
   {
     STORE_ID: "2",
-    STORE_TITLE: "REAL",
+    STORE_KIND: "REAL",
     NEXT_SHOPIFY_ACCESS_TOKEN:
       process.env.NEXT_CHAMPION_STREET_SHOPIFY_ACCESS_TOKEN ?? "",
     NEXT_SHOPIFY_API_KEY:
