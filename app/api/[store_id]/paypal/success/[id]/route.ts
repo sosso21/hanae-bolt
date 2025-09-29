@@ -1,3 +1,4 @@
+import { getStore } from "@/lib/multi-store/multi-store.constants";
 import { NextResponse } from "next/server";
 
 /**
@@ -28,10 +29,18 @@ async function getPayPalAccessToken() {
 
 export async function GET(
   req: Request,
-  context: { params: Promise<{ id: string }> }
+  context: { params: Promise<{ id: string; store_id: string }> }
 ) {
   try {
-    const { id } = await context.params;
+    const { id, store_id } = await context.params;
+    const {
+      STORE_ID,
+      STORE_TITLE,
+      NEXT_SHOPIFY_ACCESS_TOKEN,
+      NEXT_SHOPIFY_API_KEY,
+      NEXT_SHOPIFY_SECRET_KEY,
+      NEXT_SHOPIFY_STORE_DOMAIN,
+    } = getStore(store_id);
     if (!id) {
       return NextResponse.json({ error: "ERROR_MISSING_ID" }, { status: 400 });
     }

@@ -1,8 +1,5 @@
 import { NextResponse } from "next/server";
 
-/**
- * Fonction utilitaire pour obtenir un access_token PayPal
- */
 async function getPayPalAccessToken() {
   const client = process.env.PAYPAL_CLIENT_ID!;
   const secret = process.env.PAYPAL_SECRET!;
@@ -29,10 +26,10 @@ async function getPayPalAccessToken() {
 
 export async function GET(
   req: Request,
-  context: { params: Promise<{ id: string }> }
+  context: { params: Promise<{ id: string; store_id: string }> }
 ) {
   try {
-    const { id } = await context.params;
+    const { id, store_id } = await context.params;
 
     const shopifyRes = await fetch(
       `https://${process.env.NEXT_SHOPIFY_STORE_DOMAIN}/admin/api/2023-10/orders/${id}.json`,

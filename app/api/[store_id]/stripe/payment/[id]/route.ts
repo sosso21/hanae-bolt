@@ -7,10 +7,10 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function GET(
   req: Request,
-  context: { params: Promise<{ id: string }> }
+  context: { params: Promise<{ id: string; store_id: string }> }
 ) {
   try {
-    const { id } = await context.params;
+    const { id, store_id } = await context.params;
 
     const sessions = await stripe.checkout.sessions.list({ limit: 50 });
 
