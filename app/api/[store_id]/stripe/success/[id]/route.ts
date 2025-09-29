@@ -1,20 +1,32 @@
-//  app/api/stripe/success/[id]/route.ts
-// -
+// app/api/[store_id]/stripe/success/[id]/route.ts
+import { getStore } from "@/lib/multi-store/multi-store.constants";
 import { NextResponse } from "next/server";
 
 export async function GET(
   req: Request,
-  context: { params: Promise<{ id: string }> }
+  context: { params: Promise<{ id: string; store_id: string }> }
 ) {
   try {
-    const { id } = await context.params;
+    const { id, store_id } = await context.params;
     if (!id) {
       return NextResponse.json({ error: "ERROR_MISSING_ID" }, { status: 400 });
     }
 
+    // ✅ Retrieve store configuration
+    const { STORE_KIND, NEXT_SHOPIFY_ACCESS_TOKEN, NEXT_SHOPIFY_STORE_DOMAIN } =
+      getStore(store_id);
+
+    // ✅ Handle FAKE store case
+    if (STORE_KIND === "FAKE") {
+      return NextResponse.json(
+        { message: "FAKE store - skipping transaction creation" },
+        { status: 200 }
+      );
+    }
+
     // ✅ Verify with Stripe first
     const verifyRes = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/stripe/verify/${id}`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/${store_id}/stripe/verify/${id}`
     );
 
     if (!verifyRes.ok) {
@@ -34,10 +46,10 @@ export async function GET(
 
     // ✅ Fetch order from Shopify
     const orderRes = await fetch(
-      `https://${process.env.NEXT_SHOPIFY_STORE_DOMAIN}/admin/api/2023-10/orders/${id}.json`,
+      `https://${NEXT_SHOPIFY_STORE_DOMAIN}/admin/api/2023-10/orders/${id}.json`,
       {
         headers: {
-          "X-Shopify-Access-Token": process.env.NEXT_SHOPIFY_ACCESS_TOKEN || "",
+          "X-Shopify-Access-Token": NEXT_SHOPIFY_ACCESS_TOKEN,
         },
       }
     );
@@ -53,19 +65,23 @@ export async function GET(
 
     // ✅ Fetch existing transactions
     const txnsRes = await fetch(
-      `https://${process.env.NEXT_SHOPIFY_STORE_DOMAIN}/admin/api/2023-10/orders/${id}/transactions.json`,
+      `https://${NEXT_SHOPIFY_STORE_DOMAIN}/admin/api/2023-10/orders/${id}/transactions.json`,
       {
         headers: {
-          "X-Shopify-Access-Token": process.env.NEXT_SHOPIFY_ACCESS_TOKEN || "",
+          "X-Shopify-Access-Token": NEXT_SHOPIFY_ACCESS_TOKEN,
         },
       }
     );
 
     if (!txnsRes.ok) {
       const err = await txnsRes.text();
-
       return NextResponse.json(
-        { error: "ERROR_FETCH_TRANSACTIONS" },
+        {
+          error:
+            process.env.NODE_ENV === "development"
+              ? err
+              : "ERROR_FETCH_TRANSACTIONS",
+        },
         { status: txnsRes.status }
       );
     }
@@ -78,11 +94,11 @@ export async function GET(
 
     // ✅ Create transaction in Shopify
     const txnRes = await fetch(
-      `https://${process.env.NEXT_SHOPIFY_STORE_DOMAIN}/admin/api/2023-10/orders/${id}/transactions.json`,
+      `https://${NEXT_SHOPIFY_STORE_DOMAIN}/admin/api/2023-10/orders/${id}/transactions.json`,
       {
         method: "POST",
         headers: {
-          "X-Shopify-Access-Token": process.env.NEXT_SHOPIFY_ACCESS_TOKEN || "",
+          "X-Shopify-Access-Token": NEXT_SHOPIFY_ACCESS_TOKEN,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -98,12 +114,12 @@ export async function GET(
 
     if (!txnRes.ok) {
       const err = await txnRes.text();
-
       return NextResponse.json(
         {
-          error: "ERROR_CREATE_TRANSACTION",
-          details:
-            process.env.NODE_ENV === "development" ? err : "ERROR_SERVER",
+          error:
+            process.env.NODE_ENV === "development"
+              ? err
+              : "ERROR_CREATE_TRANSACTION",
         },
         { status: txnRes.status }
       );
@@ -111,9 +127,9 @@ export async function GET(
 
     // ✅ Redirect to store
     const redirectUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/fr/success`;
-
     return NextResponse.redirect(redirectUrl);
   } catch (error: any) {
+    console.error("STRIPE_SUCCESS_ROUTE_ERROR:", error);
     return NextResponse.json(
       {
         error:

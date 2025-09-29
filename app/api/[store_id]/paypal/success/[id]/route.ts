@@ -1,14 +1,16 @@
+// app/api/[store_id]/paypal/success/[id]/route.ts
+import { getStore } from "@/lib/multi-store/multi-store.constants";
 import { NextResponse } from "next/server";
 
 /**
- * Get PayPal access token
+ * Get PayPal access token (global, not store-specific)
  */
 async function getPayPalAccessToken() {
   const client = process.env.PAYPAL_CLIENT_ID!;
   const secret = process.env.PAYPAL_SECRET!;
   const auth = Buffer.from(`${client}:${secret}`).toString("base64");
 
-  const paypalApiUrl = process.env.NEXT_PAYPAL_API_URL;
+  const paypalApiUrl = process.env.NEXT_PAYPAL_API_URL!;
   const res = await fetch(`${paypalApiUrl}/v1/oauth2/token`, {
     method: "POST",
     headers: {
@@ -28,10 +30,23 @@ async function getPayPalAccessToken() {
 
 export async function GET(
   req: Request,
-  context: { params: Promise<{ id: string }> }
+  context: { params: Promise<{ id: string; store_id: string }> }
 ) {
   try {
-    const { id } = await context.params;
+    const { id, store_id } = await context.params;
+
+    // ✅ Retrieve store configuration
+    const { STORE_KIND, NEXT_SHOPIFY_ACCESS_TOKEN, NEXT_SHOPIFY_STORE_DOMAIN } =
+      getStore(store_id);
+
+    // ✅ Handle FAKE store case (skip or mock)
+    if (STORE_KIND === "FAKE") {
+      return NextResponse.json(
+        { message: "FAKE store - skipping real payment" },
+        { status: 200 }
+      );
+    }
+
     if (!id) {
       return NextResponse.json({ error: "ERROR_MISSING_ID" }, { status: 400 });
     }
@@ -45,7 +60,7 @@ export async function GET(
       );
     }
 
-    // ✅ Retrieve PayPal order to check if already captured
+    // ✅ Retrieve PayPal order
     const accessToken = await getPayPalAccessToken();
     const orderRes = await fetch(
       `${process.env.NEXT_PAYPAL_API_URL}/v2/checkout/orders/${paypalOrderID}`,
@@ -81,12 +96,12 @@ export async function GET(
       );
     }
 
-    // ✅ Fetch order from Shopify
+    // ✅ Fetch Shopify order
     const shopifyOrderRes = await fetch(
-      `https://${process.env.NEXT_SHOPIFY_STORE_DOMAIN}/admin/api/2023-10/orders/${id}.json`,
+      `https://${NEXT_SHOPIFY_STORE_DOMAIN}/admin/api/2023-10/orders/${id}.json`,
       {
         headers: {
-          "X-Shopify-Access-Token": process.env.NEXT_SHOPIFY_ACCESS_TOKEN || "",
+          "X-Shopify-Access-Token": NEXT_SHOPIFY_ACCESS_TOKEN,
         },
       }
     );
@@ -100,12 +115,12 @@ export async function GET(
 
     const { order } = await shopifyOrderRes.json();
 
-    // ✅ Check existing transactions to decide kind
+    // ✅ Get transactions
     const txnsRes = await fetch(
-      `https://${process.env.NEXT_SHOPIFY_STORE_DOMAIN}/admin/api/2023-10/orders/${id}/transactions.json`,
+      `https://${NEXT_SHOPIFY_STORE_DOMAIN}/admin/api/2023-10/orders/${id}/transactions.json`,
       {
         headers: {
-          "X-Shopify-Access-Token": process.env.NEXT_SHOPIFY_ACCESS_TOKEN || "",
+          "X-Shopify-Access-Token": NEXT_SHOPIFY_ACCESS_TOKEN,
         },
       }
     );
@@ -129,13 +144,13 @@ export async function GET(
       kind = "capture";
     }
 
-    // ✅ Create transaction in Shopify to mark order as paid
+    // ✅ Create Shopify transaction
     const txnRes = await fetch(
-      `https://${process.env.NEXT_SHOPIFY_STORE_DOMAIN}/admin/api/2023-10/orders/${id}/transactions.json`,
+      `https://${NEXT_SHOPIFY_STORE_DOMAIN}/admin/api/2023-10/orders/${id}/transactions.json`,
       {
         method: "POST",
         headers: {
-          "X-Shopify-Access-Token": process.env.NEXT_SHOPIFY_ACCESS_TOKEN || "",
+          "X-Shopify-Access-Token": NEXT_SHOPIFY_ACCESS_TOKEN,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({

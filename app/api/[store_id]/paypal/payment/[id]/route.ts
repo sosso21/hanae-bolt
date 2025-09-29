@@ -1,16 +1,17 @@
+// app/api/[store_id]/paypal/payment/[id]/route.ts
+import { getStore } from "@/lib/multi-store/multi-store.constants";
 import { NextResponse } from "next/server";
 
 /**
- * Fonction utilitaire pour obtenir un access_token PayPal
+ * Get PayPal access token (global, not store-specific)
  */
 async function getPayPalAccessToken() {
   const client = process.env.PAYPAL_CLIENT_ID!;
   const secret = process.env.PAYPAL_SECRET!;
-
   const auth = Buffer.from(`${client}:${secret}`).toString("base64");
 
-  const paypal_api_url = process.env.NEXT_PAYPAL_API_URL;
-  const res = await fetch(`${paypal_api_url}/v1/oauth2/token`, {
+  const paypalApiUrl = process.env.NEXT_PAYPAL_API_URL!;
+  const res = await fetch(`${paypalApiUrl}/v1/oauth2/token`, {
     method: "POST",
     headers: {
       Authorization: `Basic ${auth}`,
@@ -29,16 +30,29 @@ async function getPayPalAccessToken() {
 
 export async function GET(
   req: Request,
-  context: { params: Promise<{ id: string }> }
+  context: { params: Promise<{ id: string; store_id: string }> }
 ) {
   try {
-    const { id } = await context.params;
+    const { id, store_id } = await context.params;
 
+    // ✅ Retrieve store configuration
+    const { STORE_KIND, NEXT_SHOPIFY_ACCESS_TOKEN, NEXT_SHOPIFY_STORE_DOMAIN } =
+      getStore(store_id);
+
+    // ✅ Handle FAKE store case
+    if (STORE_KIND === "FAKE") {
+      return NextResponse.json(
+        { message: "FAKE store - skipping real payment" },
+        { status: 200 }
+      );
+    }
+
+    // ✅ Fetch Shopify order
     const shopifyRes = await fetch(
-      `https://${process.env.NEXT_SHOPIFY_STORE_DOMAIN}/admin/api/2023-10/orders/${id}.json`,
+      `https://${NEXT_SHOPIFY_STORE_DOMAIN}/admin/api/2023-10/orders/${id}.json`,
       {
         headers: {
-          "X-Shopify-Access-Token": process.env.NEXT_SHOPIFY_ACCESS_TOKEN || "",
+          "X-Shopify-Access-Token": NEXT_SHOPIFY_ACCESS_TOKEN,
           "Content-Type": "application/json",
         },
       }
@@ -53,11 +67,13 @@ export async function GET(
 
     const { order } = await shopifyRes.json();
 
+    // ✅ If already paid → redirect to success
     if (order.financial_status === "paid") {
       const redirectUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/fr/success`;
       return NextResponse.redirect(redirectUrl);
     }
 
+    // ✅ Check valid amount
     const totalAmount = parseFloat(order.current_total_price);
     if (!totalAmount || totalAmount <= 0) {
       return NextResponse.json(
@@ -66,7 +82,13 @@ export async function GET(
       );
     }
 
+    // ✅ Create PayPal order
     const accessToken = await getPayPalAccessToken();
+
+    const NEXT_PUBLIC_PAYPAL_SUCCESS_URL =
+      `${process.env.NEXT_PUBLIC_PAYPAL_SUCCESS_URL}`
+        .split("[store_id]")
+        .join(store_id);
 
     const createOrderRes = await fetch(
       `${process.env.NEXT_PAYPAL_API_URL}/v2/checkout/orders`,
@@ -88,7 +110,7 @@ export async function GET(
             },
           ],
           application_context: {
-            return_url: `${process.env.NEXT_PUBLIC_PAYPAL_SUCCESS_URL}/${order.id}`,
+            return_url: `${NEXT_PUBLIC_PAYPAL_SUCCESS_URL}/${order.id}`,
             cancel_url: process.env.NEXT_PUBLIC_CANCEL_URL,
           },
         }),
@@ -110,6 +132,7 @@ export async function GET(
 
     const orderData = await createOrderRes.json();
 
+    // ✅ Extract approval link
     const approveLink = orderData.links.find(
       (link: any) => link.rel === "approve"
     )?.href;
@@ -121,11 +144,12 @@ export async function GET(
       );
     }
 
+    // ✅ Redirect to PayPal checkout
     return NextResponse.redirect(approveLink, {
       headers: { "Referrer-Policy": "no-referrer" },
     });
   } catch (error: any) {
-    console.error("PayPal API error:", error);
+    console.error("PAYPAL_PAYMENT_ROUTE_ERROR:", error);
     return NextResponse.json(
       {
         error:

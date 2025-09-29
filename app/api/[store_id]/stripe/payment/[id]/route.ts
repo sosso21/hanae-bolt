@@ -1,5 +1,5 @@
-// app/api/stripe/payment/[id]/route.ts
-// -
+// app/api/[store_id]/stripe/payment/[id]/route.ts
+import { getStore } from "@/lib/multi-store/multi-store.constants";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -7,29 +7,46 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function GET(
   req: Request,
-  context: { params: Promise<{ id: string }> }
+  context: { params: Promise<{ id: string; store_id: string }> }
 ) {
   try {
-    const { id } = await context.params;
+    const { id, store_id } = await context.params;
 
+    // ✅ Retrieve store configuration
+    const { STORE_KIND, NEXT_SHOPIFY_ACCESS_TOKEN, NEXT_SHOPIFY_STORE_DOMAIN } =
+      getStore(store_id);
+
+    // ✅ Handle FAKE store case
+    if (STORE_KIND === "FAKE") {
+      return NextResponse.json(
+        { message: "FAKE store - skipping real payment" },
+        { status: 200 }
+      );
+    }
+
+    // ✅ Check if Stripe session already exists and is paid
     const sessions = await stripe.checkout.sessions.list({ limit: 50 });
-
     const existingSession = sessions.data.find(
       (s) =>
         s.metadata?.shopify_order_id === id.toString() &&
         s.payment_status === "paid"
     );
 
+    const NEXT_PUBLIC_STRIPE_SUCCESS_URL =
+      `${process.env.NEXT_PUBLIC_STRIPE_SUCCESS_URL}`
+        .split("[store_id]")
+        .join(store_id);
+
     if (existingSession) {
-      const redirectUrl = process.env.NEXT_PUBLIC_STRIPE_SUCCESS_URL;
-      return NextResponse.redirect(`${redirectUrl}/${id}`);
+      return NextResponse.redirect(`${NEXT_PUBLIC_STRIPE_SUCCESS_URL}/${id}`);
     }
 
+    // ✅ Fetch Shopify order (multi-store)
     const shopifyRes = await fetch(
-      `https://${process.env.NEXT_SHOPIFY_STORE_DOMAIN}/admin/api/2023-10/orders/${id}.json`,
+      `https://${NEXT_SHOPIFY_STORE_DOMAIN}/admin/api/2023-10/orders/${id}.json`,
       {
         headers: {
-          "X-Shopify-Access-Token": process.env.NEXT_SHOPIFY_ACCESS_TOKEN || "",
+          "X-Shopify-Access-Token": NEXT_SHOPIFY_ACCESS_TOKEN,
           "Content-Type": "application/json",
         },
       }
@@ -51,12 +68,14 @@ export async function GET(
         { status: 400 }
       );
     }
+
+    // ✅ If order already marked as paid in Shopify
     if (order.financial_status === "paid") {
       const redirectUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/fr/success`;
-
       return NextResponse.redirect(redirectUrl);
     }
 
+    // ✅ Create Stripe checkout session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: [
@@ -73,7 +92,7 @@ export async function GET(
         },
       ],
       mode: "payment",
-      success_url: `${process.env.NEXT_PUBLIC_STRIPE_SUCCESS_URL}/${order.id}`,
+      success_url: `${NEXT_PUBLIC_STRIPE_SUCCESS_URL}/${order.id}`,
       cancel_url: process.env.NEXT_PUBLIC_CANCEL_URL,
       metadata: {
         shopify_order_id: order.id.toString(),
@@ -84,6 +103,7 @@ export async function GET(
       headers: { "Referrer-Policy": "no-referrer" },
     });
   } catch (error: any) {
+    console.error("STRIPE_PAYMENT_ROUTE_ERROR:", error);
     return NextResponse.json(
       {
         error:
