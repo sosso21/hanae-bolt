@@ -7,11 +7,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { CreditCard, CheckCircle } from "lucide-react";
+import { CreditCard, CheckCircle, ArrowLeft } from "lucide-react";
 import { Locale, translations } from "@/lib/i18n";
-import { OrderSuccess } from "@/components/cart/order-success";
 import { parseAsInteger } from "nuqs";
 import { LocaleOrderSummary } from "./locale-order-summary";
+import Link from "next/link";
 
 const searchParams = {
   order: parseAsInteger,
@@ -73,19 +73,28 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ locale }) => {
 
   const displayItems = getDisplayItems();
 
-  if (isOrderComplete) {
-    return <OrderSuccess locale={locale} />;
-  }
-
   if (displayItems.length === 0) {
     return (
       <div className="flex flex-col min-h-screen">
         <main className="flex flex-1 justify-center items-center">
-          <div className="text-center">
-            <h1 className="mb-4 font-bold text-2xl">{t.shop.checkout.empty}</h1>
+          <div className="space-y-4 text-center">
+            <h1 className="mb-4 font-bold text-2xl">
+              {" "}
+              {t.shop.checkout.empty}
+            </h1>
             <p className="text-muted-foreground">
               {t.shop.checkout.emptyDescription}
             </p>
+
+            <Button asChild variant="link" className="mt-6">
+              <Link
+                href={`/${locale}/shop`}
+                className="flex items-center gap-2"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                {t.shop.checkout.backToShop}
+              </Link>
+            </Button>
           </div>
         </main>
       </div>
@@ -97,8 +106,6 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ locale }) => {
       <main className="flex-1 py-8">
         <div className="mx-auto px-4 max-w-6xl container">
           <div className="gap-8 grid grid-cols-1 lg:grid-cols-2">
-            {/* ✅ locale order summary extrait dans un composant */}
-
             <LocaleOrderSummary locale={locale} />
 
             {/* Checkout Form */}
