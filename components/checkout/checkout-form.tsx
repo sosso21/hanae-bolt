@@ -23,12 +23,11 @@ interface CheckoutFormProps {
 }
 
 export const CheckoutForm: React.FC<CheckoutFormProps> = ({ locale }) => {
-  const { state, clearCart, exitBuyNowMode } = useCart();
+  const { state, clearCart, exitBuyNowMode, getTotalPrice } = useCart();
   const [isProcessing, setIsProcessing] = useState(false);
-  const [isOrderComplete, setIsOrderComplete] = useState(false);
   const [formData, setFormData] = useState({
-    lastname: "",
-    firstname: "",
+    lastName: "",
+    firstName: "",
     email: "",
     confirmEmail: "",
     phone: "",
@@ -56,32 +55,46 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ locale }) => {
     }
 
     setIsProcessing(true);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
 
-    clearCart();
-    exitBuyNowMode();
-    setIsOrderComplete(true);
-    setIsProcessing(false);
-  };
+    try {
+      const response = await fetch("/api/createOrder", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          customer: formData,
+          state,
+          getTotalPrice: getTotalPrice(),
+        }),
+      });
 
-  const getDisplayItems = () => {
-    if (state.buyNowMode && state.buyNowProduct) {
-      return [{ product: state.buyNowProduct, quantity: 1 }];
+      if (!response.ok) {
+        throw new Error("ERROR_CREATE_ORDER");
+      }
+
+      const data = await response.json();
+      if (!data.stripeUrl) {
+        throw new Error("ERROR_MISSING_STRIPE_URL");
+      }
+
+      clearCart();
+      exitBuyNowMode();
+
+      window.location.href = data.stripeUrl;
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsProcessing(false);
     }
-    return state.items;
   };
 
-  const displayItems = getDisplayItems();
-
-  if (displayItems.length === 0) {
+  if (getTotalPrice() === 0) {
     return (
       <div className="flex flex-col min-h-screen">
         <main className="flex flex-1 justify-center items-center">
           <div className="space-y-4 text-center">
-            <h1 className="mb-4 font-bold text-2xl">
-              {" "}
-              {t.shop.checkout.empty}
-            </h1>
+            <h1 className="mb-4 font-bold text-2xl">{t.shop.checkout.empty}</h1>
             <p className="text-muted-foreground">
               {t.shop.checkout.emptyDescription}
             </p>
@@ -118,26 +131,26 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ locale }) => {
                   <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="gap-4 grid grid-cols-1 md:grid-cols-2">
                       <div className="space-y-2">
-                        <Label htmlFor="lastname">
+                        <Label htmlFor="lastName">
                           {t.shop.checkout.lastname}
                         </Label>
                         <Input
-                          id="lastname"
-                          name="lastname"
-                          value={formData.lastname}
+                          id="lastName"
+                          name="lastName"
+                          value={formData.lastName}
                           onChange={handleInputChange}
                           required
                         />
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="firstname">
+                        <Label htmlFor="firstName">
                           {t.shop.checkout.firstname}
                         </Label>
                         <Input
-                          id="firstname"
-                          name="firstname"
-                          value={formData.firstname}
+                          id="firstName"
+                          name="firstName"
+                          value={formData.firstName}
                           onChange={handleInputChange}
                           required
                         />
