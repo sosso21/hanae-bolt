@@ -5,17 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Minus, Plus, Trash2 } from "lucide-react";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { Locale, translations } from "@/lib/i18n";
 import { useCart } from "@/contexts/cart-context";
 
@@ -30,9 +19,6 @@ export const LocaleOrderSummary: React.FC<OrderSummaryProps> = ({ locale }) => {
   const t = translations[locale];
 
   const getDisplayItems = () => {
-    if (state.buyNowMode && state.buyNowProduct) {
-      return [{ product: state.buyNowProduct, quantity: 1 }];
-    }
     return state.items;
   };
 
@@ -51,44 +37,8 @@ export const LocaleOrderSummary: React.FC<OrderSummaryProps> = ({ locale }) => {
       <CardHeader>
         <div className="flex justify-between items-center">
           <div>
-            <CardTitle>
-              {state.buyNowMode
-                ? t.shop.checkout.directPurchase
-                : t.shop.checkout.orderSummary}
-            </CardTitle>
-            {state.buyNowMode && (
-              <p className="mt-1 text-muted-foreground text-sm">
-                {t.shop.checkout.directPurchaseDescription}
-              </p>
-            )}
+            <CardTitle>{t.shop.checkout.orderSummary}</CardTitle>
           </div>
-
-          {!state.buyNowMode && (
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button variant="outline" size="sm">
-                  <Trash2 className="mr-2 w-4 h-4" />
-                  {t.shop.cart.clear}
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>
-                    {t.shop.cart.clearCartTitle}
-                  </AlertDialogTitle>
-                  <AlertDialogDescription>
-                    {t.shop.cart.clearCartDescription}
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>{t.shop.cart.cancel}</AlertDialogCancel>
-                  <AlertDialogAction onClick={clearCart}>
-                    {t.shop.cart.clearCart}
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          )}
         </div>
       </CardHeader>
 
@@ -119,7 +69,6 @@ export const LocaleOrderSummary: React.FC<OrderSummaryProps> = ({ locale }) => {
                     onClick={() =>
                       handleQuantityChange(item.product.id, item.quantity - 1)
                     }
-                    disabled={state.buyNowMode}
                   >
                     <Minus className="w-3 h-3" />
                   </Button>
@@ -133,7 +82,6 @@ export const LocaleOrderSummary: React.FC<OrderSummaryProps> = ({ locale }) => {
                     onClick={() =>
                       handleQuantityChange(item.product.id, item.quantity + 1)
                     }
-                    disabled={state.buyNowMode}
                   >
                     <Plus className="w-3 h-3" />
                   </Button>
@@ -144,7 +92,6 @@ export const LocaleOrderSummary: React.FC<OrderSummaryProps> = ({ locale }) => {
                   size="icon"
                   className="w-6 h-6 text-destructive hover:text-destructive"
                   onClick={() => removeFromCart(item.product.id)}
-                  disabled={state.buyNowMode}
                 >
                   <Trash2 className="w-3 h-3" />
                 </Button>

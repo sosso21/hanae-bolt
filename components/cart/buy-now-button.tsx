@@ -31,7 +31,7 @@ export const BuyNowButton: React.FC<BuyNowButtonProps> = ({
   variant = "outline",
   quantity = 1,
 }) => {
-  const { setBuyNowMode } = useCart();
+  const { addToCart, clearCart } = useCart();
   const [isProcessing, setIsProcessing] = useState(false);
   const router = useRouter();
   const t = translations[locale];
@@ -40,13 +40,14 @@ export const BuyNowButton: React.FC<BuyNowButtonProps> = ({
     event.preventDefault();
     event.stopPropagation();
 
+    clearCart();
     setIsProcessing(true);
-
-    // Set buy now mode and redirect to checkout
-    setBuyNowMode(true, product);
 
     // Simulate a brief processing time
     await new Promise((resolve) => setTimeout(resolve, 500));
+
+    // Set buy now mode and redirect to
+    addToCart(product, 1);
 
     // Redirect to checkout
     router.push(`/${locale}/checkout`);

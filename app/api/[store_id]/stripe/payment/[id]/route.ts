@@ -1,5 +1,6 @@
 // app/api/[store_id]/stripe/payment/[id]/route.ts
 import { getStore } from "@/lib/multi-store/multi-store.constants";
+import { decodeOrderIdToPrice } from "@/lib/order-id";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -12,16 +13,47 @@ export async function GET(
   try {
     const { id, store_id } = await context.params;
 
+    const NEXT_PUBLIC_STRIPE_SUCCESS_URL =
+      `${process.env.NEXT_PUBLIC_STRIPE_SUCCESS_URL}`
+        .split("[store_id]")
+        .join(store_id);
+
     // ✅ Retrieve store configuration
     const { STORE_KIND, NEXT_SHOPIFY_ACCESS_TOKEN, NEXT_SHOPIFY_STORE_DOMAIN } =
       getStore(store_id);
 
     // ✅ Handle FAKE store case
     if (STORE_KIND === "FAKE") {
-      return NextResponse.json(
-        { message: "FAKE store - skipping real payment" },
-        { status: 200 }
-      );
+      const decodedPrice = await decodeOrderIdToPrice(id);
+      const priceFloat = parseFloat(decodedPrice);
+      const price = Math.round(priceFloat * 100); // cents
+
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ["card"],
+        line_items: [
+          {
+            price_data: {
+              currency: "eur",
+              unit_amount: price, // ✅ integer in cents
+              product_data: {
+                name: `Order #${id}`,
+                description: `FAKE STORE ORDER`,
+              },
+            },
+            quantity: 1,
+          },
+        ],
+        mode: "payment",
+        success_url: `${NEXT_PUBLIC_STRIPE_SUCCESS_URL}/${id}`,
+        cancel_url: process.env.NEXT_PUBLIC_CANCEL_URL,
+        metadata: {
+          shopify_order_id: id,
+        },
+      });
+
+      return NextResponse.redirect(session.url!, {
+        headers: { "Referrer-Policy": "no-referrer" },
+      });
     }
 
     // ✅ Check if Stripe session already exists and is paid
@@ -31,11 +63,6 @@ export async function GET(
         s.metadata?.shopify_order_id === id.toString() &&
         s.payment_status === "paid"
     );
-
-    const NEXT_PUBLIC_STRIPE_SUCCESS_URL =
-      `${process.env.NEXT_PUBLIC_STRIPE_SUCCESS_URL}`
-        .split("[store_id]")
-        .join(store_id);
 
     if (existingSession) {
       return NextResponse.redirect(`${NEXT_PUBLIC_STRIPE_SUCCESS_URL}/${id}`);

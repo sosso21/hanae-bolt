@@ -18,10 +18,8 @@ export async function GET(
 
     // ✅ Handle FAKE store case
     if (STORE_KIND === "FAKE") {
-      return NextResponse.json(
-        { message: "FAKE store - skipping transaction creation" },
-        { status: 200 }
-      );
+      const redirectUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/fr/success`;
+      return NextResponse.redirect(redirectUrl);
     }
 
     // ✅ Verify with Stripe first
