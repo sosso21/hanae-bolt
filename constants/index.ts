@@ -8,7 +8,7 @@ export const HANAE_INFO = {
 
   // Contact Information
   contact: {
-    email: "contact@hanae.com",
+    email: "hanae.agency.contact@gmail.com",
     phone: "+213 559 205 748",
     address: {
       street: "Blida",
