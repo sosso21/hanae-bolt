@@ -22,7 +22,7 @@ export async function generateMetadata({
     notFound();
   }
 
-  const t = translations[locale];
+  const t = (translations as any)[locale];
 
   return {
     title: `${t.nav.about} - ${HANAE_INFO.name}`,
@@ -46,14 +46,8 @@ export default async function AboutPage({ params }: PageProps) {
     notFound();
   }
 
-  const t = translations[locale];
-
-  const title = "À propos de nous";
-  const placeholderLead =
-    "Cette page sera prochainement enrichie avec le contenu détaillé sur l'histoire, les valeurs et l'équipe de HANAE.";
-  const waitingHeading = "En attendant...";
-  const aboutParagraph =
-    "HANAE est une agence web multi-services passionnée par l'innovation digitale. Nous accompagnons nos clients dans leurs projets de développement, design, marketing digital et gestion d'entreprise.";
+  const t = (translations as any)[locale];
+  const A = t.about;
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -64,20 +58,43 @@ export default async function AboutPage({ params }: PageProps) {
           <div className="mx-auto px-4 container">
             <div className="mx-auto max-w-4xl">
               <h1 className="mb-8 font-bold text-foreground text-4xl md:text-5xl">
-                {title}
+                {A.pageTitle}
               </h1>
 
               <div className="max-w-none prose prose-lg">
-                <p className="mb-8 text-muted-foreground text-xl leading-relaxed">
-                  {placeholderLead}
-                </p>
-
-                <div className="bg-muted/30 p-8 rounded-lg">
+                <section className="bg-muted/30 p-8 rounded-lg">
                   <h2 className="mb-4 font-semibold text-2xl">
-                    {waitingHeading}
+                    {A.sections.mission}
                   </h2>
-                  <p className="text-muted-foreground">{aboutParagraph}</p>
-                </div>
+                  <p className="text-muted-foreground">{A.content.mission}</p>
+                </section>
+
+                <section className="bg-muted/30 mt-6 p-8 rounded-lg">
+                  <h2 className="mb-4 font-semibold text-2xl">
+                    {A.sections.activities}
+                  </h2>
+                  <ul className="space-y-2 pl-6 text-muted-foreground list-disc">
+                    <li>{A.content.activities.admin}</li>
+                    <li>{A.content.activities.outsourcing}</li>
+                    <li>{A.content.activities.digital}</li>
+                  </ul>
+                </section>
+
+                <section className="bg-muted/30 mt-6 p-8 rounded-lg">
+                  <h2 className="mb-4 font-semibold text-2xl">
+                    {A.sections.values}
+                  </h2>
+                  <p className="text-muted-foreground">{A.content.values}</p>
+                </section>
+
+                <section className="bg-muted/30 mt-6 p-8 rounded-lg">
+                  <h2 className="mb-4 font-semibold text-2xl">
+                    {A.sections.founders}
+                  </h2>
+                  <p className="text-muted-foreground">
+                    {HANAE_INFO.legal.founders?.join(", ")}
+                  </p>
+                </section>
               </div>
             </div>
           </div>

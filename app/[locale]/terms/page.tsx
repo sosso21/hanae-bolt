@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
-import { locales, Locale } from "@/lib/i18n";
+import { locales, Locale, translations } from "@/lib/i18n";
 import { HANAE_INFO } from "@/constants";
 
 interface PageProps {
@@ -22,9 +22,10 @@ export async function generateMetadata({
     notFound();
   }
 
+  const t = (translations as any)[locale];
   return {
-    title: `Conditions générales - ${HANAE_INFO.name}`,
-    description: "Conditions générales d'utilisation et de vente de HANAE.",
+    title: `${t.terms.pageTitle} - ${HANAE_INFO.name}`,
+    description: t.metadata?.description ?? "",
     robots: "noindex",
     alternates: {
       canonical: `/${locale}/terms`,
@@ -39,10 +40,8 @@ export default async function TermsPage({ params }: PageProps) {
     notFound();
   }
 
-  const pageTitle = "Conditions générales";
-  const sectionTitle = "Conditions générales et mentions légales";
-  const placeholderText =
-    "Cette page sera prochainement enrichie avec les conditions générales d'utilisation et de vente détaillées.";
+  const t = (translations as any)[locale];
+  const T = t.terms;
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -53,16 +52,60 @@ export default async function TermsPage({ params }: PageProps) {
           <div className="mx-auto px-4 container">
             <div className="mx-auto max-w-4xl">
               <h1 className="mb-8 font-bold text-foreground text-4xl md:text-5xl">
-                {pageTitle}
+                {T.pageTitle}
               </h1>
 
               <div className="max-w-none prose prose-lg">
-                <div className="bg-muted/30 p-8 rounded-lg">
+                <section className="bg-muted/30 p-8 rounded-lg">
                   <h2 className="mb-4 font-semibold text-2xl">
-                    {sectionTitle}
+                    {T.sections.purpose}
                   </h2>
-                  <p className="text-muted-foreground">{placeholderText}</p>
-                </div>
+                  <p className="text-muted-foreground">{T.content.purpose}</p>
+                </section>
+
+                <section className="bg-muted/30 mt-6 p-8 rounded-lg">
+                  <h2 className="mb-4 font-semibold text-2xl">
+                    {T.sections.services}
+                  </h2>
+                  <p className="text-muted-foreground">{T.content.services}</p>
+                </section>
+
+                <section className="bg-muted/30 mt-6 p-8 rounded-lg">
+                  <h2 className="mb-4 font-semibold text-2xl">
+                    {T.sections.responsibilities}
+                  </h2>
+                  <p className="text-muted-foreground">
+                    {T.content.responsibilities}
+                  </p>
+                </section>
+
+                <section className="bg-muted/30 mt-6 p-8 rounded-lg">
+                  <h2 className="mb-4 font-semibold text-2xl">
+                    {T.sections.payments}
+                  </h2>
+                  <p className="text-muted-foreground">{T.content.payments}</p>
+                </section>
+
+                <section className="bg-muted/30 mt-6 p-8 rounded-lg">
+                  <h2 className="mb-4 font-semibold text-2xl">
+                    {T.sections.ip}
+                  </h2>
+                  <p className="text-muted-foreground">{T.content.ip}</p>
+                </section>
+
+                <section className="bg-muted/30 mt-6 p-8 rounded-lg">
+                  <h2 className="mb-4 font-semibold text-2xl">
+                    {T.sections.data}
+                  </h2>
+                  <p className="text-muted-foreground">{T.content.data}</p>
+                </section>
+
+                <section className="bg-muted/30 mt-6 p-8 rounded-lg">
+                  <h2 className="mb-4 font-semibold text-2xl">
+                    {T.sections.law}
+                  </h2>
+                  <p className="text-muted-foreground">{T.content.law}</p>
+                </section>
               </div>
             </div>
           </div>

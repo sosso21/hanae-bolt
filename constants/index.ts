@@ -8,7 +8,7 @@ export const HANAE_INFO = {
 
   // Contact Information
   contact: {
-    email: "contact@hanae.com",
+    email: "hanae.agency.contact@gmail.com",
     phone: "+213 559 205 748",
     address: {
       street: "Blida",
@@ -37,11 +37,16 @@ export const HANAE_INFO = {
 
   // Legal Information
   legal: {
-    companyName: "HARAE SARL",
-    siret: "12345678901234",
-    tva: "FR12345678901",
-    director: "Directeur de la publication : [Nom du directeur]",
-    host: "Hébergé par : [Nom de l'hébergeur]",
+    companyName: "HANAE SARL",
+    companyType: "SARL",
+    rcNumber: "1071 -1537 - 4253",
+    founders: ["Samir Chabani", "Sofiane Gherab"],
+    directors: ["Samir Chabani", "Sofiane Gherab"],
+    jurisdiction: "Algérie",
+    city: "Blida",
+    country: "DZ",
+    host: "Vercel",
+    contactEmail: "hanae.agency.contact@gmail.com",
   },
 
   // SEO

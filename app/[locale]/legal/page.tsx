@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
-import { locales, Locale } from "@/lib/i18n";
+import { locales, Locale, translations } from "@/lib/i18n";
 import { HANAE_INFO } from "@/constants";
 
 interface PageProps {
@@ -22,9 +22,11 @@ export async function generateMetadata({
     notFound();
   }
 
+  const t = (translations as any)[locale];
+
   return {
-    title: `Mentions légales - ${HANAE_INFO.name}`,
-    description: "Mentions légales et informations juridiques de HANAE.",
+    title: `${t.legal.pageTitle} - ${HANAE_INFO.name}`,
+    description: t.metadata?.description ?? "",
     robots: "noindex",
     alternates: {
       canonical: `/${locale}/legal`,
@@ -39,15 +41,8 @@ export default async function LegalPage({ params }: PageProps) {
     notFound();
   }
 
-  const pageTitle = "Mentions légales";
-  const legalInfoHeading = "Informations légales";
-  const legalInfoPlaceholder =
-    "Cette page sera enrichie avec les mentions légales complètes conformément à la réglementation en vigueur.";
-  const labelCompany = "Raison sociale :";
-  const labelSiret = "SIRET :";
-  const labelTva = "TVA :";
-  const labelDirector = "Directeur de publication :";
-  const labelHost = "Hébergement :";
+  const t = (translations as any)[locale];
+  const L = t.legal;
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -58,37 +53,95 @@ export default async function LegalPage({ params }: PageProps) {
           <div className="mx-auto px-4 container">
             <div className="mx-auto max-w-4xl">
               <h1 className="mb-8 font-bold text-foreground text-4xl md:text-5xl">
-                {pageTitle}
+                {L.pageTitle}
               </h1>
 
               <div className="max-w-none prose prose-lg">
                 <div className="bg-muted/30 p-8 rounded-lg">
                   <h2 className="mb-4 font-semibold text-2xl">
-                    {legalInfoHeading}
+                    {L.sections.identity}
                   </h2>
-                  <p className="mb-4 text-muted-foreground">
-                    {legalInfoPlaceholder}
-                  </p>
-
-                  <div className="space-y-4 text-sm">
+                  <div className="space-y-2 text-sm">
                     <div>
-                      <strong>{labelCompany}</strong>{" "}
+                      <strong>{L.content.companyName}:</strong>{" "}
                       {HANAE_INFO.legal.companyName}
                     </div>
                     <div>
-                      <strong>{labelSiret}</strong> {HANAE_INFO.legal.siret}
+                      <strong>{L.content.companyType}:</strong>{" "}
+                      {HANAE_INFO.legal.companyType}
                     </div>
                     <div>
-                      <strong>{labelTva}</strong> {HANAE_INFO.legal.tva}
+                      <strong>{L.content.address}:</strong>{" "}
+                      {HANAE_INFO.contact.address.street},{" "}
+                      {HANAE_INFO.contact.address.city}{" "}
+                      {HANAE_INFO.contact.address.postalCode},{" "}
+                      {HANAE_INFO.contact.address.country}
                     </div>
                     <div>
-                      <strong>{labelDirector}</strong>{" "}
-                      {HANAE_INFO.legal.director}
-                    </div>
-                    <div>
-                      <strong>{labelHost}</strong> {HANAE_INFO.legal.host}
+                      <strong>{L.content.email}:</strong>{" "}
+                      {HANAE_INFO.legal.contactEmail}
                     </div>
                   </div>
+                </div>
+
+                <div className="bg-muted/30 mt-6 p-8 rounded-lg">
+                  <h2 className="mb-4 font-semibold text-2xl">
+                    {L.sections.registry}
+                  </h2>
+                  <div className="space-y-2 text-sm">
+                    <div>
+                      <strong>{L.content.rcNumber}:</strong>{" "}
+                      {HANAE_INFO.legal.rcNumber}
+                    </div>
+                    <div>
+                      <strong>{L.content.jurisdiction}:</strong>{" "}
+                      {HANAE_INFO.legal.jurisdiction}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-muted/30 mt-6 p-8 rounded-lg">
+                  <h2 className="mb-4 font-semibold text-2xl">
+                    {L.sections.directors}
+                  </h2>
+                  <div className="space-y-2 text-sm">
+                    <div>
+                      <strong>{L.content.founders}:</strong>{" "}
+                      {HANAE_INFO.legal.founders?.join(", ")}
+                    </div>
+                    <div>
+                      <strong>{L.content.directors}:</strong>{" "}
+                      {HANAE_INFO.legal.directors?.join(", ")}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-muted/30 mt-6 p-8 rounded-lg">
+                  <h2 className="mb-4 font-semibold text-2xl">
+                    {L.sections.hosting}
+                  </h2>
+                  <div className="space-y-2 text-sm">
+                    <div>
+                      <strong>{L.content.host}:</strong> {HANAE_INFO.legal.host}
+                    </div>
+                    <p className="text-muted-foreground">
+                      {L.content.hostDesc}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="bg-muted/30 mt-6 p-8 rounded-lg">
+                  <h2 className="mb-4 font-semibold text-2xl">
+                    {L.sections.ip}
+                  </h2>
+                  <p className="text-muted-foreground">{L.content.ipDesc}</p>
+                </div>
+
+                <div className="bg-muted/30 mt-6 p-8 rounded-lg">
+                  <h2 className="mb-4 font-semibold text-2xl">
+                    {L.sections.data}
+                  </h2>
+                  <p className="text-muted-foreground">{L.content.dataDesc}</p>
                 </div>
               </div>
             </div>
