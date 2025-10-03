@@ -10,6 +10,83 @@ export const LANGUAGES = {
 
 export const translations = {
   fr: {
+    legal: {
+      pageTitle: "Mentions légales",
+      sections: {
+        identity: "Identité de l'entreprise",
+        registry: "Immatriculation et informations légales",
+        directors: "Fondateurs & Direction",
+        hosting: "Hébergeur",
+        ip: "Propriété intellectuelle",
+        data: "Protection des données (RGPD)",
+      },
+      content: {
+        companyType: "Forme juridique",
+        companyName: "Dénomination",
+        rcNumber: "Numéro RC",
+        jurisdiction: "Juridiction",
+        address: "Adresse",
+        email: "Email",
+        founders: "Fondateurs",
+        directors: "Direction",
+        host: "Hébergeur",
+        hostDesc: "Le site est hébergé par Vercel.",
+        ipDesc:
+          "L'ensemble des contenus (textes, images, logos, marques) est protégé par le droit d'auteur et le droit des marques. Toute reproduction, représentation ou adaptation, en tout ou partie, est interdite sans autorisation écrite préalable.",
+        dataDesc:
+          "Les données collectées sont traitées conformément au RGPD et aux lois applicables en Algérie. Vous disposez d'un droit d'accès, de rectification et de suppression de vos données en nous contactant à l'adresse indiquée.",
+      },
+    },
+
+    about: {
+      pageTitle: "À propos",
+      sections: {
+        mission: "Notre mission",
+        activities: "Nos activités",
+        values: "Nos valeurs",
+        founders: "Fondateurs",
+      },
+      content: {
+        mission:
+          "Accompagner durablement les entreprises et particuliers en Algérie et à l'international grâce à un support administratif fiable et des solutions digitales performantes.",
+        activities: {
+          admin:
+            "Assistance administrative (formalités, comptabilité, gestion documentaire)",
+          outsourcing: "Externalisation et support opérationnel",
+          digital:
+            "Conception et développement de solutions digitales (web, apps)",
+        },
+        values:
+          "Exigence, transparence et sens du service. Nous privilégions la qualité, l'efficacité et la confiance sur le long terme.",
+      },
+    },
+
+    terms: {
+      pageTitle: "Conditions générales (CGU/CGV)",
+      sections: {
+        purpose: "Objet",
+        services: "Services",
+        responsibilities: "Responsabilités",
+        payments: "Paiements",
+        ip: "Propriété intellectuelle",
+        data: "Protection des données",
+        law: "Droit applicable & juridiction compétente",
+      },
+      content: {
+        purpose:
+          "Les présentes conditions régissent l'utilisation du site et les prestations fournies par l'entreprise.",
+        services:
+          "Les services incluent l'assistance administrative, l'externalisation et le développement digital, tels que décrits sur le site.",
+        responsibilities:
+          "Le client s'engage à fournir des informations exactes. L'entreprise met en œuvre les moyens nécessaires mais ne peut garantir un résultat lorsque celui-ci dépend de tiers ou d'obligations légales.",
+        payments:
+          "Lorsque des paiements s'appliquent, ils sont exigibles selon les modalités précisées dans l'offre ou le devis. Des pénalités peuvent s'appliquer en cas de retard.",
+        ip: "Les contenus, marques et logiciels restent la propriété de leurs titulaires. Aucune cession de droits n'est consentie sans accord écrit.",
+        data: "Les données sont traitées conformément au RGPD et aux lois algériennes. Vous pouvez exercer vos droits en nous contactant par email.",
+        law: "Les présentes sont régies par le droit algérien. Les tribunaux compétents sont ceux du ressort de Blida, Algérie.",
+      },
+    },
+
     confirmation: {
       title: "Confirmation d'achat",
       description: "Votre achat a été confirmé avec succès.",
@@ -168,6 +245,81 @@ export const translations = {
     },
   },
   en: {
+    legal: {
+      pageTitle: "Legal notice",
+      sections: {
+        identity: "Company identity",
+        registry: "Registration and legal information",
+        directors: "Founders & Management",
+        hosting: "Hosting",
+        ip: "Intellectual property",
+        data: "Data protection (GDPR)",
+      },
+      content: {
+        companyType: "Legal form",
+        companyName: "Company name",
+        rcNumber: "Registry number",
+        jurisdiction: "Jurisdiction",
+        address: "Address",
+        email: "Email",
+        founders: "Founders",
+        directors: "Management",
+        host: "Host",
+        hostDesc: "The site is hosted by Vercel.",
+        ipDesc:
+          "All content (texts, images, logos, trademarks) is protected by copyright and trademark laws. Any reproduction, representation or adaptation, in whole or in part, is prohibited without prior written authorization.",
+        dataDesc:
+          "Data is processed in accordance with the GDPR and applicable laws in Algeria. You have the right to access, rectify and delete your data by contacting us at the provided address.",
+      },
+    },
+
+    about: {
+      pageTitle: "About",
+      sections: {
+        mission: "Our mission",
+        activities: "Our activities",
+        values: "Our values",
+        founders: "Founders",
+      },
+      content: {
+        mission:
+          "Provide lasting support to companies and individuals in Algeria and abroad through reliable administrative assistance and high‑performance digital solutions.",
+        activities: {
+          admin:
+            "Administrative assistance (formalities, accounting, document management)",
+          outsourcing: "Outsourcing and operational support",
+          digital: "Design and development of digital solutions (web, apps)",
+        },
+        values:
+          "High standards, transparency and service‑oriented culture. We focus on quality, efficiency and long‑term trust.",
+      },
+    },
+
+    terms: {
+      pageTitle: "Terms and Conditions (ToU/ToS)",
+      sections: {
+        purpose: "Purpose",
+        services: "Services",
+        responsibilities: "Responsibilities",
+        payments: "Payments",
+        ip: "Intellectual property",
+        data: "Data protection",
+        law: "Governing law & jurisdiction",
+      },
+      content: {
+        purpose:
+          "These terms govern the use of the website and the services provided by the company.",
+        services:
+          "Services include administrative assistance, outsourcing and digital development, as described on the website.",
+        responsibilities:
+          "The client agrees to provide accurate information. The company uses best efforts but cannot guarantee outcomes when dependent on third parties or legal obligations.",
+        payments:
+          "When payments apply, they are due according to the terms specified in the offer or quote. Late fees may apply in case of delay.",
+        ip: "Content, trademarks and software remain the property of their owners. No rights are transferred without written agreement.",
+        data: "Data is processed in accordance with the GDPR and Algerian laws. You may exercise your rights by contacting us by email.",
+        law: "These terms are governed by Algerian law. The competent courts are those of Blida, Algeria.",
+      },
+    },
     confirmation: {
       title: "Purchase Confirmation",
       description: "Your purchase has been successfully confirmed.",
