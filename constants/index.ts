@@ -39,7 +39,7 @@ export const HANAE_INFO = {
   legal: {
     companyName: "HANAE SARL",
     companyType: "SARL",
-    rcNumber: "1071 -1537 - 4253",
+    rcNumber: "107-537-253",
     founders: ["Samir Chabani", "Sofiane Gherab"],
     directors: ["Samir Chabani", "Sofiane Gherab"],
     jurisdiction: "Algérie - France",
