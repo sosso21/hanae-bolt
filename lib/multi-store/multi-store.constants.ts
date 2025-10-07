@@ -41,6 +41,12 @@ export const STORES: Store[] = [
   },
 ];
 
+/**
+ * Returns a store configuration object based on the given storeId.
+ * If no configuration is found, returns the first configuration in the STORES array.
+ * @param {string} storeId - The id of the store to retrieve the configuration for.
+ * @returns {Store} - The store configuration object.
+ */
 export function getStore(storeId: string) {
   return STORES.find((store) => store.STORE_ID === storeId) ?? STORES[0];
 }
