@@ -167,7 +167,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 10,
     slug: "doudoune-hanae-urban",
-    price: 129,
+    price: 149,
     originalPrice: 159,
     image: "/images/products/doudoune-urban.webp",
     images: [
