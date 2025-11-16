@@ -5,7 +5,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ArrowRight, ExternalLink } from 'lucide-react';
 import { translations, Locale } from '@/lib/i18n';
-import { PORTFOLIO } from '@/constants/database';
+import { getPortfolio } from '@/constants/database';
 
 interface PortfolioPreviewProps {
   locale: Locale;
@@ -13,7 +13,8 @@ interface PortfolioPreviewProps {
 
 export default function PortfolioPreview({ locale }: PortfolioPreviewProps) {
   const t = translations[locale];
-  const featuredProjects = PORTFOLIO.slice(0, 4);
+  const portfolio = getPortfolio(locale);
+  const featuredProjects = portfolio.slice(0, 4);
 
   return (
     <section className="py-20">
@@ -73,7 +74,7 @@ export default function PortfolioPreview({ locale }: PortfolioPreviewProps) {
         <div className="text-center">
           <Button size="lg" asChild>
             <Link href={`/${locale}/portfolio`}>
-              Voir tous les projets
+              {t.portfolio.viewAllProjects}
               <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
           </Button>

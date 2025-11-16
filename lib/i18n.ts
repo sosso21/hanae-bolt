@@ -206,7 +206,53 @@ export const translations = {
       title: "Notre Portfolio",
       subtitle: "Découvrez nos dernières réalisations",
       viewProject: "Voir le projet",
+      viewAllProjects: "Voir tous les projets",
       allCategories: "Tous",
+      loadMore: "Charger plus de projets",
+      categories: {
+        development: "Développement",
+        design: "Design",
+        marketing: "Marketing",
+        administration: "Administration",
+      },
+      items: {
+        "branding-ecommerce": {
+          title: "Branding & e-commerce pour marque locale",
+          description:
+            "Identité visuelle complète, design de boutique en ligne et tunnel de conversion optimisé pour une marque de mode locale.",
+          tags: ["Branding", "E-commerce", "UI/UX"],
+        },
+        "crm-gestion-immobiliere": {
+          title: "CRM pour gestion immobilière",
+          description:
+            "Application web complète développée avec Next.js, PostgreSQL et Prisma pour la gestion de biens immobiliers.",
+          tags: ["Next.js", "PostgreSQL", "CRM"],
+        },
+        "campagne-reseaux-sociaux": {
+          title: "Campagne virale réseaux sociaux",
+          description:
+            "Stratégie marketing complète ayant généré +500K vues et +15% d'engagement pour un restaurant parisien.",
+          tags: ["Social Media", "Viral Marketing", "Content Creation"],
+        },
+        "application-mobile-fitness": {
+          title: "Application mobile fitness",
+          description:
+            "App mobile complète avec suivi d'entraînements, nutrition et communauté. Plus de 10K téléchargements.",
+          tags: ["React Native", "Firebase", "Mobile"],
+        },
+        "gestion-comptable-startup": {
+          title: "Gestion comptable startup tech",
+          description:
+            "Mise en place complète de la comptabilité et des processus administratifs pour une startup en forte croissance.",
+          tags: ["Comptabilité", "Startup", "Gestion"],
+        },
+        "video-corporate": {
+          title: "Vidéo corporate institutionnelle",
+          description:
+            "Production vidéo complète de 3 minutes présentant les valeurs et l'équipe d'une entreprise de 200 salariés.",
+          tags: ["Vidéo", "Motion Design", "Corporate"],
+        },
+      },
     },
     contact: {
       title: "Contactez-nous",
@@ -500,7 +546,53 @@ export const translations = {
       title: "Our Portfolio",
       subtitle: "Discover our latest achievements",
       viewProject: "View project",
+      viewAllProjects: "View all projects",
       allCategories: "All",
+      loadMore: "Load more projects",
+      categories: {
+        development: "Development",
+        design: "Design",
+        marketing: "Marketing",
+        administration: "Administration",
+      },
+      items: {
+        "branding-ecommerce": {
+          title: "Branding & e-commerce for local brand",
+          description:
+            "Complete visual identity, online store design and optimized conversion funnel for a local fashion brand.",
+          tags: ["Branding", "E-commerce", "UI/UX"],
+        },
+        "crm-gestion-immobiliere": {
+          title: "CRM for real estate management",
+          description:
+            "Complete web application developed with Next.js, PostgreSQL and Prisma for real estate property management.",
+          tags: ["Next.js", "PostgreSQL", "CRM"],
+        },
+        "campagne-reseaux-sociaux": {
+          title: "Viral social media campaign",
+          description:
+            "Complete marketing strategy that generated +500K views and +15% engagement for a Parisian restaurant.",
+          tags: ["Social Media", "Viral Marketing", "Content Creation"],
+        },
+        "application-mobile-fitness": {
+          title: "Mobile fitness application",
+          description:
+            "Complete mobile app with workout tracking, nutrition and community. Over 10K downloads.",
+          tags: ["React Native", "Firebase", "Mobile"],
+        },
+        "gestion-comptable-startup": {
+          title: "Accounting management for tech startup",
+          description:
+            "Complete setup of accounting and administrative processes for a fast-growing startup.",
+          tags: ["Accounting", "Startup", "Management"],
+        },
+        "video-corporate": {
+          title: "Institutional corporate video",
+          description:
+            "Complete 3-minute video production presenting the values and team of a 200-employee company.",
+          tags: ["Video", "Motion Design", "Corporate"],
+        },
+      },
     },
     contact: {
       title: "Contact us",
@@ -792,7 +884,53 @@ export const translations = {
       title: "أعمالنا",
       subtitle: "اكتشف أحدث إنجازاتنا",
       viewProject: "عرض المشروع",
+      viewAllProjects: "عرض جميع المشاريع",
       allCategories: "الكل",
+      loadMore: "تحميل المزيد من المشاريع",
+      categories: {
+        development: "التطوير",
+        design: "التصميم",
+        marketing: "التسويق",
+        administration: "الإدارة",
+      },
+      items: {
+        "branding-ecommerce": {
+          title: "الهوية التجارية والتجارة الإلكترونية للعلامة المحلية",
+          description:
+            "هوية بصرية كاملة، تصميم متجر إلكتروني ونفق تحويل محسّن لعلامة أزياء محلية.",
+          tags: ["الهوية التجارية", "التجارة الإلكترونية", "واجهة المستخدم"],
+        },
+        "crm-gestion-immobiliere": {
+          title: "نظام إدارة علاقات العملاء لإدارة العقارات",
+          description:
+            "تطبيق ويب كامل مطور بـ Next.js و PostgreSQL و Prisma لإدارة الممتلكات العقارية.",
+          tags: ["Next.js", "PostgreSQL", "نظام إدارة علاقات العملاء"],
+        },
+        "campagne-reseaux-sociaux": {
+          title: "حملة فيروسية على وسائل التواصل الاجتماعي",
+          description:
+            "استراتيجية تسويق كاملة حققت أكثر من 500 ألف مشاهدة و 15% تفاعل لمطعم باريسي.",
+          tags: ["وسائل التواصل الاجتماعي", "التسويق الفيروسي", "إنشاء المحتوى"],
+        },
+        "application-mobile-fitness": {
+          title: "تطبيق اللياقة البدنية للجوال",
+          description:
+            "تطبيق جوال كامل مع تتبع التمارين والتغذية والمجتمع. أكثر من 10 آلاف تحميل.",
+          tags: ["React Native", "Firebase", "الجوال"],
+        },
+        "gestion-comptable-startup": {
+          title: "إدارة المحاسبة لشركة ناشئة تقنية",
+          description:
+            "إعداد كامل للمحاسبة والعمليات الإدارية لشركة ناشئة سريعة النمو.",
+          tags: ["المحاسبة", "الشركة الناشئة", "الإدارة"],
+        },
+        "video-corporate": {
+          title: "فيديو مؤسسي للشركات",
+          description:
+            "إنتاج فيديو كامل مدته 3 دقائق يعرض قيم وفريق شركة تضم 200 موظف.",
+          tags: ["الفيديو", "تصميم الحركة", "الشركات"],
+        },
+      },
     },
     contact: {
       title: "اتصل بنا",
