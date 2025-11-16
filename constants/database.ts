@@ -1,4 +1,5 @@
 import { HANAE_INFO } from ".";
+import { Locale, translations } from "@/lib/i18n";
 
 export const SERVICES = [
   {
@@ -112,6 +113,64 @@ export const SERVICES = [
     ],
   },
 ];
+
+export type Service = {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  features: string[];
+  services?: string[];
+  technologies?: {
+    frontend?: string[];
+    backend?: string[];
+    cms?: string[];
+    databases?: string[];
+    mobile?: string[];
+    design?: string[];
+    video?: string[];
+    animation?: string[];
+    prototyping?: string[];
+  };
+  platforms?: Array<{ name: string; logo: string }>;
+};
+
+export function getServices(locale: Locale): Service[] {
+  const t = translations[locale];
+  const serviceIds: Array<
+    "administration" | "development" | "design" | "marketing"
+  > = ["administration", "development", "design", "marketing"];
+
+  return serviceIds.map((id) => {
+    const serviceData = t.services[id];
+    const baseService = SERVICES.find((s) => s.id === id)!;
+
+    const service: Service = {
+      id,
+      title: serviceData.title,
+      description: serviceData.description,
+      icon: baseService.icon,
+      features: serviceData.features,
+    };
+
+    // Add services array for administration
+    if (id === "administration" && serviceData.services) {
+      service.services = serviceData.services;
+    }
+
+    // Add technologies (these are the same across locales as they're technical terms)
+    if (baseService.technologies) {
+      service.technologies = baseService.technologies;
+    }
+
+    // Add platforms (these are the same across locales as they're platform names)
+    if (baseService.platforms) {
+      service.platforms = baseService.platforms;
+    }
+
+    return service;
+  });
+}
 
 export const PORTFOLIO = [
   {
