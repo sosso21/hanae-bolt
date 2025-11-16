@@ -12,7 +12,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Code, Palette, Megaphone, Calculator } from "lucide-react";
 import { locales, Locale, translations } from "@/lib/i18n";
-import { SERVICES } from "@/constants/database";
+import { getServices } from "@/constants/database";
 import { HANAE_INFO } from "@/constants";
 
 interface PageProps {
@@ -56,6 +56,7 @@ export default async function ServicesPage({ params }: PageProps) {
   }
 
   const t = translations[locale];
+  const services = getServices(locale);
 
   const serviceIcons = {
     development: Code,
@@ -64,30 +65,13 @@ export default async function ServicesPage({ params }: PageProps) {
     administration: Calculator,
   };
 
-  const technologiesAndTools = "Technologies & Outils";
-  const technologiesWeMaster = "Les technologies que nous maîtrisons";
-  const platformsTitle = "Plateformes publicitaires";
-  const includedServicesTitle = "Services inclus";
-  const ourFeaturesTitle = "Nos prestations :";
-  const technologyCategoryLabels: Record<string, string> = {
-    frontend: "Frontend",
-    backend: "Backend",
-    databases: "Bases de données",
-    cms: "CMS",
-    mobile: "Mobile",
-    design: "Design",
-    video: "Vidéo",
-    animation: "Animation",
-    prototyping: "Prototypage",
-  };
-
   return (
     <div className="flex flex-col min-h-screen">
       <Header locale={locale} />
 
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-primary/10 via-background to-secondary/10 py-20">
+        <section className="bg-linear-to-br from-primary/10 via-background to-secondary/10 py-20">
           <div className="mx-auto px-4 container">
             <div className="mx-auto max-w-3xl text-center">
               <h1 className="mb-6 font-bold text-foreground text-4xl md:text-5xl">
@@ -104,7 +88,7 @@ export default async function ServicesPage({ params }: PageProps) {
         <section className="py-20">
           <div className="mx-auto px-4 container">
             <div className="space-y-20">
-              {SERVICES.map((service, index) => {
+              {services.map((service, index) => {
                 const Icon =
                   serviceIcons[service.id as keyof typeof serviceIcons];
                 const isEven = index % 2 === 0;
@@ -138,7 +122,7 @@ export default async function ServicesPage({ params }: PageProps) {
 
                         <div>
                           <h3 className="mb-4 font-semibold text-xl">
-                            {ourFeaturesTitle}
+                            {t.services.ourFeaturesTitle}
                           </h3>
                           <div className="gap-3 grid grid-cols-1 sm:grid-cols-2">
                             {service.features.map((feature, idx) => (
@@ -159,9 +143,11 @@ export default async function ServicesPage({ params }: PageProps) {
                       <div className={!isEven ? "lg:order-1" : ""}>
                         <Card className="border-2 border-primary/10">
                           <CardHeader>
-                            <CardTitle>{technologiesAndTools}</CardTitle>
+                            <CardTitle>
+                              {t.services.technologiesAndTools}
+                            </CardTitle>
                             <CardDescription>
-                              {technologiesWeMaster}
+                              {t.services.technologiesWeMaster}
                             </CardDescription>
                           </CardHeader>
                           <CardContent>
@@ -171,8 +157,13 @@ export default async function ServicesPage({ params }: PageProps) {
                                   ([category, techs]) => (
                                     <div key={category}>
                                       <h4 className="mb-2 font-medium capitalize">
-                                        {technologyCategoryLabels[category] ||
-                                          category}
+                                        {(
+                                          t.services
+                                            .technologyCategories as Record<
+                                            string,
+                                            string
+                                          >
+                                        )[category] || category}
                                       </h4>
                                       <div className="flex flex-wrap gap-2">
                                         {techs.map(
@@ -195,7 +186,7 @@ export default async function ServicesPage({ params }: PageProps) {
                             {service.platforms && (
                               <div className="space-y-4">
                                 <h4 className="font-medium">
-                                  {platformsTitle}
+                                  {t.services.platformsTitle}
                                 </h4>
                                 <div className="gap-3 grid grid-cols-2">
                                   {service.platforms.map((platform, idx) => (
@@ -216,7 +207,7 @@ export default async function ServicesPage({ params }: PageProps) {
                             {service.services && (
                               <div className="space-y-4">
                                 <h4 className="font-medium">
-                                  {includedServicesTitle}
+                                  {t.services.includedServicesTitle}
                                 </h4>
                                 <div className="space-y-2">
                                   {service.services.map((serviceItem, idx) => (

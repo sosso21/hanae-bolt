@@ -10,7 +10,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Code, Palette, Megaphone, Calculator, ArrowRight } from "lucide-react";
 import { translations, Locale } from "@/lib/i18n";
-import { SERVICES } from "@/constants/database";
+import { getServices } from "@/constants/database";
 
 interface ServicesOverviewProps {
   locale: Locale;
@@ -18,6 +18,7 @@ interface ServicesOverviewProps {
 
 export default function ServicesOverview({ locale }: ServicesOverviewProps) {
   const t = translations[locale];
+  const services = getServices(locale);
 
   const serviceIcons = {
     development: Code,
@@ -39,7 +40,7 @@ export default function ServicesOverview({ locale }: ServicesOverviewProps) {
         </div>
 
         <div className="gap-8 grid grid-cols-1 md:grid-cols-2 mb-12">
-          {SERVICES.map((service) => {
+          {services.map((service) => {
             const Icon = serviceIcons[service.id as keyof typeof serviceIcons];
             return (
               <Card
@@ -60,7 +61,9 @@ export default function ServicesOverview({ locale }: ServicesOverviewProps) {
                 <CardContent>
                   <div className="space-y-4">
                     <div>
-                      <h4 className="mb-2 font-medium">Points clés :</h4>
+                      <h4 className="mb-2 font-medium">
+                        {t.services.keyPoints}
+                      </h4>
                       <ul className="gap-1 grid grid-cols-1 sm:grid-cols-2 text-muted-foreground text-sm">
                         {service.features.slice(0, 4).map((feature, index) => (
                           <li key={index} className="flex items-center">
@@ -73,7 +76,9 @@ export default function ServicesOverview({ locale }: ServicesOverviewProps) {
 
                     {service.technologies && (
                       <div>
-                        <h4 className="mb-2 font-medium">Technologies :</h4>
+                        <h4 className="mb-2 font-medium">
+                          {t.services.technologies}
+                        </h4>
                         <div className="flex flex-wrap gap-1">
                           {Object.values(service.technologies)
                             .flat()
@@ -100,7 +105,7 @@ export default function ServicesOverview({ locale }: ServicesOverviewProps) {
         <div className="text-center">
           <Button size="lg" asChild>
             <Link href={`/${locale}/services`}>
-              Découvrir tous nos services
+              {t.services.discoverAll}
               <ArrowRight className="ml-2 w-5 h-5" />
             </Link>
           </Button>
