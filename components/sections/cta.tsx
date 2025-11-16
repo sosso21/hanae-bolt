@@ -12,7 +12,7 @@ export default function CTA({ locale }: CTAProps) {
   const t = translations[locale];
 
   return (
-    <section className="py-20 bg-gradient-to-r from-primary to-primary/80">
+    <section className="py-20 bg-linear-to-r from-primary to-primary/80">
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center text-primary-foreground">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">

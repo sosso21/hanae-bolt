@@ -4,7 +4,14 @@ import { decodeOrderIdToPrice } from "@/lib/order-id";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+// Lazy initialization to avoid build-time errors
+function getStripe(): Stripe {
+  const secretKey = process.env.STRIPE_SECRET_KEY;
+  if (!secretKey) {
+    throw new Error("STRIPE_SECRET_KEY is not configured");
+  }
+  return new Stripe(secretKey);
+}
 
 export async function GET(
   req: Request,
@@ -22,12 +29,14 @@ export async function GET(
     const { STORE_KIND, NEXT_SHOPIFY_ACCESS_TOKEN, NEXT_SHOPIFY_STORE_DOMAIN } =
       getStore(store_id);
 
+    // Initialize Stripe once for the function
+    const stripe = getStripe();
+
     // ✅ Handle FAKE store case
     if (STORE_KIND === "FAKE") {
       const decodedPrice = await decodeOrderIdToPrice(id);
       const priceFloat = parseFloat(decodedPrice);
       const price = Math.round(priceFloat * 100); // cents
-
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
         line_items: [

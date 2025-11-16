@@ -135,7 +135,7 @@ export function ShopContent({ locale }: ShopContentProps) {
 
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-primary/10 via-background to-secondary/10 py-20">
+        <section className="bg-linear-to-br from-primary/10 via-background to-secondary/10 py-20">
           <div className="mx-auto px-4 container">
             <div className="mx-auto max-w-3xl text-center">
               <h1 className="mb-6 font-bold text-foreground text-4xl md:text-5xl">

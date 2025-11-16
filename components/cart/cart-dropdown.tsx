@@ -88,7 +88,7 @@ export const CartDropdown: React.FC<CartDropdownProps> = ({ locale }) => {
                       isAnimating ? "opacity-50 scale-95" : ""
                     }`}
                   >
-                    <div className="relative flex-shrink-0 rounded-md w-16 h-16 overflow-hidden">
+                    <div className="relative shrink-0 rounded-md w-16 h-16 overflow-hidden">
                       <Image
                         src={item.product.image}
                         alt={item.product.name}

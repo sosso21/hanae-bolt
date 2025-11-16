@@ -21,8 +21,8 @@ export default function Hero({ locale }: HeroProps) {
   return (
     <section className="relative py-20 md:py-28 overflow-hidden">
       {/* Background Elements */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-50 dark:from-blue-950/20 via-white dark:via-background to-teal-50 dark:to-teal-950/20" />
-      <div className="top-0 right-0 absolute bg-gradient-to-l from-primary/5 to-transparent w-1/3 h-full" />
+      <div className="absolute inset-0 bg-linear-to-br from-blue-50 dark:from-blue-950/20 via-white dark:via-background to-teal-50 dark:to-teal-950/20" />
+      <div className="top-0 right-0 absolute bg-linear-to-l from-primary/5 to-transparent w-1/3 h-full" />
 
       <div className="relative mx-auto px-4 container">
         <div className="mx-auto max-w-4xl text-center">
@@ -70,7 +70,7 @@ export default function Hero({ locale }: HeroProps) {
             {services.map((service, index) => (
               <div
                 key={index}
-                className="group bg-white/50 dark:bg-background/50 hover:shadow-lg backdrop-blur-sm p-6 border hover:border-primary/20 border-border/50 rounded-xl transition-all duration-300"
+                className="group bg-white/50 dark:bg-background/50 hover:shadow-lg backdrop-blur-xs p-6 border hover:border-primary/20 border-border/50 rounded-xl transition-all duration-300"
               >
                 <div className="flex flex-col items-center space-y-3">
                   <div className="bg-primary/10 group-hover:bg-primary/20 p-3 rounded-lg transition-colors">

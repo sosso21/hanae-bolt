@@ -4,7 +4,14 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+// Lazy initialization to avoid build-time errors
+function getStripe(): Stripe {
+  const secretKey = process.env.STRIPE_SECRET_KEY;
+  if (!secretKey) {
+    throw new Error("STRIPE_SECRET_KEY is not configured");
+  }
+  return new Stripe(secretKey);
+}
 
 export async function GET(
   req: Request,
@@ -13,6 +20,7 @@ export async function GET(
   try {
     const { id } = await context.params;
 
+    const stripe = getStripe();
     const sessions = await stripe.checkout.sessions.list({
       limit: 50,
     });
