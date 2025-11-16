@@ -46,7 +46,7 @@ export default function Header({ locale }: HeaderProps) {
   const ThemeIcon = themeIcons[theme as keyof typeof themeIcons] || Monitor;
 
   return (
-    <header className="top-0 z-50 sticky bg-background/95 supports-[backdrop-filter]:bg-background/60 backdrop-blur border-b w-full">
+    <header className="top-0 z-50 sticky bg-background/95 supports-backdrop-filter:bg-background/60 backdrop-blur-sm border-b w-full">
       <div className="mx-auto px-4 container">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}

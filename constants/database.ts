@@ -136,7 +136,7 @@ export type Service = {
 };
 
 export function getServices(locale: Locale): Service[] {
-  const t = translations[locale];
+  const t = translations[locale];git sw
   const serviceIds: Array<
     "administration" | "development" | "design" | "marketing"
   > = ["administration", "development", "design", "marketing"];
@@ -150,12 +150,16 @@ export function getServices(locale: Locale): Service[] {
       title: serviceData.title,
       description: serviceData.description,
       icon: baseService.icon,
-      features: serviceData.features,
+      features: [...serviceData.features],
     };
 
     // Add services array for administration
-    if (id === "administration" && serviceData.services) {
-      service.services = serviceData.services;
+    if (
+      id === "administration" &&
+      "services" in serviceData &&
+      serviceData.services
+    ) {
+      service.services = [...serviceData.services];
     }
 
     // Add technologies (these are the same across locales as they're technical terms)

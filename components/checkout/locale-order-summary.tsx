@@ -45,7 +45,7 @@ export const LocaleOrderSummary: React.FC<OrderSummaryProps> = ({ locale }) => {
       <CardContent className="space-y-4">
         {displayItems.map((item) => (
           <div key={item.product.id} className="flex items-center space-x-4">
-            <div className="relative flex-shrink-0 rounded-md w-16 h-16 overflow-hidden">
+            <div className="relative shrink-0 rounded-md w-16 h-16 overflow-hidden">
               <Image
                 src={item.product.image}
                 alt={item.product.name}
