@@ -142,7 +142,32 @@ export function getServices(locale: Locale): Service[] {
   > = ["administration", "development", "design", "marketing"];
 
   return serviceIds.map((id) => {
-    const serviceData = t.services[id];
+    // Access the service data from translations
+    // TypeScript needs explicit access to the service translations
+    let serviceData: {
+      title: string;
+      description: string;
+      features: readonly string[];
+      services?: readonly string[];
+    };
+
+    switch (id) {
+      case "administration":
+        serviceData = t.services.administration;
+        break;
+      case "development":
+        serviceData = t.services.development;
+        break;
+      case "design":
+        serviceData = t.services.design;
+        break;
+      case "marketing":
+        serviceData = t.services.marketing;
+        break;
+      default:
+        throw new Error(`Unknown service id: ${id}`);
+    }
+
     const baseService = SERVICES.find((s) => s.id === id)!;
 
     const service: Service = {
@@ -176,80 +201,103 @@ export function getServices(locale: Locale): Service[] {
   });
 }
 
-export const PORTFOLIO = [
+export type Portfolio = {
+  id: number;
+  slug: string;
+  title: string;
+  description: string;
+  image: string;
+  category: "development" | "design" | "marketing" | "administration";
+  tags: string[];
+  link: string;
+  year: string;
+};
+
+export const PORTFOLIO_BASE = [
   {
     id: 1,
     slug: "branding-ecommerce",
-    title: "Branding & e-commerce pour marque locale",
-    description:
-      "Identité visuelle complète, design de boutique en ligne et tunnel de conversion optimisé pour une marque de mode locale.",
     image: "/images/portfolio/branding-ecommerce.webp",
-    category: "design",
-    tags: ["Branding", "E-commerce", "UI/UX"],
+    category: "design" as const,
     link: "",
     year: "2024",
   },
   {
     id: 2,
     slug: "crm-gestion-immobiliere",
-    title: "CRM pour gestion immobilière",
-    description:
-      "Application web complète développée avec Next.js, PostgreSQL et Prisma pour la gestion de biens immobiliers.",
     image: "/images/portfolio/crm-immobilier.webp",
-    category: "development",
-    tags: ["Next.js", "PostgreSQL", "CRM"],
+    category: "development" as const,
     link: "",
     year: "2024",
   },
   {
     id: 3,
     slug: "campagne-reseaux-sociaux",
-    title: "Campagne virale réseaux sociaux",
-    description:
-      "Stratégie marketing complète ayant généré +500K vues et +15% d'engagement pour un restaurant parisien.",
     image: "/images/portfolio/campagne-sociale.webp",
-    category: "marketing",
-    tags: ["Social Media", "Viral Marketing", "Content Creation"],
+    category: "marketing" as const,
     link: "",
     year: "2023",
   },
   {
     id: 4,
     slug: "application-mobile-fitness",
-    title: "Application mobile fitness",
-    description:
-      "App mobile complète avec suivi d'entraînements, nutrition et communauté. Plus de 10K téléchargements.",
     image: "/images/portfolio/app-fitness.webp",
-    category: "development",
-    tags: ["React Native", "Firebase", "Mobile"],
+    category: "development" as const,
     link: "",
     year: "2023",
   },
   {
     id: 5,
     slug: "gestion-comptable-startup",
-    title: "Gestion comptable startup tech",
-    description:
-      "Mise en place complète de la comptabilité et des processus administratifs pour une startup en forte croissance.",
     image: "/images/portfolio/comptabilite-startup.webp",
-    category: "administration",
-    tags: ["Comptabilité", "Startup", "Gestion"],
+    category: "administration" as const,
     link: "#",
     year: "2024",
   },
   {
     id: 6,
     slug: "video-corporate",
-    title: "Vidéo corporate institutionnelle",
-    description:
-      "Production vidéo complète de 3 minutes présentant les valeurs et l'équipe d'une entreprise de 200 salariés.",
     image: "/images/portfolio/video-corporate.webp",
-    category: "design",
-    tags: ["Vidéo", "Motion Design", "Corporate"],
+    category: "design" as const,
     link: "",
     year: "2023",
   },
 ];
+
+// Legacy export for backward compatibility
+export const PORTFOLIO = PORTFOLIO_BASE.map((item) => ({
+  ...item,
+  title: "",
+  description: "",
+  tags: [],
+}));
+
+export function getPortfolio(locale: Locale): Portfolio[] {
+  const t = translations[locale];
+
+  return PORTFOLIO_BASE.map((baseItem) => {
+    const translation =
+      t.portfolio.items[baseItem.slug as keyof typeof t.portfolio.items];
+
+    if (!translation) {
+      throw new Error(
+        `Missing translation for portfolio item: ${baseItem.slug}`
+      );
+    }
+
+    return {
+      id: baseItem.id,
+      slug: baseItem.slug,
+      title: translation.title,
+      description: translation.description,
+      image: baseItem.image,
+      category: baseItem.category,
+      tags: [...translation.tags],
+      link: baseItem.link,
+      year: baseItem.year,
+    };
+  });
+}
 
 export const TESTIMONIALS = [
   {

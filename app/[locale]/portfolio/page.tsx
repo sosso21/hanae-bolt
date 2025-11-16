@@ -9,7 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink, Calendar } from "lucide-react";
 import { locales, Locale, translations } from "@/lib/i18n";
-import { PORTFOLIO } from "@/constants/database";
+import { getPortfolio } from "@/constants/database";
 import { HANAE_INFO } from "@/constants";
 
 interface PageProps {
@@ -53,19 +53,20 @@ export default async function PortfolioPage({ params }: PageProps) {
   }
 
   const t = translations[locale];
+  const portfolio = getPortfolio(locale);
 
   const categories = [
     "all",
-    ...Array.from(new Set(PORTFOLIO.map((p) => p.category))),
+    ...Array.from(new Set(portfolio.map((p) => p.category))),
   ];
   const categoryLabels: Record<string, string> = {
     all: t.portfolio.allCategories,
-    development: "Développement",
-    design: "Design",
-    marketing: "Marketing",
-    administration: "Administration",
+    development: t.portfolio.categories.development,
+    design: t.portfolio.categories.design,
+    marketing: t.portfolio.categories.marketing,
+    administration: t.portfolio.categories.administration,
   };
-  const loadMoreLabel = "Charger plus de projets";
+  const loadMoreLabel = t.portfolio.loadMore;
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -104,7 +105,7 @@ export default async function PortfolioPage({ params }: PageProps) {
 
             {/* Projects Grid */}
             <div className="gap-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-              {PORTFOLIO.map((project) => (
+              {portfolio.map((project) => (
                 <Card
                   key={project.id}
                   className="group hover:shadow-lg overflow-hidden transition-all duration-300"
