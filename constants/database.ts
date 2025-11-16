@@ -136,7 +136,7 @@ export type Service = {
 };
 
 export function getServices(locale: Locale): Service[] {
-  const t = translations[locale];git sw
+  const t = translations[locale];
   const serviceIds: Array<
     "administration" | "development" | "design" | "marketing"
   > = ["administration", "development", "design", "marketing"];
